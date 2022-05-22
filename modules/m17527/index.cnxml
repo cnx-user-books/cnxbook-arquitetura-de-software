@@ -1,0 +1,2655 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:md="http://cnx.rice.edu/mdml" xmlns:bib="http://bibtexml.sf.net/">
+    <title>Atributos de Qualidade</title>
+    <metadata>
+  <md:content-id>m17527</md:content-id><md:title>Atributos de Qualidade</md:title>
+  <md:abstract>Sobre a importância e influência dos atributos de qualidade no projeto da Arquitetura de Software.</md:abstract>
+  <md:uuid>67b8bc5e-7e5e-4885-aee4-e57105b00f73</md:uuid>
+</metadata>
+
+<content>
+        <para id="id226667">Um software tem como objetivo
+            atender aos seus requisitos funcionais e não-funcionais.
+            Os requisitos funcionais descrevem as funções
+            que o software deve ser capaz de realizar,
+            ou seja, 
+            <emphasis effect="italics">o que</emphasis>
+            o sistema faz. Já os requisitos não-funcionais
+            descrevem as qualidades e restrições de como
+            o sistema realiza suas funções, ou seja, 
+            <emphasis effect="italics">como</emphasis>
+            o sistema funciona. Um software, portanto,
+            deve exibir atributos de qualidade que atendam
+            aos seus requisitos.
+        </para>
+        <para id="id226691">Por sua vez, a arquitetura
+            de software contém a descrição de como esse
+            alcança aos atributos de qualidade. Essa descrição
+            de como o software atende aos requisitos não-funcionais
+            é feita pelas diversas decisões presentes na
+            arquitetura. Para conceber essas decisões arquiteturais
+            – e, portanto, para projetar a arquitetura
+            – é de fundamental importância que o arquiteto
+            conheça tanto os objetivos a serem alcançados
+            pelo software, quanto as ferramentas para alcançá-los.
+            Em outra palavras, é essencial que ele conheça
+            tanto os atributos de qualidade, quanto técnicas
+            e padrões de design arquitetural que, ao serem
+            implementados, possibilitam ao software que
+            exiba os atributos de qualidade desejados.</para>
+        <para id="id226708">Considerando a importância
+            dos atributos de qualidade de software, dedicamos
+            dois capítulos a eles. Neste capítulo, mostramos
+            uma visão geral do assunto, abordando diversos
+            atributos que devem ser alcançados. Este capítulo
+            tem como objetivos:</para>
+        <list id="id226715" display="block" list-type="bulleted">
+            <item id="uid1">Identificar o que são atributos
+                de qualidade e qual é sua influência na
+                arquitetura de software; </item>
+            <item id="uid2">Relacionar atributos de qualidade
+                a decisões arquiteturais que os proporcionam;
+                </item>
+            <item id="uid3">Entender que os atributos de
+                qualidade se relacionam e como eles se
+                relacionam. </item>
+        </list>
+        <para id="id226757">No capítulo seguinte, apresentamos
+            técnicas de design arquitetural e uma série
+            de estudos de como alguns atributos foram alcançados
+            na prática em diferentes sistemas de software.
+            Esses estudos mostram que técnicas e padrões
+            de design arquitetural foram aplicados para
+            alcançar tais atributos e quais seus benefícios
+            e limitações apresentados.</para>
+        <section id="cid1">
+            <title>Requisitos Funcionais e Não-Funcionais</title>
+            <para id="id226775">O único objetivo de um
+                software é o de atender a seus requisitos.
+                Esses requisitos são definidos ao longo
+                de seu ciclo desenvolvimento e costumam
+                ser classificados em 
+                <emphasis effect="italics">requisitos funcionais</emphasis>
+                e 
+                <emphasis effect="italics">requisitos não-funcionais</emphasis>.
+            </para>
+            <para id="id226791">Os requisitos funcionais
+                descrevem as funções que o sistema é capaz
+                de realizar, ou seja, descrevem 
+                <emphasis effect="italics">o que</emphasis>
+                o sistema faz.
+            </para>
+            <para id="id226801">
+                <definition id="requisito-funcional-def">
+                    <label>Definição</label>
+                    <term>requisito funcional</term>
+                    <meaning id="eip-id1170733352871">
+                        É a declaração de uma função ou
+                        comportamento providos pelo sistema
+                        sob condições específicas. </meaning>
+                </definition>
+            </para>
+            <para id="id226813">Os requisitos do software
+                são impostos pelos seus diversos 
+                <emphasis effect="italics">stakeholders</emphasis>.
+                No entanto, os requisitos funcionais costumam
+                ser ditados pelos clientes do software,
+                afinal são eles que esperam ter seus problemas
+                resolvidos pelas funcionalidades do software.
+            </para>
+            <example id="eip-921">
+                <label>Exemplo</label>
+                <para id="eip-95"> Se estamos falando do
+                    SASF, entre suas funções, podemos citar:
+                    </para>
+                <list id="eip-161" list-type="labeled-item">
+                    <item id="uid5645">
+                        <label>(RF-01)</label>O usuário
+                        deve ser capaz de inserir um filme
+                        da sua lista de aluguéis; 
+                    </item>
+                    <item id="uid645623">
+                        <label>(RF-03)</label>O usuário
+                        deve ser capaz de assistir a um
+                        filme via 
+                        <emphasis effect="italics">streaming</emphasis>;
+                        
+                    </item>
+                    <item id="uid234237">
+                        <label>(RF-06)</label>O usuário
+                        deve ser capaz de adicionar um
+                        comentário sobre um filme. 
+                    </item>
+                </list>
+            </example>
+            <para id="id226887">Se o problema de desenvolver
+                software fosse apenas o de atender aos
+                requisitos funcionais, desenvolver software
+                já poderia ser considerado uma tarefa difícil.
+                Isso porque, para serem atendidos, muitos
+                dos requisitos funcionais necessitam de
+                conhecimento que ultrapassa os limites
+                da Engenharia de Software, da Ciência da
+                Computação ou mesmo da Matemática. Afinal,
+                para se implementar sistemas para 
+                <emphasis effect="italics">Computer-Aided
+                    Design</emphasis> (CAD) ou sistemas
+                que analisam os dados extraídos do 
+                <emphasis effect="italics">Large Hadron
+                    Collider</emphasis> (LHC)
+                <footnote id="uid8">
+                    <link url="http://public.web.cern.ch/public/en/LHC/LHC-en.html">http://public.web.cern.ch/public/en/LHC/LHC-en.html</link>
+                </footnote> é preciso grande conhecimento
+                específico ao domínio do problema, ou seja,
+                grande conhecimento de outras engenharias
+                (
+                <emphasis effect="italics">por ex.</emphasis>,
+                Engenharia Mecânica e Civil) ou de outras
+                ciências (
+                <emphasis effect="italics">por ex.</emphasis>,
+                Física e Química), respectivamente.
+            </para>
+            <para id="id226933">Além da necessidade de
+                conhecimento específico ao domínio do problema,
+                há outra dificuldade no desenvolvimento
+                de software para atender apenas aos requisitos
+                funcionais: o cliente pode não ter certeza
+                sobre o que ele quer do software. Esta
+                condição é bem conhecida pela Engenharia
+                de Requisitos, que nos provê algumas técnicas
+                para resolvê-la ou contorná-la. Mas isso
+                não quer dizer que não possa se tornar
+                um problema durante o ciclo desenvolvimento.
+                Afinal, se o principal interessado não
+                sabe bem quais funções se espera que o
+                sistema realize, não podemos afirmar que
+                será fácil desenvolver esse sistema.</para>
+            <para id="id226947">Por outro lado, há também
+                os requisitos não-funcionais. Esses estão
+                relacionados à qualidade da realização
+                dos requisitos funcionais, ou seja, 
+                <emphasis effect="italics">como</emphasis>
+                essas funções são realizadas.
+            </para>
+            <para id="id226958">
+                <definition id="eip-id1170735361055">
+                    <label>Definição</label>
+                    <term>requisito não-funcional</term>
+                    <meaning id="eip-id7335852"> É a descrição
+                        de propriedades, características
+                        ou restrições que o software apresenta
+                        exibidas por suas funcionalidades.
+                        </meaning>
+                </definition>
+            </para>
+            <para id="id226970">Esses requisitos também
+                são impostos pelos diversos 
+                <emphasis effect="italics">stakeholders</emphasis>
+                do software e estão normalmente relacionados
+                a interfaces com o usuário, capacidades,
+                consumo de recursos e escalas de tempo.
+            </para>
+            <example id="eip-843">
+                <label>Exemplo</label>
+                <para id="eip-828"> Podemos citar alguns
+                    exemplos de requisitos não-funcionais
+                    do SASF: </para>
+                <list id="eip-309" list-type="labeled-item">
+                    <item id="uid104354">
+                        <label>(RNF-01)</label>O sistema
+                        deve permitir o uso por diversas
+                        interfaces diferentes: navegador
+                        de internet, celular, TV (usando
+                        um decodificador de TV por assinatura
+                        compatível) e aplicação-cliente
+                        compatível com as famílias de sistemas
+                        operacionais Windows, Mac OS e
+                        Linux; 
+                    </item>
+                    <item id="uid145431">
+                        <label>(RNF-04)</label>O sistema
+                        deve suportar até 3 milhões de
+                        inserções na fila de aluguéis por
+                        dia (34,7 operações por segundo);
+                        
+                    </item>
+                    <item id="uid143452">
+                        <label>(RNF-09)</label>Uma transmissão
+                        de vídeo via 
+                        <emphasis effect="italics">streaming</emphasis>
+                        não pode ser iniciada em mais do
+                        que 30 segundos. 
+                    </item>
+                </list>
+            </example>
+            <para id="id227048">As restrições feitas pelos
+                requisitos não-funcionais são várias e
+                podem incluir restrições ao processo de
+                desenvolvimento, restrições para atingir
+                ou manter compatibilidade, e restrições
+                legais, econômicas ou de interoperabilidade.
+                As restrições ao processo de desenvolvimento
+                podem ser feitas pela imposição de padrões
+                de desenvolvimento ou mesmo de linguagens
+                a serem utilizadas pelo sistema. Por exemplo,
+                um requisito não-funcional de um sistema
+                pode ser que ele deva ser implementado
+                usando a linguagem Java™, uma vez que a
+                equipe responsável pela operação e manutenção
+                após seu desenvolvimento seja é experiente
+                nessa linguagem. Por fim, podemos ainda
+                citar requisitos não-funcionais conhecidos
+                que foram impostos em prol de compatibilidade
+                e interoperabilidade e – por que não dizer
+                – de questões econômicas, que é um caso
+                relacionado ao sistema operacional Windows
+                NT. O Windows NT possui requisitos não-funcionais
+                que ditam que ele deve ser capaz de executar
+                aplicativos originalmente escritos para
+                DOS, OS/2, versões anteriores do Windows
+                e aplicativos de acordo com o padrão POSIX
+                <footnote id="uid13">Note que não tivemos
+                    acesso ao documento de requisitos do
+                    Windows NT. No entanto, a estrutura
+                    de seu kernel deixa bem clara esta
+                    necessidade de retrocompatibilidade
+                    e aderência ao padrão POSIX. Para mais
+                    informações sobre esse assunto, recomendamos
+                    a leitura do capítulo 
+                    <emphasis effect="italics">A Tale of
+                        Two Standards</emphasis> do livro
+                    <emphasis effect="italics">Open Sources
+                        2.0</emphasis>
+                    <link target-id="bid0"/>.
+                </footnote>. Assim, satisfazendo aos requisitos
+                de poder executar aplicativos originalmente
+                escritos para sistemas operacionais anteriores,
+                o Windows NT teria um custo de adoção mais
+                baixo, uma vez as empresas não precisariam
+                renovar seu ecossistema de aplicativos
+                para poder usá-lo. Já o requisito de aderência
+                ao padrão POSIX se mostra necessário para
+                eventuais contratos com cláusulas do tipo:
+                “o sistema operacional a ser utilizado
+                deve estar de acordo com o padrão POSIX”.
+            </para>
+            <para id="id226630">Os requisitos não-funcionais
+                podem ainda ser divididos em três tipos:
+                de produto, de processo e externos. Os
+                requisitos não-funcionais de produto podem,
+                à primeira vista, nos parecer os únicos
+                que deveríamos estudar. Isso se dá por
+                eles estarem diretamente relacionados à
+                qualidade do software e serem definidos
+                como os requisitos que especificam as características
+                que o software deve possuir. No entanto,
+                devemos lembrar que a arquitetura de software
+                não influencia apenas a qualidade final
+                do software, mas também influencia (e é
+                influenciada pela) a forma com que ele
+                é desenvolvido e até mesmo a organização
+                em que ela está inserida.</para>
+            <para id="id226644">
+                <definition id="eip-id1168541162624">
+                    <label>Definição</label>
+                    <term>requisito não-funcional de produto</term>
+                    <meaning id="eip-id1168550786943">
+                        Requisito que especifica as características
+                        que um sistema ou subsistema deve
+                        possuir. </meaning>
+                </definition>
+            </para>
+            <para id="id227200">Os requisitos não-funcionais
+                de produto, como já dito anteriormente,
+                são relacionados à qualidade do software
+                e são alcançados pelo que chamamos de atributos
+                de qualidade. Portanto, quando existem
+                requisitos em que o software deve ter algum
+                grau de confiabilidade, certo nível de
+                eficiência, ou ser portável para diversos
+                sistemas operacionais, estamos descrevendo
+                quais atributos de qualidade que o software
+                deve exibir. Todos requisitos presentes
+                no  
+                <link target-id="eip-843"/> podem ser classificados
+                como sendo de produto. Ainda retornaremos
+                a esse assunto neste capítulo, mas antes
+                devemos mostrar os outros tipos de requisitos
+                não funcionais.
+            </para>
+            <para id="id227216">Os requisitos não-funcionais
+                de processo são definidos como as restrições
+                ao processo de desenvolvimento.</para>
+            <para id="id227221">
+                <definition id="eip-id1169254176416">
+                    <label>Definição</label>
+                    <term>requisito não-funcional de processo</term>
+                    <meaning id="eip-id1169257150010">
+                        Requisito que restringe o processo
+                        de desenvolvimento do software.
+                        </meaning>
+                </definition>
+            </para>
+            <para id="id227232">Esse tipo de requisito
+                é encontrado em muitas situações, principalmente
+                em grandes empresas ou organizações. Por
+                exemplo, é comum que o desenvolvimento
+                de sistemas de software para o Exército
+                Americano tenham como requisito ter o processo
+                de desenvolvimento de acordo com a 
+                <emphasis effect="italics">Joint Technical
+                    Architecture</emphasis>
+                <footnote id="uid16">A 
+                    <emphasis effect="italics">Department
+                        of Defense Joint Technical Architecture</emphasis>
+                    (DoD JTA) 
+                    <link target-id="bid1"/> é um documento
+                    que descreve um conjunto de normas
+                    a que um sistema deve aderir para facilitar
+                    a interoperabilidade com outros sistemas
+                    do Exército Americano. A título de
+                    curiosidade, o DoD JTA contém algumas
+                    centenas de normas.
+                </footnote>
+            </para>
+            <para id="id227267">Por fim, há os requisitos
+                não-funcionais externos. Esses, muitas
+                vezes, podem se classificar tanto como
+                de produto quanto de processo e são extraídos
+                do ambiente em que o sistema é desenvolvido.
+                Esse ambiente pode ser tanto a organização,
+                com políticas que devem ser seguidas ou
+                seu atual ecossistema de software com o
+                qual ele deve interoperar, quanto a legislação
+                vigente do país em que o sistema está operando.</para>
+            <para id="id227275">
+                <definition id="eip-id4546205">
+                    <label>Definição</label>
+                    <term>requisito não-funcional externo</term>
+                    <meaning id="eip-id6119010"> Requisito
+                        derivado do ambiente em que o sistema
+                        é desenvolvido, que pode ser tanto
+                        do produto quanto do processo.
+                        </meaning>
+                </definition>
+            </para>
+            <para id="id227288">Por fim, como exemplo de
+                requisitos externos, podemos citar:</para>
+            <example id="eip-228">
+                <label>Exemplo</label>
+                <para id="eip-592">O sistema de recomendação
+                    de livros deve ler as informações do
+                    sistema de aluguel de livros de uma
+                    biblioteca, onde cada registro de livro
+                    está de acordo com o padrão 
+                    <emphasis effect="italics">Dublin Core</emphasis>.
+                    Um requisito não-funcional externo
+                    desse sistema de recomendação é: 
+                </para>
+                <list id="eip-id2358501" list-type="labeled-item">
+                    <item id="uid1238">
+                        <label>(RNF-01)</label>O sistema
+                        deve guardar os dados dos livros
+                        recomendados em um modelo mapeável
+                        para o modelo de dados definido
+                        pelo padrão Dublin Core 
+                        <link target-id="bid2"/>. 
+                    </item>
+                </list>
+                <para id="eip-975">Note que o uso do 
+                    <emphasis effect="italics">Dublin Core</emphasis>
+                    só é realmente necessário porque a
+                    comunicação entre os dois sistemas
+                    é esperada e que um sistema já adota
+                    esse padrão.
+                </para>
+            </example>
+            <section id="uid19">
+                <title>Diferenças entre requisitos funcionais
+                    e não-funcionais</title>
+                <para id="id227358">Apesar da classificação
+                    dos requisitos de software em requisitos
+                    funcionais e não-funcionais ser bem
+                    aceita, devemos observar que na prática
+                    essa divisão pode não ser tão clara.
+                    Isso ocorre devido ao nível de detalhes
+                    contido em sua descrição ou mesmo devido
+                    ao tipo de sistema desenvolvido.</para>
+                <para id="id227366">Podemos ilustrar o
+                    caso em que o nível de detalhes faz
+                    a diferença com o seguinte exemplo:</para>
+                <example id="eip-78">
+                    <label>Exemplo</label>
+                    <para id="eip-624"> Se considerarmos
+                        um requisito de segurança de confidencialidade
+                        (e normalmente considerado não-funcional):
+                        </para>
+                    <list id="eip-id3651733" list-type="labeled-item">
+                        <item id="uid23231">
+                            <label>(RNF-01)</label>O sistema
+                            deve possibilitar o envio de
+                            mensagens de modo que não possam
+                            ser lidas a não ser pelos destinatários.
+                            
+                        </item>
+                    </list>
+                    <para id="eip-id8873595"> Uma vez que
+                        não especifica nenhuma funcionalidade,
+                        esse pode ser considerado um requisito
+                        não-funcional. Por outro lado,
+                        poderíamos deixar essa evidente
+                        característica de requisito não-funcional
+                        um pouco mais turva se adicionarmos
+                        um pouco mais de detalhes a ele:
+                        </para>
+                    <list id="eip-105" list-type="labeled-item">
+                        <item id="uid23422">
+                            <label>(RF-01)</label>O sistema
+                            deve permitir aos usuários
+                            que criptografem suas mensagens
+                            usando as chaves públicas dos
+                            destinatários. 
+                        </item>
+                    </list>
+                    <para id="eip-732">Agora, esse requisito
+                        seria melhor classificado como
+                        funcional, uma vez que especifica
+                        uma função do sistema, apesar do
+                        atributo de qualidade exibido pelo
+                        software ao final do desenvolvimento
+                        será o mesmo: segurança, mais especificamente
+                        confidencialidade das mensagens
+                        enviadas.</para>
+                </example>
+                <para id="id227432">Já quando mencionamos
+                    que o tipo do sistema pode influenciar
+                    em como classificamos um requisito,
+                    basta apenas lembrarmos dos sistemas
+                    de tempo-real. Neles, a corretude do
+                    comportamento do sistema não depende
+                    só do resultado lógico da função, mas
+                    também 
+                    <emphasis effect="italics">quando</emphasis>
+                    esse resultado é obtido. Portanto,
+                    uma resposta cedo ou tarde demais pode
+                    estar tão incorreta quanto uma resposta
+                    logicamente errada.
+                </para>
+                <example id="eip-573">
+                    <label>Exemplo</label>
+                    <para id="eip-457"> Em um sistema de
+                        informação, consideramos o requisito
+                        não-funcional: </para>
+                    <list id="eip-id5056293" list-type="labeled-item">
+                        <item id="uid25343">
+                            <label>(RNF-01)</label>A busca
+                            por nome deve retornar os resultados
+                            em no máximo 100 milissegundos.
+                            
+                        </item>
+                    </list>
+                    <para id="eip-id12227538">Já em um
+                        sistema de controle de voo 
+                        <emphasis effect="italics">fly-by-wire</emphasis>,
+                        devemos considerar o requisito
+                        a seguir como funcional, uma vez
+                        que respostas que não respeitam
+                        o intervalo de tempo especificado
+                        são tão inúteis quanto a falta
+                        de resposta dos sensores (podem
+                        causar a queda do avião): 
+                    </para>
+                    <list id="eip-id14119399" list-type="labeled-item">
+                        <item id="uid345224">
+                            <label>(RF-01)</label>Novas
+                            amostras de dados dos sensores
+                            da aeronave devem ser obtidas
+                            a cada 20 milissegundos. 
+                        </item>
+                    </list>
+                </example>
+                <para id="id227506">Apesar disso, vale
+                    notar que ambos os requisitos presentes
+                    no  
+                    <link target-id="eip-573"/> ditam que
+                    tanto o sistema de informação quanto
+                    o sistema 
+                    <emphasis effect="italics">fly-by-wire</emphasis>
+                    devem exibir o atributo de qualidade
+                    desempenho, mesmo que em graus diferentes.
+                </para>
+            </section>
+            <section id="uid25">
+                <title>Conflitos entre requisitos</title>
+                <para id="id227531">Como requisitos de
+                    software têm impacto em um ou mais
+                    atributos de qualidade, pode acontecer
+                    de impactarem em atributos relacionados
+                    a outros requisitos. Quando isso ocorre,
+                    o impacto pode resultar em reforço
+                    do atributo ou em conflito.</para>
+                <para id="id227538">Podemos perceber que
+                    não surgem grandes problemas quando
+                    dois ou mais requisitos reforçam o
+                    mesmo atributo de qualidade. Afinal,
+                    caso isso ocorra, o design da solução
+                    que atenda a um dos requisitos afetará
+                    apenas positivamente o design da solução
+                    que atenda aos outros requisitos.</para>
+                <para id="id227546">Apesar do caso de requisitos
+                    que se reforçam não ser muito comum,
+                    podemos ilustrá-lo com requisitos que
+                    afetam à segurança do software, mais
+                    precisamente autenticidade e confidencialidade:</para>
+                <example id="eip-633">
+                    <label>Exemplo</label>
+                    <para id="eip-785"> Se temos um sistema
+                        de mensagens instantâneas com os
+                        seguintes requisitos: </para>
+                    <list id="eip-id1168553671215" list-type="labeled-item">
+                        <item id="uid324326">
+                            <label>(RNF-01)</label>O sistema
+                            deve prover meios de autenticar
+                            os seus usuários. 
+                        </item>
+                        <item id="ui4323d27">
+                            <label>(RNF-02)</label>Uma
+                            mensagem enviada a um usuário
+                            não pode ser lida a não ser
+                            pelo destinatário. 
+                        </item>
+                    </list>
+                    <para id="eip-id1168554527451"> Podemos
+                        observar que os requisitos 
+                        <emphasis effect="italics">RNF-01</emphasis>
+                        e 
+                        <emphasis effect="italics">RNF-02</emphasis>
+                        se relacionam, uma vez que afetam
+                        a alguns aspectos de segurança
+                        do sistema. Eles se reforçam visto
+                        que é possível encontrarmos uma
+                        solução para 
+                        <emphasis effect="italics">RNF-01</emphasis>
+                        que facilite 
+                        <emphasis effect="italics">RNF-02</emphasis>
+                        e vice-versa. A solução no caso
+                        é a utilização criptografia de
+                        chave pública: tanto ela pode ser
+                        usada para autenticação de usuários
+                        quanto pode ser usada para encriptação
+                        de mensagens. 
+                    </para>
+                </example>
+                <para id="id227622">Por outro lado, requisitos
+                    conflitantes são mais comuns e adicionam
+                    dificuldade durante o design das soluções.
+                    Isso ocorre porque a solução para um
+                    requisito conflitante afeta negativamente
+                    outro requisito. Assim, o design do
+                    software terá que considerar diversos
+                    <emphasis effect="italics">trade-offs</emphasis>
+                    a fim satisfazer melhor aos requisitos
+                    mais importantes, já que atender a
+                    todos de forma ótima não é possível.
+                </para>
+                <para id="id227637">Se adicionamos alguns
+                    requisitos de usabilidade ao 
+                    <link target-id="eip-633"/>, esses
+                    novos requisitos certamente afetarão
+                    negativamente à solução apresentada.
+                    Isso ocorre porque é comum que soluções
+                    de segurança afetem aos requisitos
+                    de usabilidade, visto que essas soluções
+                    adicionam conceitos não familiares
+                    aos usuários (por exemplo, chaves criptográficas)
+                    ou adicionam mais passos para que os
+                    usuários realizem suas tarefas (por
+                    exemplo, inserir 
+                    <emphasis effect="italics">login</emphasis>
+                    e senha).
+                </para>
+            </section>
+            <section id="uid28">
+                <title>Expressando requisitos não-funcionais</title>
+                <para id="id227666">Grande parte do trabalho
+                    de um arquiteto consiste em projetar
+                    sistemas que devem satisfazer requisitos
+                    não-funcionais. No entanto, a Engenharia
+                    de Requisitos é limitada quanto a métodos
+                    de análise e derivação de requisitos
+                    não-funcionais. Essa limitação, muitas
+                    vezes, obriga ao arquiteto a trabalhar
+                    com requisitos que carecem de métricas
+                    e valores-alvo. Isso dificulta o processo
+                    de design, uma vez que desconhecer
+                    requisitos é o mesmo que desconhecer
+                    os objetivos do design. Por este motivo,
+                    recomenda-se aos arquitetos que sempre
+                    busquem por requisitos que possuam
+                    valores e métricas bem definidos e,
+                    desta maneira, conheçam e possam medir
+                    os objetivos e o sucesso de seu design.</para>
+                <para id="id227676">Todavia, nem sempre
+                    é possível trabalhar com requisitos
+                    bem definidos, uma vez que encontramos
+                    alguns problemas ao expressá-los. Os
+                    principais motivos da dificuldade de
+                    expressar requisitos não-funcionais
+                    são os seguintes:</para>
+                <list id="id227683" display="block" list-type="bulleted">
+                    <item id="uid29">Alguns requisitos
+                        simplesmente não são conhecidos
+                        em etapas iniciais do ciclo de
+                        desenvolvimento. Por exemplo, a
+                        tolerância a faltas ou o tempo
+                        de recuperação pode ser muito dependente
+                        da solução de design. </item>
+                    <item id="uid30">Alguns requisitos,
+                        como alguns relacionados à usabilidade,
+                        são muito subjetivos, dificultando
+                        bastante a medição e o estabelecimento
+                        de valores-alvo. </item>
+                    <item id="uid31">E, por fim, há os
+                        conflitos entre requisitos. Como
+                        já foi apresentado, requisitos
+                        podem influenciar atributos de
+                        qualidade comuns ou relacionados,
+                        até fazendo com que requisitos
+                        sejam contraditórios. </item>
+                </list>
+                <para id="id227731">Mesmo sendo difícil
+                    lidar com os requisitos não-funcionais,
+                    é obrigação do arquiteto projetar o
+                    software de modo que, ao fim do desenvolvimento,
+                    este exiba os atributos de qualidade
+                    esperados pelos 
+                    <emphasis effect="italics">stakeholders</emphasis>.
+                </para>
+            </section>
+        </section>
+        <section id="cid2">
+            <title>Atributos de qualidade</title>
+            <para id="id227752">Apesar de afirmarmos que
+                o software possui requisitos não-funcionais
+                <footnote id="uid32">Alguns autores preferem
+                    o termo 
+                    <emphasis effect="italics">requisitos
+                        de qualidade</emphasis>.
+                </footnote>
+                <emphasis effect="italics">a serem atendidos</emphasis>,
+                é comum dizermos que o software 
+                <emphasis effect="italics">exibe</emphasis>
+                atributos de qualidade que atendem aos
+                requisitos em questão. Portanto, atributos
+                de qualidade estão mais relacionados aos
+                objetivos já alcançados, enquanto requisitos
+                são os objetivos propostos.
+            </para>
+            <para id="id227786">Podemos chamar de atributos
+                de qualidade do software suas propriedades
+                externamente visíveis. Essas propriedades
+                podem se manifestar como:</para>
+            <list id="id227791" display="block" list-type="bulleted">
+                <item id="uid33">
+                    <emphasis effect="italics">capacidades
+                        ou restrições de suas funções</emphasis>.
+                    Por exemplo, tempo de resposta de uma
+                    determinada função ou capacidade de
+                    execução de certa quantidade de chamadas
+                    simultâneas; 
+                </item>
+                <item id="uid34">
+                    <emphasis effect="italics">características
+                        não diretamente relacionadas às
+                        suas funções</emphasis>. Por exemplo,
+                    usabilidade ou adoção de padrões para
+                    interoperabilidade; ou ainda 
+                </item>
+                <item id="uid35">
+                    <emphasis effect="italics">características
+                        relacionadas ao ciclo de desenvolvimento</emphasis>.
+                    Por exemplo, testabilidade ou mesmo
+                    a capacidade de facilitar o desenvolvimento
+                    por múltiplos times geograficamente
+                    distribuídos. 
+                </item>
+            </list>
+            <para id="id227852">
+                <definition id="eip-id7673957">
+                    <label>Definição</label>
+                    <term>atributo de qualidade</term>
+                    <meaning id="eip-id6135433"> É uma
+                        propriedade de qualidade do software
+                        ou de seu ciclo de desenvolvimento,
+                        podendo se manifestar como características,
+                        capacidades ou restrições de uma
+                        função específica ou de um conjunto
+                        de funções do software. </meaning>
+                </definition>
+            </para>
+            <para id="id227865">Podemos perceber a importância
+                dos atributos de qualidade, em especial,
+                quando comparamos dois produtos de software
+                que têm as mesmas funcionalidades, como
+                fazemos no exemplo a seguir:</para>
+            <example id="eip-300">
+                <label>Exemplo</label>
+                <para id="eip-id1171231525862">Vamos considerar
+                    um projeto para construção de sistemas
+                    de buscas de sites web chamado Hounder
+                    <footnote id="uid23237">
+                        <link url="http://hounder.org/">http://hounder.org/</link>
+                    </footnote>. Para deixarmos nosso exemplo
+                    ainda mais significativo em termos
+                    de diferenças entre atributos de qualidade,
+                    vamos considerar um sistema construído
+                    usando o Hounder, mas em que todos
+                    os seus módulos executam em apenas
+                    um servidor. Vamos chamar esse serviço
+                    de busca de HSearch
+                    <footnote id="uid3345348">Caso o leitor
+                        deseje criar um clone do HSearch,
+                        basta seguir o tutorial de cinco
+                        minutos presente em 
+                        <link url="http://code.google.com/p/hounder/wiki/5minuteTutorial">http://code.google.com/p/hounder/wiki/5minuteTutorial</link>
+                    </footnote>. 
+                </para>
+                <para id="eip-id1171229620253">Uma vez
+                    que o Google Web Search
+                    <footnote id="uid334239">
+                        <link url="http://www.google.com">http://www.google.com</link>
+                    </footnote> também é um serviço de
+                    busca de 
+                    <emphasis effect="italics">web sites</emphasis>,
+                    podemos afirmar que ambos os serviços
+                    têm o principal requisito funcional
+                    em comum: 
+                </para>
+                <list id="eip-id6651772" list-type="labeled-item">
+                    <item id="uid23423440">
+                        <label>(RF-01)</label>O sistema
+                        deve retornar endereços de 
+                        <emphasis effect="italics">web
+                            sites</emphasis> que se relacionem
+                        às palavras-chave inseridas pelo
+                        usuário. 
+                    </item>
+                </list>
+                <para id="eip-id1171230674168"> Já que
+                    ambos os serviços funcionam, percebemos
+                    que ambos atendem ao requisito (RF-01),
+                    o que poderia significar algum grau
+                    de equivalência entre os serviços.
+                    No entanto, se compararmos 
+                    <emphasis effect="italics">como</emphasis>
+                    ambos os sistemas atendem a esse requisito,
+                    perceberemos que eles são bem diferentes,
+                    justamente pela diferença entre os
+                    atributos de qualidade que exibem.
+                    
+                </para>
+                <para id="eip-id1171227772141">Para funcionar,
+                    um serviço de busca de 
+                    <emphasis effect="italics">web sites</emphasis>
+                    deve executar basicamente três atividades:
+                    (a) 
+                    <emphasis effect="italics">crawling</emphasis>,
+                    que é a coleta de páginas que servirão
+                    de resultados, (b) indexação, que é
+                    a organização da informação obtida
+                    na atividade de 
+                    <emphasis effect="italics">crawling</emphasis>
+                    de forma que facilite a busca (principalmente
+                    em termos de desempenho), e (c) busca,
+                    cujo resultado é a realização do requisito
+                    RF-01. Note que as três atividades
+                    são 
+                    <emphasis effect="italics">I/O bound</emphasis>,
+                    ou seja, as atividades têm uso intensivo
+                    de entrada e saída. Portanto, elas
+                    têm seu desempenho limitado pela capacidade
+                    de entrada e saída dos recursos computacionais
+                    em que executam.
+                </para>
+                <para id="eip-id1171224988909">Se compararmos
+                    as capacidades de ambos os sistemas,
+                    o HSearch está limitado à capacidade
+                    do único computador em que está executando.
+                    Isso significa que ele executa as três
+                    atividades usando o mesmo recurso.
+                    Por outro lado, é bem conhecido que
+                    a arquitetura do Google Web Search
+                    permite que o sistema utilize diversos
+                    <emphasis effect="italics">data centers</emphasis>
+                    ao redor do mundo, usando muitos milhares
+                    de processadores simultâneos e, assim,
+                    podendo dividir a execução das três
+                    atividades entre esses recursos. Por
+                    essa diferença de utilização de recursos,
+                    algumas métricas de vários atributos
+                    de qualidade, como tempo de resposta,
+                    capacidade de atender a buscas simultâneas,
+                    tamanho do índice de busca ou tolerância
+                    a falhas de hardware serão bem diferentes
+                    entre os dois sistemas.
+                </para>
+                <para id="eip-id1171226148607">Quando comparamos
+                    as bilhões de consultas diárias que
+                    o Google Web Search é capaz de realizar
+                    com as apenas milhares ou poucos milhões
+                    do HSearch, dizemos que o desempenho
+                    do primeiro é melhor. Mas o desempenho
+                    não é diferente apenas em termos de
+                    operações por unidade de tempo, mas
+                    também quando comparamos os tempos
+                    de resposta para cada operação ou número
+                    de usuários simultâneos no sistema.
+                    Se considerarmos que o Google Web Search
+                    realiza um bilhão de buscas por dia
+                    e cada busca dura em torno de 300 milissegundos,
+                    pela Lei de Little 
+                    <link target-id="bid3"/>, temos cerca
+                    de 3500 buscas simultâneas a qualquer
+                    momento ao longo da vida do sistema.
+                    Já o HSearch só consegue realizar 3,5
+                    buscas simultâneas ao realizar 1 milhão
+                    de buscas por dia a 300 milissegundos
+                    cada.
+                </para>
+                <para id="eip-id5386599"> Mas há outros
+                    atributos que podem ser mencionados.
+                    O HSearch é dependente do funcionamento
+                    de um único servidor. Portanto, se
+                    esse servidor falhar, todo o sistema
+                    ficará fora do ar. Já o Google Web
+                    Search é capaz de tolerar falhas de
+                    hardware, uma vez que não depende de
+                    apenas um servidor para funcionar.
+                    Assim, podemos dizer que o grau de
+                    confiabilidade ou tolerância a falhas
+                    do Google Web Search é maior que o
+                    do HSearch. As respostas do HSearch
+                    são formadas apenas pelo título e pequenos
+                    trechos dos web sites que contêm as
+                    palavras-chave. Já o Google Web Search
+                    ajuda ao usuário também mostrando imagens
+                    contidas no site ou mesmo trechos de
+                    vídeo, contribuindo assim para sua
+                    usabilidade. Por fim, citamos também
+                    que o Google Web Search apresenta o
+                    atributo de integrabilidade, dado que
+                    ele contém diversos serviços além da
+                    busca numa mesma interface: entre eles
+                    calculadora, previsão do tempo, conversão
+                    de medidas, definição de palavras,
+                    busca de sinônimos, entre outros. </para>
+            </example>
+            <para id="id228052">É a arquitetura que permite
+                que o software exiba os atributos de qualidade
+                especificados. Já que a especificação dos
+                atributos é feita pelos requisitos (normalmente
+                não-funcionais), requisitos e atributos
+                de qualidade partilham diversas características.
+                Tanto que alguns autores usam ambas as
+                expressões com o mesmo sentido.</para>
+            <para id="id228060">As principais características
+                dos atributos de qualidade são as seguintes:
+                </para>
+            <list id="id228070" display="block" list-type="bulleted">
+                <item id="uid42">Atributos de qualidade
+                    impõem limites às funcionalidades;
+                    </item>
+                <item id="uid43">Atributos de qualidade
+                    se relacionam entre si; e </item>
+                <item id="uid44">Atributos de qualidade
+                    podem tanto ser de interesse dos usuários
+                    quanto dos desenvolvedores. </item>
+            </list>
+            <section id="uid45">
+                <title>Limites às funcionalidades</title>
+                <para id="id228120">Os limites às funcionalidades
+                    acontecem da mesma forma que os requisitos
+                    podem restringir ou mesmo impedir funcionalidades,
+                    pois atributos de qualidade não se
+                    manifestam isolados no ciclo de vida
+                    do software, mas influenciam e são
+                    influenciados pelo meio. Por exemplo,
+                    para que o SASF tenha um 
+                    <emphasis effect="italics">time to
+                        market</emphasis> pequeno, ele
+                    deve ser lançado inicialmente sem possuir
+                    um cliente de 
+                    <emphasis effect="italics">streaming</emphasis>
+                    para dispositivos móveis, deixando
+                    para implementar essa funcionalidade
+                    em outras versões. Isso é uma limitação
+                    na funcionalidade de transmissão de
+                    filmes em benefício do atributo de
+                    qualidade 
+                    <emphasis effect="italics">custo e
+                        planejamento</emphasis>. É também
+                    bastante comum encontrarmos sistemas
+                    que têm funcionalidades podadas simplesmente
+                    porque, se estas existissem, o software
+                    não exibiria os atributos de segurança
+                    esperados.
+                </para>
+            </section>
+            <section id="uid46">
+                <title>Relações entre atributos de qualidade</title>
+                <para id="id228168">Como já foi observado,
+                    os atributos não existem isoladamente
+                    e, por afetarem partes em comum da
+                    arquitetura, afetam também outros atributos
+                    de qualidade. Eis que surgem os 
+                    <emphasis effect="italics">trade-offs</emphasis>
+                    entre os atributos de qualidade. Por
+                    exemplo, um sistema mais portável terá
+                    seu desempenho afetado negativamente,
+                    pois necessita de mais camadas de software
+                    que abstraiam o ambiente que pode ser
+                    mudado. Já no caso do SASF, para se
+                    obter um nível de segurança capaz de
+                    realizar autorização e autenticação,
+                    a usabilidade do software é prejudicada,
+                    uma vez que o usuário deve ser obrigado
+                    de lembrar sua senha ou mesmo ter o
+                    fluxo de ações interrompido para que
+                    insira suas credenciais.
+                </para>
+                <para id="id228185">É papel do arquiteto
+                    conhecer e resolver os 
+                    <emphasis effect="italics">trade-offs</emphasis>
+                    entre os atributos de qualidade durante
+                    as fases de design e implementação.
+                    Por isso, ao apresentar algumas técnicas
+                    para alcance da qualidade, apresentaremos
+                    também quais atributos são influenciados
+                    positiva e negativamente.
+                </para>
+            </section>
+            <section id="uid48">
+                <title>A quem interessa os atributos de
+                    qualidade</title>
+                <para id="id228208">Uma grande gama de
+                    atributos podem ser citados. Tanto
+                    que, a seguir, quando apresentamos
+                    uma lista deles, restringiremo-nos
+                    a apenas um modelo de qualidade. Esses
+                    atributos podem interessar a vários
+                    envolvidos no ciclo de vida do software,
+                    como usuários e desenvolvedores. Dos
+                    exemplos citados anteriormente, podemos
+                    dizer que desempenho e usabilidade
+                    são atributos importantes a usuários,
+                    enquanto custo e planejamento são mais
+                    importantes aos desenvolvedores.</para>
+            </section>
+        </section>
+        <section id="cid3">
+            <title>Modelo de Qualidade</title>
+            <para id="id228228">Para avaliar a qualidade
+                de um software, o ideal seria usar todos
+                os atributos de qualidade que conhecemos.
+                No entanto, é inviável adotar esta abordagem
+                em um processo de desenvolvimento que possua
+                tempo e dinheiro finitos devido à grande
+                quantidade de dimensões
+                <footnote id="uid49">Em Inglês, alguns
+                    autores se referem aos atributos de
+                    qualidade usando o sufixo 
+                    <emphasis effect="italics">-ilities</emphasis>,
+                    que é comum ao nome de vários atributos.
+                    Podemos perceber isso na lista de qualidades
+                    presente no endereço: 
+                    <link url="http://en.wikipedia.org/wiki/Ilities">http://en.wikipedia.org/wiki/Ilities</link>.
+                    Em Português, poderíamos nos referir
+                    a 
+                    <emphasis effect="italics">-idades</emphasis>,
+                    mas preferimos usar 
+                    <emphasis effect="italics">dimensões</emphasis>,
+                    <emphasis effect="italics">propriedades</emphasis>
+                    ou mesmo 
+                    <emphasis effect="italics">qualidades</emphasis>.
+                </footnote> do software que poderíamos
+                avaliar. Para facilitar o processo de avaliação
+                durante o desenvolvimento, foram desenvolvidos
+                o que chamamos de 
+                <emphasis effect="italics">modelos de qualidade</emphasis>.
+                Modelos de qualidade têm como objetivo
+                facilitar a avaliação do software, organizando
+                e definindo quais atributos de qualidade
+                são importantes para atestar a qualidade
+                geral do software. Alguns exemplos significativos
+                de modelos de qualidade são os de Boehm
+                <link target-id="bid4"/>, o de McCall 
+                <link target-id="bid5"/> e o contido no
+                padrão ISO/IEC 9126-1:2001 
+                <link target-id="bid6"/>. Vamos descrever
+                melhor este último, para assim termos uma
+                melhor noção de quais atributos de qualidade
+                procuramos que a arquitetura permita ao
+                software.
+            </para>
+            <para id="id228308">
+                <definition id="eip-id1171226782391">
+                    <label>Definição</label>
+                    <term>modelo de qualidade</term>
+                    <meaning id="eip-id1171234693622">
+                        Modelo que define e organiza os
+                        atributos do software importantes
+                        para a avaliação de sua qualidade.
+                        </meaning>
+                </definition>
+            </para>
+            <section id="uid51">
+                <title>Padrão ISO/IEC 9126-1:2001</title>
+                <para id="id228333">Ele é um padrão internacional
+                    para avaliação de software. O que nos
+                    interessa dele é o conteúdo de sua
+                    primeira parte, que é o que é chamado
+                    de qualidades internas e externas do
+                    software. Essas qualidades são apresentadas
+                    na forma de uma lista exaustiva de
+                    características ou atributos de qualidade.
+                    Os atributos que um software deve possuir
+                    para que possamos dizer que ele é de
+                    <emphasis effect="italics">qualidade</emphasis>
+                    são os seguintes:
+                </para>
+                <list id="id228347" display="block" list-type="bulleted">
+                    <item id="uid53">Funcionalidade </item>
+                    <item id="uid54">Confiabilidade </item>
+                    <item id="uid55">Usabilidade </item>
+                    <item id="uid56">Eficiência </item>
+                    <item id="uid57">Manutenibilidade </item>
+                    <item id="uid58">Portabilidade </item>
+                </list>
+                <para id="id228419">É importante enfatizar
+                    que essa lista tem como objetivo ser
+                    exaustiva. Portanto, de acordo com
+                    a norma, todas as qualidades que venham
+                    a ser requisitadas ao software estão
+                    presentes nessa lista. No padrão, cada
+                    característica é ainda quebrada em
+                    subcaracterísticas, que são mais específicas,
+                    a fim de facilitar o entendimento e
+                    a avaliação. A seguir, definimos cada
+                    atributo de qualidade e mostramos algumas
+                    subcaracterísticas mais importantes
+                    ao atributo.</para>
+                <section id="uid59">
+                    <title>Funcionalidade</title>
+                    <para id="id228443">Funcionalidade
+                        é a capacidade do software de realizar
+                        as funções que foram especificadas.
+                        Esse primeiro atributo pode parecer
+                        óbvio, mas seu propósito é claro
+                        quando passamos a avaliar um sistema
+                        de software: se esse sistema faz
+                        menos que o mínimo que é esperado
+                        dele, ele não serve, mesmo que
+                        o (pouco) que ele faça, ele faça
+                        de forma usável e confiável ou
+                        eficientemente.</para>
+                    <para id="id228452">Para caracterizarmos
+                        melhor a funcionalidade do software,
+                        devemos ainda considerar as características
+                        de:</para>
+                    <list id="id228457" display="block" list-type="bulleted">
+                        <item id="uid61">
+                            <emphasis effect="italics">adequação</emphasis>,
+                            ou capacidade de prover as
+                            funções necessárias para os
+                            objetivos dos usuários. Podemos
+                            observar que a métrica deste
+                            atributo de qualidade é a satisfação
+                            ou não dos requisitos funcionais
+                            do sistema. 
+                            <example id="eip-id1168548749626">
+                                <label>Exemplo</label>
+                                <para id="eip-id1168555912451">
+                                Para se adequar às necessidades
+                                de seus usuários, basta
+                                que o SASF atenda a seus
+                                requisitos funcionais.
+                                Se ele realizar a locação
+                                e a transmissão de filmes,
+                                ele está adequado às necessidades
+                                de seus usuários comuns.
+                                Por outro lado, para se
+                                adequar às necessidades
+                                dos usuários que distribuem
+                                os filmes, uma das funções
+                                que ele deve prover é a
+                                função de 
+                                <emphasis effect="italics">upload</emphasis>
+                                de filmes. 
+                                </para>
+                            </example>
+                        </item>
+                        <item id="uid63">
+                            <emphasis effect="italics">precisão</emphasis>,
+                            ou capacidade de prover os
+                            resultados com o grau de precisão
+                            adequado. Para que seja possível
+                            medir a precisão, é necessário
+                            que ela esteja especificada
+                            – possivelmente no documento
+                            de requisitos. 
+                            <example id="eip-id1168540462498">
+                                <label>Exemplo</label>
+                                <para id="eip-id1168549004245">
+                                Podemos observar diferentes
+                                necessidades de precisão
+                                quando comparamos como
+                                os números são tratados
+                                em um sistema de software
+                                bancário e numa calculadora.
+                                No primeiro, os números
+                                são tratados apenas como
+                                racionais e truncados na
+                                quantidade de casas decimais
+                                relativa à moeda do país.
+                                No Brasil, por exemplo,
+                                o software bancário só
+                                reconhece até centavos
+                                de Real. Portanto, se é
+                                necessário dividir R$ 1,00
+                                em três parcelas, cada
+                                parcela não será representada
+                                pela dízima R$ 0,33333...,
+                                mas sim por R$ 0,34. Essa
+                                mesma precisão não poderia
+                                ser adotada em um software
+                                de calculadora. Nesse,
+                                sendo uma calculadora comum,
+                                é esperado que os números
+                                seja representados da forma
+                                mais próxima aos números
+                                reais
+                                <footnote id="uid65">Possivelmente,
+                                a calculadora implementará
+                                o padrão para aritmética
+                                de ponto-flutuante IEEE
+                                754-2008 
+                                <link target-id="bid7"/>
+                                </footnote>. 
+                                </para>
+                            </example>
+                        </item>
+                        <item id="uid66">
+                            <emphasis effect="italics">interoperabilidade</emphasis>,
+                            ou capacidade de interagir
+                            com outros sistemas. Para medir
+                            o grau de interoperabilidade,
+                            o ideal é que esteja especificado
+                            quais sistemas devem interagir.
+                            Já para facilitar a satisfação
+                            desse atributo, a solução mais
+                            utilizada é a adoção de padrões
+                            <emphasis effect="italics">de
+                                facto</emphasis>. Alguns
+                            tipos de padrões são os de
+                            representação de dados, como
+                            o 
+                            <emphasis effect="italics">Dublin
+                                Core</emphasis> ou formatos
+                            de arquivos de vídeo, ou padrões
+                            de especificação de funcionalidades,
+                            como os padrões WS-*.
+                            <footnote id="uid68">A comunidade
+                                interessada em 
+                                <emphasis effect="italics">web
+                                services</emphasis> especificou
+                                uma série de padrões que
+                                facilitam a interoperabilidade
+                                entre os serviços. Podemos
+                                encontrar uma grande lista
+                                deles no seguinte endereço:
+                                <link url="http://bit.ly/kIEXs">http://bit.ly/kIEXs</link>.
+                            </footnote>
+                            <example id="eip-id1168556611220">
+                                <label>Exemplo</label>
+                                <para id="eip-id1168552395774">
+                                É uma qualidade do SASF
+                                ser capaz de interagir
+                                com diversos sistemas capazes
+                                de reproduzir o vídeo transmitido.
+                                Para isso, foi escolhido
+                                o padrão para transmissão
+                                de vídeo amplamente adotado
+                                entre sistemas. </para>
+                            </example>
+                        </item>
+                        <item id="uid69">
+                            <emphasis effect="italics">segurança</emphasis>,
+                            ou capacidade de funcionar
+                            segundo os princípios de autenticação,
+                            autorização, integridade e
+                            não-repudiação. Autenticação
+                            é a capacidade de o sistema
+                            verificar a identidade de usuários
+                            ou de outros sistemas com que
+                            se comunica. Autorização é
+                            a capacidade de garantir ou
+                            negar direitos de uso a recursos
+                            a usuários autenticados. Integridade
+                            é a capacidade de garantir
+                            que os dados não foram alterados
+                            indevidamente, principalmente
+                            durante a comunicação. E não-repudiação
+                            é a capacidade de prover meios
+                            para a realização de auditoria
+                            no sistema. No entanto, é importante
+                            observar que nem todos os sistemas
+                            precisam estar de acordo com
+                            todos os princípios. 
+                            <example id="eip-id1168542074815">
+                                <label>Exemplo</label>
+                                <para id="eip-id1168544548611">
+                                Uma vez que recebe o número
+                                do cartão do usuário para
+                                receber o pagamento, o
+                                SASF deve garantir que
+                                apenas o sistema de cobrança
+                                da operadora de cartão
+                                de crédito seja capaz de
+                                verificar as informações
+                                necessárias para a autorização.
+                                Outro aspecto de segurança
+                                do SASF é que ele precisa
+                                diferenciar os usuários
+                                que ainda não estão registrados
+                                (e, consequentemente, que
+                                não pagaram a assinatura),
+                                dos já registrados. Para
+                                isso, ele deve realizar
+                                a autenticação do usuário.
+                                </para>
+                            </example>
+                        </item>
+                        <item id="uid71">
+                            <emphasis effect="italics">estar
+                                de acordo com padrões</emphasis>,
+                            ou a capacidade de aderir a
+                            normas, convenções ou leis
+                            relacionadas à funcionalidade.
+                            <example id="eip-id5153411">
+                                <label>Exemplo</label>
+                                <para id="eip-id7797982">
+                                Para ser executado no Brasil,
+                                o SASF é obrigado por lei
+                                a emitir o cupom fiscal
+                                do pagamento da assinatura
+                                do usuário. </para>
+                            </example>
+                        </item>
+                    </list>
+                </section>
+                <section id="uid72">
+                    <title>Confiabilidade</title>
+                    <para id="id228704">Quando afirmamos
+                        que um sistema é confiável, estamos
+                        afirmando que esse sistema é capaz
+                        de manter algum nível de desempenho
+                        quando funcionando sob circustâncias
+                        determinadas. A confiabilidade
+                        é normalmente definida sob períodos
+                        de tempo. Ou seja, dizer apenas
+                        que o SASF deve ser confiável não
+                        é suficiente. Temos, por exemplo,
+                        que dizer que o SASF é capaz de
+                        transmitir vídeos para 6 mil usuários
+                        simultâneos sob condições normais
+                        durante 99% do ano e para mil usuários
+                        simultâneos durante o 1% do ano
+                        reservado para o período de manutenção
+                        dos servidores. Vale observar que,
+                        para uma loja 
+                        <emphasis effect="italics">online</emphasis>,
+                        faz mais sentido que a medida de
+                        confiabilidade seja a de servir
+                        aos seus usuários com o tempo de
+                        espera das operações de compra
+                        e busca de 50 milissegundos durante
+                        períodos normais do ano, mas, durante
+                        as semanas próximas ao Natal, ter
+                        o tempo de espera das mesmas operações
+                        em torno dos 150 milissegundos,
+                        uma vez que o número de usuários
+                        simultâneos nessa época do ano
+                        aumenta consideravelmente.
+                    </para>
+                    <para id="id228725">A confiabilidade
+                        pode ainda ser dividida nas seguintes
+                        características:</para>
+                    <list id="id228730" display="block" list-type="bulleted">
+                        <item id="uid74">
+                            <emphasis effect="italics">maturidade</emphasis>,
+                            ou capacidade de se prevenir
+                            de falhas resultantes de faltas
+                            de software. Isso é comum em
+                            sistemas distribuídos, onde
+                            um componente não confia completamente
+                            no resultado provido por outro.
+                            Isso pode ser verificado em
+                            sistemas com sensores de software,
+                            onde um módulo pode ser responsável
+                            por julgar os valores gerados
+                            pelos sensores. Caso os valores
+                            sejam julgados inválidos, o
+                            módulo pode simplesmente desligar
+                            o sensor defeituoso. A medição
+                            do grau de maturidade de um
+                            sistema é bem difícil, mas
+                            podemos ter uma noção ao analisarmos
+                            decisões que foram feitas com
+                            este objetivo. 
+                            <example id="eip-id1170727527058">
+                                <label>Exemplo</label>
+                                <para id="eip-id1170727524967">
+                                No caso do SASF, o módulo
+                                de transmissão de vídeo
+                                pode verificar quantas
+                                conexões estão abertas
+                                para um mesmo destinatário.
+                                Uma grande quantidade de
+                                conexões para um mesmo
+                                destinatário pode significar
+                                um ataque ou mesmo um 
+                                <emphasis effect="italics">bug</emphasis>
+                                no reprodutor de vídeo
+                                no lado do cliente que,
+                                eventualmente, pode consumir
+                                todos os recursos disponíveis
+                                para 
+                                <emphasis effect="italics">streaming</emphasis>.
+                                Assim, ao detectar esse
+                                problema, o SASF pode recusar
+                                abrir novas conexões para
+                                esse cliente, prevenindo-se
+                                de um problema maior, como
+                                uma completa parada por
+                                <emphasis effect="italics">DoS</emphasis>
+                                <footnote id="uid76">O
+                                <emphasis effect="italics">Denial
+                                of Service</emphasis> ou
+                                DoS ocorre quando o sistema
+                                não pode atender a novas
+                                requisições porque todos
+                                os seus recursos estão
+                                sendo consumidos, possivelmente
+                                devido a um ataque de um
+                                ou vários agentes maliciosos.
+                                </footnote>
+                                </para>
+                            </example>
+                        </item>
+                        <item id="uid77">
+                            <emphasis effect="italics">tolerância
+                                a faltas</emphasis>, ou
+                            capacidade de manter alguma
+                            qualidade de serviço em caso
+                            de faltas de software ou comportamento
+                            imprevisto de usuários, software
+                            ou hardware. Em outras palavras,
+                            a medida de funcionamento do
+                            software, mesmo que de forma
+                            restrita, em caso de a parada
+                            de servidores, partições de
+                            rede, falhas de discos rígidos,
+                            inserção ou leitura de dados
+                            corrompidos, etc. Considerando
+                            a grande quantidade de eventos
+                            que o software deve tolerar,
+                            também são muitas as formas
+                            de medir o grau de satisfação
+                            a este atributo de qualidade.
+                            As formas mais comuns são:
+                            medir se o serviço continua
+                            funcionando em caso de falha
+                            de 
+                            <emphasis effect="italics">n</emphasis>
+                            servidores, medir qual a variação
+                            no tempo de resposta para as
+                            operações mais comuns ou quantos
+                            usuários simultâneos o sistema
+                            é capaz de servir em caso de
+                            falhas de servidores ou ainda
+                            verificar como o sistema se
+                            comporta se dados inválidos
+                            são inseridos no sistema. 
+                            <example id="eip-id1170728195463">
+                                <label>Exemplo</label>
+                                <para id="eip-id1170728279061">
+                                A forma mais comum de melhorar
+                                o grau de tolerância a
+                                faltas em um serviço web
+                                é fazer com que não dependa
+                                de um único recurso. Seja
+                                esse recurso hardware,
+                                como um único processador,
+                                roteador ou disco rígido,
+                                seja esse recurso software,
+                                como depender de um único
+                                banco de dados, um único
+                                serviço de cadastro ou
+                                um único serviço de inventário.
+                                Assim, o SASF possui seus
+                                módulos replicados em diferentes
+                                servidores. Desta maneira,
+                                ele evita a dependência
+                                de um único recurso, ou
+                                o chamado 
+                                <emphasis effect="italics">ponto
+                                único de falhas</emphasis>
+                                e pode continuar a funcionar
+                                mesmo que um desses módulos
+                                pare por completo. Note
+                                que para a replicação funcionar,
+                                devem ser adicionados à
+                                arquitetura módulos responsáveis
+                                pela verificação de estado
+                                dos servidores e, assim
+                                que forem detectados problemas
+                                em algum servidor, o tráfego
+                                possa ser redirecionado
+                                para réplicas sadias. Para
+                                isso ser possível, há ainda
+                                outras complicações, como
+                                a manutenção da consistência
+                                de estado entre o servidor
+                                original e sua réplica.
+                                Falaremos mais sobre a
+                                eliminação do ponto único
+                                de falhas quanto estivermos
+                                tratando das diversas técnicas
+                                para a obtenção de atributos
+                                de qualidade. 
+                                </para>
+                            </example>
+                        </item>
+                        <item id="uid79">
+                            <emphasis effect="italics">recuperabilidade</emphasis>,
+                            também chamada de resiliência,
+                            é a capacidade de o sistema
+                            voltar ao nível de desempenho
+                            anterior a falhas ou comportamento
+                            imprevisto de usuários, software
+                            ou hardware e recuperar os
+                            dados afetados, caso existam.
+                            É comum medirmos o grau de
+                            recuperabilidade ao medirmos
+                            quanto tempo o sistema leva
+                            para voltar aos níveis normais
+                            de desempenho. Quanto menor
+                            esse tempo, melhor a qualidade
+                            do sistema neste sentido. 
+                            <example id="eip-id1170728220025">
+                                <label>Exemplo</label>
+                                <para id="eip-id1170732683776">
+                                No SASF, podemos medir
+                                o tempo de substituição
+                                de um servidor de 
+                                <emphasis effect="italics">streaming</emphasis>
+                                pelo tempo da detecção
+                                da falha, somado ao tempo
+                                de inicialização do servidor
+                                e somado ao tempo de redirecionamento
+                                das requisições de transmissão.
+                                Uma forma de ter o tempo
+                                total de recuperação minimizado
+                                seria manter o servidor
+                                auxiliar ligado, apenas
+                                esperando a detecção da
+                                falha do servidor principal.
+                                No entanto, essa decisão
+                                significaria mais custos,
+                                uma vez que seriam dois
+                                servidores ligados ao mesmo
+                                tempo, gastando mais energia,
+                                diminuindo a vida útil
+                                do hardware e possivelmente
+                                consumindo licenças de
+                                software. 
+                                </para>
+                            </example>
+                        </item>
+                    </list>
+                </section>
+                <section id="uid81">
+                    <title>Usabilidade</title>
+                    <para id="id228937">Usabilidade é a
+                        medida da facilidade de o usuário
+                        executar alguma funcionalidade
+                        do sistema. Essa facilidade está
+                        ligada diretamente à compreensibilidade,
+                        à facilidade de aprendizado, à
+                        operabilidade, a quanto o usuário
+                        se sente atraído pelo sistema e
+                        à adesão de padrões de usabilidade,
+                        que são as subcaracterísticas desse
+                        atributo de qualidade. Apesar de
+                        muitos desses critérios serem subjetivos,
+                        há maneiras de medi-los para termos
+                        noção da usabilidade do software.
+                        A seguir, mostramos as subcaracterísticas
+                        da usabilidade:</para>
+                    <list id="id228946" display="block" list-type="bulleted">
+                        <item id="uid83">
+                            <emphasis effect="italics">compreensibilidade</emphasis>,
+                            ou a capacidade de o usuário
+                            entender o sistema. Esta característica
+                            está ligada à quantidade de
+                            conceitos que o usuário precisa
+                            saber previamente para lidar
+                            com o sistema ou à qualidade
+                            ou quantidade da documentação
+                            do sistema. A compreensibilidade
+                            serve para o usuário dicernir
+                            se o software serve para ele
+                            ou não. 
+                        </item>
+                        <item id="uid85">
+                            <emphasis effect="italics">facilidade
+                                de aprendizado</emphasis>
+                            está ligada diretamente à compreensibilidade.
+                            No entanto, neste caso, a qualidade
+                            é a de o usuário aprender a
+                            usar o software, caso ele saiba
+                            que o software serve para ele.
+                            As métricas dessa qualidade
+                            também estão relacionadas à
+                            quantidade de conceitos ou
+                            operações que o usuário precisa
+                            aprender para fazer com que
+                            o software funcione. 
+                        </item>
+                        <item id="uid87">
+                            <emphasis effect="italics">operabilidade</emphasis>
+                            é a capacidade de o usuário
+                            operar ou controlar o sistema.
+                            Esta qualidade é muito importante
+                            em grandes sistemas de software,
+                            onde há um tipo de usuário
+                            que é o administrador do sistema.
+                            O administrador deseja ser
+                            capaz de realizar operações
+                            sobre o sistema que, comumente,
+                            não estão entre as funções
+                            que interessam aos usuários
+                            mais comuns: ligar, desligar
+                            ou verificar estado de servidores,
+                            realizar 
+                            <emphasis effect="italics">backup</emphasis>
+                            dos dados, etc. Em sistemas
+                            de redes sociais, por exemplo,
+                            entre os serviços providos
+                            ao operador, ainda estão a
+                            possibilidade de expulsar usuários
+                            do sistema ou moderá-los, não
+                            permitindo que esses usuários
+                            realizem algumas funções, como
+                            enviar mensagens ou mesmo barrando
+                            conexões de acordo com o endereço
+                            de origem. 
+                        </item>
+                    </list>
+                </section>
+                <section id="uid89">
+                    <title>Eficiência</title>
+                    <para id="id229062">A eficiência ou
+                        desempenho é talvez a qualidade
+                        mais buscada durante o desenvolvimento
+                        de software, uma vez que ela é
+                        a mais percebida pelos usuários.
+                        Ela é a qualidade relacionada ao
+                        uso de recursos do sistema quando
+                        esse provê funcionalidade e é também
+                        a com que os desenvolvedores mais
+                        se preocupam. Quando queremos medir
+                        eficiência, medimos basicamente
+                        duas características:</para>
+                    <list id="id229070" display="block" list-type="bulleted"><item id="uid91">
+                            <emphasis effect="italics">comportamento
+                                no tempo</emphasis> ou
+                            <emphasis effect="italics">desempenho</emphasis>,
+                            ou a capacidade do sistema
+                            de alcançar a resposta dentro
+                            do período de tempo especificado.
+                            Aqui, referimo-nos a tempos
+                            de resposta, latência, tempo
+                            de processamento, vazão (
+                            <emphasis effect="italics">throughput</emphasis>),
+                            etc. Vale observar que, ao
+                            medir essa característica,
+                            devemos também entender as
+                            condições em que o sistema
+                            está operando. Afinal, no 
+                            <link target-id="eip-300"/>,
+                            mesmo que o HSearch tenha um
+                            tempo de resposta menor que
+                            o Google Web Search, o primeiro
+                            é capaz de servir a apenas
+                            um milésimo da quantidade de
+                            usuários servida pelo segundo.
+                            
+                        </item>
+                        <item id="uid93">
+                            <emphasis effect="italics">uso
+                                de recursos</emphasis>,
+                            que é a capacidade de o software
+                            exigir mais ou menos recursos
+                            de acordo com suas condições
+                            de uso. Normalmente, essa característica
+                            também é chamada de 
+                            <emphasis effect="italics">escalabilidade</emphasis>
+                            e pode também ser vista de
+                            outra maneira: como a adição
+                            ou remoção de recursos no sistema
+                            vai melhorar ou piorar as condições
+                            de uso. Existem dois tipos
+                            mais comuns de escalabilidade,
+                            que também servem para facilitar
+                            o entendimento dessa característica:
+                            <emphasis effect="italics">escalabilidade
+                                vertical</emphasis> e 
+                            <emphasis effect="italics">escalabilidade
+                                horizontal</emphasis> .
+                            Eles podem ser melhor explicados
+                            por meio de um exemplo: 
+                            <example id="escalabilidades-example">
+                                <label>Exemplo</label>
+                                <para id="eip-id1168553523762">
+                                Vamos considerar um sistema
+                                servidor de arquivos. Esse
+                                servidor de arquivos usa
+                                apenas um disco rígido
+                                e é capaz de servir a cinco
+                                usuários simultâneos, cada
+                                um usando 10 MB/seg de
+                                banda passante (fazendo
+                                <emphasis effect="italics">upload</emphasis>
+                                ou 
+                                <emphasis effect="italics">download</emphasis>).
+                                Vamos desconsiderar os
+                                efeitos da rede que liga
+                                os clientes ao servidor
+                                ou qualquer outro gargalo.
+                                Podemos dizer que as condições
+                                de uso do software são:
+                                5 usuários simultâneos
+                                a 10 MB/seg cada. 
+                                </para>
+                            </example> No  
+                            <link target-id="escalabilidades-example"/>,
+                            uma forma de melhorar as condições
+                            de uso, ou mais especificamente,
+                            aumentar a quantidade de usuários
+                            simultâneos, seria 
+                            <emphasis effect="italics">seria
+                                substituir um dos recursos
+                                do sistema por outro com
+                                maior capacidade</emphasis>.
+                            Ou seja, escalar verticalmente.
+                            <example id="eip-id2200237">
+                                <label>Exemplo</label>
+                                <title>(continuação do
+                                exemplo anterior)</title>
+                                <para id="eip-id2562574">Vamos
+                                substituir o disco rígido
+                                do servidor por um que
+                                seja capaz de transferir
+                                arquivos no dobro da velocidade
+                                do anterior. Desta maneira,
+                                se o disco rígido fosse
+                                o único fator limitante,
+                                conseguiríamos não mais
+                                servir 5 usuários a 10
+                                MB/seg, mas sim 10 usuários
+                                simultâneos a 10 MB/seg,
+                                como ilustrado na 
+                                <link target-id="uid97"/>.
+                                Além disso, poderíamos
+                                seguir melhorando verticalmente
+                                o sistema até encontrarmos
+                                um limite, que pode ser
+                                tanto o limite na velocidade
+                                possível para um disco
+                                rígido quanto o limite
+                                financeiro de comprarmos
+                                um disco mais rápido. 
+                                </para>
+                            </example>
+                            <figure id="uid97">
+                                <label>Figura</label>
+                                <media id="uid97_media" alt="">
+                                <image mime-type="image/png" src="../../media/escalabilidade-vertical.png" id="uid97_onlineimage" width="800">
+                                <!-- NOTE: attribute width
+                                changes image size online
+                                (pixels). original width
+                                is 2364. -->
+                                </image>
+                                <image for="pdf" mime-type="application/postscript" src="../../media/escalabilidade-vertical.eps" id="uid97_printimage" print-width="8cm">
+                                <!--NOTE: attribute width
+                                changes image size in printed
+                                PDF (if specified in .tex
+                                file)-->
+                                </image>
+                                </media>
+                                <caption>Escalando verticalmente
+                                um sistema.</caption>
+                            </figure> Outra forma de escalar
+                            o sistema seria horizontalmente.
+                            Desta maneira, não substituímos
+                            um recurso por um melhor, mas
+                            <emphasis effect="italics">adicionamos
+                                um novo recurso ao sistema
+                                de modo que ele faça uso
+                                tanto do recurso velho
+                                quanto do novo</emphasis>.
+                            <example id="eip-id1168555731756">
+                                <label>Exemplo</label>
+                                <title>(continuação do
+                                exemplo anterior) </title>
+                                <para id="eip-id5769418">Ao invés de necessariamente
+                                comprar um disco rígido
+                                mais rápido, compramos
+                                um novo disco (que pode
+                                até ser igual ao anterior)
+                                e fazemos com que o software
+                                divida a carga de escrita
+                                e leitura entre os dois
+                                discos rígidos. Esta abordagem
+                                está ilustrada na 
+                                <link target-id="uid98"/>.
+                                
+                                </para>
+                            </example>
+                            <figure id="uid98">
+                                <label>Figura</label>
+                                <media id="uid98_media" alt="">
+                                <image mime-type="image/png" src="../../media/escalabilidade-horizontal.png" id="uid98_onlineimage" width="800">
+                                <!-- NOTE: attribute width
+                                changes image size online
+                                (pixels). original width
+                                is 1554. -->
+                                </image>
+                                <image for="pdf" mime-type="application/postscript" src="../../media/escalabilidade-horizontal.eps" id="uid98_printimage" print-width="8cm">
+                                <!--NOTE: attribute width
+                                changes image size in printed
+                                PDF (if specified in .tex
+                                file)-->
+                                </image>
+                                </media>
+                                <caption>Escalando horizontalmente
+                                um sistema.</caption>
+                            </figure> Note que a solução
+                            do  
+                            <link target-id="eip-id1168555731756"/>
+                            não vem de graça: além da camada
+                            de software ficar mais complicada,
+                            há o impacto na eficiência
+                            – possivelmente, o tempo de
+                            resposta será afetado, uma
+                            vez que uma operação do usuário
+                            terá que agora decidir qual
+                            disco rígido usar. No entanto,
+                            a vantagem desta solução reside
+                            no fato de que o teto de desempenho
+                            com a adição de novos discos
+                            será mais alto que o teto alcançável
+                            com discos mais rápidos. Além
+                            disso, há um limite de discos
+                            rígidos que podem ser utilizados
+                            por um mesmo sistema operacional.
+                            Para expandir ainda mais o
+                            limite de discos rigídos sendo
+                            usados simultaneamente, o próximo
+                            passo seria adicionar mais
+                            uma máquina servidora, o que
+                            deixaria o software ainda mais
+                            complexo, pois este agora teria
+                            que decidir entre discos presentes
+                            em máquinas diferentes e assim
+                            por diante. Esse é apenas um
+                            exemplo de técnica de se alcançar
+                            escalabilidade horizontal.
+                            No próximo capítulo, quando
+                            falarmos de técnicas de design,
+                            apresentaremos outras abordagens
+                            e padrões de design para a
+                            escalabilidade. 
+                        </item>
+                    </list>
+                </section>
+                <section id="uid99">
+                    <title>Manutenibilidade</title>
+                    <para id="id229338">A manutenibilidade
+                        é uma qualidade, às vezes, negligenciada
+                        pelos usuários, mas muito importante
+                        aos desenvolvedores. Ela é a capacidade
+                        de o software ser modificado em
+                        seu processo de evolução. Podemos
+                        citar as seguintes características
+                        do atributo de manutenibilidade:
+                        a analisabilidade, a modificabilidade
+                        e a testabilidade.</para>
+                    <list id="id229346" display="block" list-type="bulleted">
+                        <item id="uid101">
+                            <emphasis effect="italics">analisabilidade</emphasis>:
+                            é o grau de facilidade com
+                            que podemos procurar por deficiências
+                            no software ou por partes que
+                            devem ser modificadas para
+                            algum fim. Os níveis de modularidade,
+                            de separação de preocupações
+                            e de acomplamento do software
+                            se relacionam a essa característica.
+                            
+                        </item>
+                        <item id="uid103">
+                            <emphasis effect="italics">modificabilidade</emphasis>:
+                            é a capacidade de realizar
+                            mudanças de implementação no
+                            sistema. Essa característica
+                            também está relacionada às
+                            métricas clássicas de software,
+                            como níveis de coesão e acoplamento
+                            e complexidade ciclomática.
+                            Quanto mais modificável o software,
+                            menor o impacto da mudança
+                            em áreas – teoricamente – não
+                            relacionadas às mudanças. 
+                            <example id="eip-id1168552249042">
+                                <label>Exemplo</label>
+                                <para id="eip-id1168550740930">
+                                No SASF, por termos o módulo
+                                de transmissão de vídeos
+                                separado do gestor de usuários,
+                                qualquer mudança ou adição
+                                nos formatos suportados
+                                para transmissão não deve
+                                afetar ao módulo de usuários.
+                                Outra separação comum em
+                                sistemas web que também
+                                foi adotada no SASF é a
+                                aplicação do padrão 
+                                <emphasis effect="italics">Model-View-Controller</emphasis>
+                                (MVC)
+                                <footnote id="uid105">Falamos
+                                mais do padrão arquitetural
+                                MVC quando apresentamos
+                                as ferramentas de design
+                                de software no capítulo
+                                sobre técnicas de design.</footnote>,
+                                que separa as interfaces
+                                de usuário de lógica de
+                                negócio. Isso permite modificações
+                                na lógica de negócio que
+                                não afetam as interfaces
+                                de usuário e vice-versa.
+                                
+                                </para>
+                            </example>
+                        </item>
+                        <item id="uid106">
+                            <emphasis effect="italics">testabilidade</emphasis>:
+                            é a capacidade de o software
+                            ter suas mudanças validadas.
+                            Para um software ser testável,
+                            antes de tudo, devemos conhecer
+                            seus objetivos. Mas, além disso,
+                            precisamos que o sistema seja
+                            capaz de executar de forma
+                            controlada a fim de podermos
+                            medir os resultados obtidos
+                            a partir de entradas conhecidas.
+                            Sistemas pouco testáveis são
+                            aqueles os quais sua execução
+                            é muito cara, pode custar vidas
+                            ou, simplesmente, não podemos
+                            medir seu comportamento deterministicamente.
+                            Vale observar que muitos sistemas
+                            distribuídos, se mal projetados,
+                            podem se encaixar nesse último
+                            tipo. 
+                        </item>
+                    </list>
+                </section>
+                <section id="uid108">
+                    <title>Portabilidade</title>
+                    <para id="id229478">O último atributo
+                        de qualidade presente no padrão
+                        ISO/IEC 9126-1:2001 é o de portabilidade.
+                        Esse atributo é a medida de adaptações
+                        necessárias para que o sistema
+                        tenha seus requisitos ou ambientes
+                        de execução modificados, podendo
+                        ser o ambiente de software, de
+                        hardware ou organizacional. Esse
+                        atributo é importante, por exemplo,
+                        para jogos, uma vez que é desejável
+                        que eles sejam capazes de executar
+                        no maior número de plataformas,
+                        mas também é desejável que o custo
+                        para tornar isso possível seja
+                        baixo. Algo similar acontece com
+                        aplicativos para celulares. A necessidade
+                        de um aplicativo para celulares
+                        ser portável existe porque é comum
+                        que seus desenvolvedores queiram
+                        que ele esteja disponível em dezenas
+                        de modelos diferentes. Isso significa
+                        que um mesmo aplicativo deve estar
+                        disponível para dezenas de ambientes
+                        de hardware diferentes. Portanto,
+                        não faz sentido que o mesmo aplicativo
+                        seja reimplementado diversas vezes,
+                        mas sim que seja projetado de forma
+                        a minimizar o esforço para alterar
+                        o ambiente de hardware.</para>
+                    <para id="id229496">A portabilidade
+                        pode ainda ser dividida nas seguintes
+                        características:</para>
+                    <list id="id229501" display="block" list-type="bulleted">
+                        <item id="uid110">
+                            <emphasis effect="italics">adaptabilidade</emphasis>:
+                            é a capacidade de o software
+                            ser portado para outro ambiente
+                            sem precisar de modificações
+                            além das previstas. 
+                            <example id="eip-id1170727237358">
+                                <label>Exemplo</label>
+                                <para id="eip-id1170731509053">O
+                                Vuze
+                                <footnote id="uid112">
+                                <link url="http://www.vuze.com">http://www.vuze.com</link>
+                                </footnote> é um aplicativo
+                                escrito na linguagem de
+                                programação Java e que,
+                                por isso, é capaz de executar
+                                em qualquer sistema operacional
+                                em que a máquina virtual
+                                Java (JVM) esteja disponível.
+                                No entanto, apesar da portabilidade
+                                provida pela linguagem
+                                de programação em que foi
+                                escrito, ele necessita
+                                de uma pequena modificação
+                                específica para cada novo
+                                sistema operacional suportado
+                                pela JVM. Essa modificação
+                                consiste na criação de
+                                um instalador específico
+                                para o S.O., uma vez que
+                                diferentes sistemas possuem
+                                diferentes formas de instalação
+                                de software. No entanto,
+                                essa modificação é prevista
+                                na arquitetura do Vuze
+                                e não afeta significativamente
+                                sua adaptabilidade a novos
+                                sistemas operacionais.
+                                
+                                </para>
+                            </example>
+                        </item>
+                        <item id="uid113">
+                            <emphasis effect="italics">instalabilidade</emphasis>:
+                            é a capacidade de o software
+                            ser instalado em algum ambiente
+                            específico. A instalabilidade
+                            é medida junto com o ambiente-alvo.
+                            Portanto, por exemplo, antes
+                            do 
+                            <emphasis effect="italics">Apple
+                                Bootcamp</emphasis>, o
+                            sistema operacional 
+                            <emphasis effect="italics">Windows
+                                XP</emphasis> não era instalável
+                            em ambientes 
+                            <emphasis effect="italics">Apple</emphasis>.
+                            Já o sistema 
+                            <emphasis effect="italics">GNU/Linux</emphasis>,
+                            por sua vez, era instalável
+                            tanto em PCs quanto em Macs.
+                            
+                        </item>
+                        <item id="uid115">
+                            <emphasis effect="italics">co-existência</emphasis>:
+                            é a capacidade de o software
+                            compartilhar recursos em um
+                            mesmo ambiente com outros sistemas.
+                            
+                        </item>
+                    </list>
+                </section>
+            </section>
+            <section id="uid116">
+                <title>Conflitos entre atributos de qualidade</title>
+                <para id="id226164">Assim como os interesses
+                    de cada stakeholder não são isolados
+                    e podem afetar os de outro por meio
+                    dos requisitos não-funcionais, os atributos
+                    de qualidade não surgem isolados no
+                    software. Uma decisão arquitetural
+                    feita com o objetivo de alcançar um
+                    atributo de qualidade pode ter efeito
+                    em outros atributos. Por uma decisão
+                    arquitetural nunca ser isolada no design
+                    da arquitetura, o arquiteto deve sempre
+                    entender quais atributos a decisão
+                    afeta, seja positivamente ou negativamente,
+                    e fazer as devidas concessões caso
+                    ela afete atributos de qualidade conflitantes.
+                    No capítulo sobre técnicas de design,
+                    observaremos melhor as relações entre
+                    os atributos de qualidade ao apresentarmos
+                    algumas técnicas de design arquitetural
+                    para alcançá-los. Isso acontece porque
+                    é comum que essas técnicas não afetem
+                    cada atributo de software isoladamente.</para>
+            </section>
+        </section>
+        <section id="cid4">
+            <title>Atributos de Negócio</title>
+            <para id="id229844">Apesar de a lista de atributos
+                de qualidade apresentada anteriormente
+                ter sido criada a fim de ser exaustiva,
+                há alguns atributos adicionais que merecem
+                ser citados. São chamados os 
+                <emphasis effect="italics">atributos de
+                    qualidade de negócio</emphasis>, que,
+                apesar de não serem ligados diretamente
+                ao software, têm grande influência sobre
+                sua arquitetura. Eles são importantes porque
+                influenciam principalmente as decisões
+                de resolução de conflitos dos atributos
+                apresentados anteriormente. Os atributos
+                de negócio são:
+            </para>
+            <list id="id229861" display="block" list-type="bulleted">
+                <item id="uid118">mercado-alvo </item>
+                <item id="uid119">
+                    <emphasis effect="italics">time-to-market</emphasis>
+                </item>
+                <item id="uid120">custo e benefício </item>
+                <item id="uid121">vida útil do sistema
+                    </item>
+                <item id="uid122">agenda de lançamento
+                    </item>
+            </list>
+            <section id="uid123">
+                <title>Mercado-alvo</title>
+                <para id="id229943">O arquiteto só é capaz
+                    de priorizar os atributos de qualidade
+                    em seu design se conhecer o público
+                    e o mercado para o qual o software
+                    está sendo construído. Por exemplo,
+                    portabilidade e funcionalidade são
+                    buscados para o público geral de um
+                    pacote de aplicativos de escritório
+                    e, portanto, priorizados neste caso.
+                    Por outro lado, ao se construir um
+                    sistema de infraestrutura para uma
+                    empresa específica, o arquiteto pode
+                    priorizar a eficiência em detrimento
+                    da portabilidade e até mesmo da usabilidade,
+                    uma vez que os usuários comuns desse
+                    sistema são operadores qualificados.</para>
+            </section>
+            <section id="uid125">
+                <title>
+                    <emphasis effect="italics">Time-to-market</emphasis>
+                </title>
+                <para id="id229970">
+                    <emphasis effect="italics">Time-to-market</emphasis>
+                    é o tempo entre a concepção do software
+                    e sua entrega no mercado. Esse atributo
+                    se torna importante, principalmente,
+                    quando a janela de oportunidade é pequena
+                    devido a produtos concorrentes. O 
+                    <emphasis effect="italics">time-to-market</emphasis>
+                    influencia e, quando curto, prioriza
+                    decisões de compra e reuso de módulos
+                    em detrimento do desenvolvimento 
+                    <emphasis effect="italics">in house</emphasis>
+                    ou de investimento em decisões que
+                    dizem respeito a atributos considerados
+                    secundários ao negócio.
+                </para>
+            </section>
+            <section id="uid127">
+                <title>Custo e benefício</title>
+                <para id="id230011">Como os recursos financeiros
+                    para se desenvolver o software são
+                    limitados, cada decisão arquitetural
+                    deve ter seu custo e o benefício proporcionado
+                    analisados e, com base nessa análise,
+                    priorizados ou até mesmo descartados.
+                    Essa análise deve levar em conta o
+                    ambiente de desenvolvimento em questão:
+                    capacidades do time de desenvolvimento,
+                    ferramentas disponíveis para o reuso
+                    e os objetivos do software.</para>
+            </section>
+            <section id="uid129">
+                <title>Vida útil</title>
+                <para id="id230036">O design de sistemas
+                    de grande vida útil deve priorizar
+                    diferentes atributos de qualidade se
+                    os compararmos com o design de sistemas
+                    de vida mais curta, como protótipos.
+                    No primeiro tipo de sistemas, atributos
+                    de manutenibilidade e portabilidade
+                    são mais valorizados; no segundo, são
+                    priorizados atributos de eficiência
+                    e funcionalidade.</para>
+            </section>
+            <section id="uid131">
+                <title>Agenda de lançamento</title>
+                <para id="id230061">O design do software
+                    é muito dependente de como ele vai
+                    ser disponibilizado a público. Por
+                    exemplo, se o software será disponibilizado
+                    em fases distintas que englobarão diferentes
+                    conjuntos de funcionalidades, ele deve
+                    ser dividido de modo que funcione sem
+                    as partes que ainda não foram disponibilizadas,
+                    mas que também facilite tanto a modificabilidade,
+                    uma vez que é desejável que novas funcionalidades
+                    sejam adicionadas com menor esforço,
+                    quanto a interoperabilidade entre diferentes
+                    versões, que eventualmente ocorrerá.
+                    Já se o software será disponibilizado
+                    sem possibilidade de posterior atualização,
+                    como acontece em muitos sistemas embarcados,
+                    preocupações de modificabilidade e
+                    interoperabilidade entre versões podem
+                    ser descartadas.</para>
+            </section>
+        </section>
+        <section id="cid5">
+            <title>Design Arquitetural para Qualidade de
+                Software</title>
+            <para id="id230087">A principal responsabilidade
+                do arquiteto é a de conceber o design que
+                possibilite ao software ser construído
+                de modo que satisfaça os requisitos de
+                qualidade impostos pelos stakeholders.
+                Para que o processo de design arquitetural
+                tenha sucesso, é essencial que o arquiteto
+                conheça os objetivos do software, ou seja,
+                conheça os requisitos funcionais e de qualidade
+                para os quais ele está projetando. Além
+                disso, ele deve conhecer tanto as técnicas
+                e práticas de design arquitetural que podem
+                ajudá-lo na concepção da arquitetura. Ele
+                deve também conhecer como documentar a
+                arquitetura projetada, uma vez que é preciso
+                comunicá-la aos outros membros do time
+                de desenvolvimento.</para>
+            <para id="id230103">Neste capítulo, nós aprendemos
+                sobre os objetivos que devem ser alcançados
+                pelo design da arquitetura e esperamos
+                que o leitor agora seja capaz de:</para>
+            <list id="id230109" display="block" list-type="bulleted">
+                <item id="uid133">Identificar o que são
+                    atributos de qualidade e qual é sua
+                    influência na arquitetura de software;
+                    </item>
+                <item id="uid134">Relacionar atributos
+                    de qualidade com algumas decisões arquiteturais
+                    que os proporcionam; e </item>
+                <item id="uid135">Entender quais os atributos
+                    de qualidade se relacionam e como eles
+                    se relacionam. </item>
+            </list>
+            <para id="id230153">A seguir, apresentaremos
+                técnicas e práticas de design que o arquiteto
+                deve conhecer para projetar sistemas com
+                determinados atributos de qualidade. Por
+                fim, no capítulo seguinte, apresentaremos
+                como documentar o design arquitetural.</para>
+        </section>
+        <section id="id230162">
+            <title>Referências</title>
+            <section id="id230168">
+                <title>Requisitos funcionais e não-funcionais</title>
+                <para id="id230176">Os livros 
+                    <emphasis effect="italics">Software
+                        Engineering</emphasis>
+                    <link target-id="bid8"/>, de Sommerville,
+                    <emphasis effect="italics">Requirements
+                        Engineering: Processes and Techniques</emphasis>
+                    <link target-id="bid9"/>, de Sommerville
+                    e Kotonya, 
+                    <emphasis effect="italics">Software
+                        Engineering: A Practitioner's Approach</emphasis>
+                    <link target-id="bid10"/>, de Pressman,
+                    dedicam alguns capítulos a este assunto.
+                    No entanto, o foco desses livros é
+                    no papel dos requisitos de software
+                    no processo de desenvolvimento. Já
+                    o artigo 
+                    <emphasis effect="italics">Defining
+                        Non-Functional Requirements</emphasis>
+                    <link target-id="bid11"/>, de Malan
+                    e Bredemeyer, é mais voltado à influência
+                    dos requisitos na arquitetura.
+                </para>
+            </section>
+            <section id="id230229">
+                <title>Diferenças entre requisitos funcionais
+                    e não-funcionais</title>
+                <para id="id230237">A discussão sobre a
+                    inexistência de diferenças práticas
+                    entre requisitos funcionais e não-funcionais
+                    pode ser encontrada tanto no livro
+                    <emphasis effect="italics">Requirements
+                        Engineering: Processes and Techniques</emphasis>
+                    <link target-id="bid9"/>, de Sommerville
+                    e Kotonya, quanto no artigo 
+                    <emphasis effect="italics">Distinctions
+                        Between Requirements Specification
+                        and Design of Real-Time Systems</emphasis>
+                    <link target-id="bid12"/>, de Kalinsky
+                    e Ready, e no livro 
+                    <emphasis effect="italics">Real-Time
+                        Systems: Design Principles for
+                        Distributed Embedded Applications</emphasis>
+                    <link target-id="bid13"/>, de Kopetz.
+                    Essa discussão se mostra bastante presente
+                    em sistemas de tempo-real porque os
+                    requisitos de desempenho definem a
+                    funcionalidade desses sistemas – ao
+                    contrário do que encontramos, por exemplo,
+                    em sistemas de informação, onde os
+                    requisitos de desempenho são considerados
+                    requisitos não-funcionais.
+                </para>
+            </section>
+            <section id="id230284">
+                <title>Atributos de Qualidade</title>
+                <para id="id230291">Bass 
+                    <emphasis effect="italics">et al</emphasis>,
+                    no livro 
+                    <emphasis effect="italics">Software
+                        Architecture in Practice</emphasis>
+                    <link target-id="bid14"/>, mostra o
+                    papel dos atributos de qualidade na
+                    arquitetura de software. Além dele,
+                    Gorton faz uma pequena introdução a
+                    este assunto ao tratar do estudo de
+                    caso presente em 
+                    <emphasis effect="italics">Essential
+                        Software Architecture</emphasis>
+                    <link target-id="bid15"/>. Os livros
+                    <emphasis effect="italics">Software
+                        Systems Architecture</emphasis>
+                    <link target-id="bid16"/>, de Rozanski
+                    e Woods, e 
+                    <emphasis effect="italics">Code Complete</emphasis>
+                    <link target-id="bid17"/>, de Steve
+                    McConnell, também dedicam seções aos
+                    atributos de qualidade de software,
+                    sendo o primeiro em nível de design
+                    arquitetural e o segundo em nível de
+                    design detalhado.
+                </para>
+            </section>
+            <section id="id230351">
+                <title>Atributos de Negócio</title>
+                <para id="id230358">Por fim, podemos encontrar
+                    informações sobre atributos de qualidade
+                    de negócio nos livros 
+                    <emphasis effect="italics">Software
+                        Architecture in Practice</emphasis>
+                    <link target-id="bid14"/>, de Bass
+                    <emphasis effect="italics">et al</emphasis>,
+                    e 
+                    <emphasis effect="italics">Beyond Software
+                        Architecture</emphasis>
+                    <link target-id="bid18"/>, de Hohmann.
+                </para>
+            </section>
+        </section>
+    </content>
+    <bib:file>
+        <bib:entry id="bid4">
+            <bib:inproceedings>
+                <!--required fields-->
+                <bib:author>Boehm, B. W. and Brown, J.
+                    R. and Lipow, M.</bib:author>
+                <bib:title>Quantitative Evaluation of Software
+                    Quality</bib:title>
+                <bib:booktitle>International Conference
+                    on Software Engineering</bib:booktitle>
+                <bib:year>1976</bib:year>
+                <!--optional fields-->
+                <bib:editor/>
+                <bib:number/>
+                <bib:series/>
+                <bib:pages>592–605</bib:pages>
+                <bib:address>San Francisco</bib:address>
+                <bib:month/>
+                <bib:organization/>
+                <bib:publisher>IEEE Computer Society Press</bib:publisher>
+                <bib:note/>
+            </bib:inproceedings>
+        </bib:entry>
+        <bib:entry id="bid14">
+            <bib:book>
+                <!--required fields-->
+                <bib:author>Bass, Len and Clements, Paul
+                    and Kazman, Rick</bib:author>
+                <bib:title>Software Architecture in Practice</bib:title>
+                <bib:publisher>Addison-Wesley Professional</bib:publisher>
+                <bib:year>2003</bib:year>
+                <!--optional fields-->
+                <bib:volume/>
+                <bib:series/>
+                <bib:address/>
+                <bib:edition>2</bib:edition>
+                <bib:month>April</bib:month>
+                <bib:note/>
+            </bib:book>
+        </bib:entry>
+        <bib:entry id="bid1">
+            <bib:book>
+                <!--required fields-->
+                <bib:author>Defense Information Systems
+                    Agency, </bib:author>
+                <bib:title>Department of Defense Joint
+                    Technical Architecture, Version 6.0.
+                    Volume 2</bib:title>
+                <bib:publisher>U.S. Department of Defense</bib:publisher>
+                <bib:year>2003</bib:year>
+                <!--optional fields-->
+                <bib:volume/>
+                <bib:series/>
+                <bib:address/>
+                <bib:edition/>
+                <bib:month>October</bib:month>
+                <bib:note/>
+            </bib:book>
+        </bib:entry>
+        <bib:entry id="bid0">
+            <bib:book>
+                <!--required fields-->
+                <bib:author>Dibona, Chris and Stone, Mark
+                    and Cooper, Danese</bib:author>
+                <bib:title>Open Sources 2.0 : The Continuing
+                    Evolution</bib:title>
+                <bib:publisher>O'Reilly Media, Inc.</bib:publisher>
+                <bib:year>2005</bib:year>
+                <!--optional fields-->
+                <bib:volume/>
+                <bib:series/>
+                <bib:address/>
+                <bib:edition/>
+                <bib:month>October</bib:month>
+                <bib:note/>
+            </bib:book>
+        </bib:entry>
+        <bib:entry id="bid15">
+            <bib:book>
+                <!--required fields-->
+                <bib:author>Gorton, Ian</bib:author>
+                <bib:title>Essential Software Architecture</bib:title>
+                <bib:publisher>Springer</bib:publisher>
+                <bib:year>2006</bib:year>
+                <!--optional fields-->
+                <bib:volume/>
+                <bib:series/>
+                <bib:address/>
+                <bib:edition/>
+                <bib:month>June</bib:month>
+                <bib:note/>
+            </bib:book>
+        </bib:entry>
+        <bib:entry id="bid18">
+            <bib:book>
+                <!--required fields-->
+                <bib:author>Hohmann, Luke</bib:author>
+                <bib:title>Beyond Software Architecture:
+                    Creating and Sustaining Winning Solutions</bib:title>
+                <bib:publisher>Addison-Wesley Professional</bib:publisher>
+                <bib:year>2003</bib:year>
+                <!--optional fields-->
+                <bib:volume/>
+                <bib:series/>
+                <bib:address/>
+                <bib:edition/>
+                <bib:month>January</bib:month>
+                <bib:note/>
+            </bib:book>
+        </bib:entry>
+        <bib:entry id="bid7">
+            <bib:book>
+                <!--required fields-->
+                <bib:author>IEEE Std 754-2008, </bib:author>
+                <bib:title>IEEE Standard for Floating-Point
+                    Arithmetic</bib:title>
+                <bib:publisher>Institute of Electrical
+                    and Electronics Engineers</bib:publisher>
+                <bib:year>2008</bib:year>
+                <!--optional fields-->
+                <bib:volume/>
+                <bib:series/>
+                <bib:address/>
+                <bib:edition/>
+                <bib:month/>
+                <bib:note/>
+            </bib:book>
+        </bib:entry>
+        <bib:entry id="bid6">
+            <bib:book>
+                <!--required fields-->
+                <bib:author>ISO 9126-1:2001, </bib:author>
+                <bib:title>Software engineering – Product
+                    quality – Part 1: Quality model</bib:title>
+                <bib:publisher>International Organization
+                    for Standardization, Geneva, Switzerland</bib:publisher>
+                <bib:year/>
+                <!--optional fields-->
+                <bib:volume/>
+                <bib:series/>
+                <bib:address/>
+                <bib:edition/>
+                <bib:month/>
+                <bib:note/>
+            </bib:book>
+        </bib:entry>
+        <bib:entry id="bid13">
+            <bib:book>
+                <!--required fields-->
+                <bib:author>Kopetz, Hermann</bib:author>
+                <bib:title>Real-Time Systems: Design Principles
+                    for Distributed Embedded Applications</bib:title>
+                <bib:publisher>Springer</bib:publisher>
+                <bib:year>1997</bib:year>
+                <!--optional fields-->
+                <bib:volume/>
+                <bib:series/>
+                <bib:address/>
+                <bib:edition/>
+                <bib:month>April</bib:month>
+                <bib:note/>
+            </bib:book>
+        </bib:entry>
+        <bib:entry id="bid12">
+            <bib:inproceedings>
+                <!--required fields-->
+                <bib:author>Kalinsky, D. and Ready, J.</bib:author>
+                <bib:title>Distinctions Between Requirements
+                    Specification and Design of Real-Time
+                    Systems</bib:title>
+                <bib:booktitle>Software Engineering for
+                    Real Time Systems, 1989., Second International
+                    Conference on</bib:booktitle>
+                <bib:year>1989</bib:year>
+                <!--optional fields-->
+                <bib:editor/>
+                <bib:number/>
+                <bib:series/>
+                <bib:pages>26–30</bib:pages>
+                <bib:address/>
+                <bib:month/>
+                <bib:organization/>
+                <bib:publisher/>
+                <bib:note/>
+            </bib:inproceedings>
+        </bib:entry>
+        <bib:entry id="bid9">
+            <bib:book>
+                <!--required fields-->
+                <bib:author>Kotonya, Gerald and Sommerville,
+                    Ian</bib:author>
+                <bib:title>Requirements Engineering: Processes
+                    and Techniques</bib:title>
+                <bib:publisher>John Wiley &amp; Sons</bib:publisher>
+                <bib:year>1998</bib:year>
+                <!--optional fields-->
+                <bib:volume/>
+                <bib:series/>
+                <bib:address/>
+                <bib:edition/>
+                <bib:month>September</bib:month>
+                <bib:note/>
+            </bib:book>
+        </bib:entry>
+        <bib:entry id="bid3">
+            <bib:article>
+                <!--required fields-->
+                <bib:author>Little, John D. C.</bib:author>
+                <bib:title>A Proof for the Queuing Formula:
+                    L= 
+                    <!--no math allowed in bib entries-->
+                    W
+                </bib:title>
+                <bib:journal>Operations Research</bib:journal>
+                <bib:year>1961</bib:year>
+                <!--optional fields-->
+                <bib:volume>9</bib:volume>
+                <bib:number>3</bib:number>
+                <bib:pages>383–387</bib:pages>
+                <bib:month/>
+                <bib:note/>
+            </bib:article>
+        </bib:entry>
+        <bib:entry id="bid17">
+            <bib:book>
+                <!--required fields-->
+                <bib:author>McConnell, Steve , </bib:author>
+                <bib:title>Code Complete</bib:title>
+                <bib:publisher>Microsoft Press</bib:publisher>
+                <bib:year>2004</bib:year>
+                <!--optional fields-->
+                <bib:volume/>
+                <bib:series/>
+                <bib:address/>
+                <bib:edition>2</bib:edition>
+                <bib:month>June</bib:month>
+                <bib:note/>
+            </bib:book>
+        </bib:entry>
+        <bib:entry id="bid5">
+            <bib:book>
+                <!--required fields-->
+                <bib:author>McCall, J. , </bib:author>
+                <bib:title>Factors in Software Quality:
+                    Preliminary Handbook on Software Quality
+                    for an Acquisiton Manager</bib:title>
+                <bib:publisher>General Electric</bib:publisher>
+                <bib:year>1977</bib:year>
+                <!--optional fields-->
+                <bib:volume>1-3</bib:volume>
+                <bib:series/>
+                <bib:address/>
+                <bib:edition/>
+                <bib:month>November</bib:month>
+                <bib:note/>
+            </bib:book>
+        </bib:entry>
+        <bib:entry id="bid11">
+            <bib:misc>
+                <!--required fields-->
+                <!--optional fields-->
+                <bib:author>Malan, Ruth and Bredemeyer,
+                    Dana</bib:author>
+                <bib:title>Defining Non-Functional Requirements</bib:title>
+                <bib:howpublished>Online at: http://www.bredemeyer.com/pdf_files/NonFunctReq.PDF</bib:howpublished>
+                <bib:month>August</bib:month>
+                <bib:year>2001</bib:year>
+                <bib:note/>
+            </bib:misc>
+        </bib:entry>
+        <bib:entry id="bid2">
+            <bib:misc>
+                <!--required fields-->
+                <!--optional fields-->
+                <bib:author>Powell, Andy and Nilsson, Mikael
+                    and Naeve, Ambjörn and Johnston, Pete
+                    and Baker, Thomas</bib:author>
+                <bib:title>DCMI Abstract Model</bib:title>
+                <bib:howpublished>DCMI Recommendation</bib:howpublished>
+                <bib:month>June</bib:month>
+                <bib:year>2007</bib:year>
+                <bib:note/>
+            </bib:misc>
+        </bib:entry>
+        <bib:entry id="bid10">
+            <bib:book>
+                <!--required fields-->
+                <bib:author>Pressman, Roger</bib:author>
+                <bib:title>Software Engineering: A Practitioner's
+                    Approach</bib:title>
+                <bib:publisher>McGraw-Hill Science/Engineering/Math</bib:publisher>
+                <bib:year>2004</bib:year>
+                <!--optional fields-->
+                <bib:volume/>
+                <bib:series/>
+                <bib:address/>
+                <bib:edition>6</bib:edition>
+                <bib:month>April</bib:month>
+                <bib:note/>
+            </bib:book>
+        </bib:entry>
+        <bib:entry id="bid16">
+            <bib:book>
+                <!--required fields-->
+                <bib:author>Rozanski, Nick and Woods, Eóin</bib:author>
+                <bib:title>Software Systems Architecture:
+                    Working With Stakeholders Using Viewpoints
+                    and Perspectives</bib:title>
+                <bib:publisher>Addison-Wesley Professional</bib:publisher>
+                <bib:year>2005</bib:year>
+                <!--optional fields-->
+                <bib:volume/>
+                <bib:series/>
+                <bib:address/>
+                <bib:edition/>
+                <bib:month>April</bib:month>
+                <bib:note/>
+            </bib:book>
+        </bib:entry>
+        <bib:entry id="bid8">
+            <bib:book>
+                <!--required fields-->
+                <bib:author>Sommerville, Ian</bib:author>
+                <bib:title>Software Engineering</bib:title>
+                <bib:publisher>Addison Wesley</bib:publisher>
+                <bib:year>2006</bib:year>
+                <!--optional fields-->
+                <bib:volume/>
+                <bib:series/>
+                <bib:address/>
+                <bib:edition>8</bib:edition>
+                <bib:month>June</bib:month>
+                <bib:note/>
+            </bib:book>
+        </bib:entry>
+    </bib:file>
+</document>

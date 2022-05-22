@@ -1,0 +1,616 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:md="http://cnx.rice.edu/mdml">
+    <title>Estudo de Caso: SASF</title>
+    <metadata>
+  <md:content-id>m23389</md:content-id><md:title>Estudo de Caso: SASF</md:title>
+  <md:abstract>Sistema para estudo e motivação para o aprendizado de Arquitetura de Software</md:abstract>
+  <md:uuid>c856e51e-5220-4144-ba64-bbef1646173a</md:uuid>
+</metadata>
+
+<content>
+        <para id="id325654">Como muitos dos problemas relacionados
+            à Arquitetura de Software só fazem sentido
+            em sistemas complexos, é difícil ilustrar diversos
+            aspectos dessa área apenas com exemplos simples.
+            Assim, resolvemos adotar uma abordagem de ensino
+            orientada a estudo de caso. Essa abordagem
+            consiste em fazer com que o leitor acompanhe
+            a construção da arquitetura de um sistema e,
+            dessa maneira, possa observar na prática o
+            uso do conhecimento encontrado no livro.</para>
+        <para id="id325663">Ao longo deste livro, o leitor
+            acompanhará um processo de design e documentação
+            de uma arquitetura que possibilitará a implementação
+            de um sistema complexo. Assim, será durante
+            esse processo que serão apresentados os conceitos
+            e generalizações essenciais para se formar
+            um bom arquiteto de software. Também faremos
+            uso de outros exemplos capazes de expor aspectos
+            complementares ao estudo de caso.</para>
+        <section id="cid1">
+            <title>Apresentação do estudo de caso</title>
+            <para id="id325684">O sistema através do qual
+                acompanharemos o processo de design e documentação
+                de sua arquitetura será o Sistema de Aluguel
+                e 
+                <emphasis effect="italics">Streaming</emphasis>
+                de Filmes (SASF). O SASF é um sistema de
+                informação com dois grandes objetivos:
+                (1) gerenciar o processo de locação via
+                <emphasis effect="italics">web</emphasis>
+                de vídeos e (2) proporcionar infraestrutura
+                de software para realizar 
+                <emphasis effect="italics">streaming</emphasis>
+                de vídeos também via web. O SASF é um sistema
+                fictício baseado no Netflix e na iTunes
+                Store.
+            </para>
+            <para id="id325710">Esse sistema foi escolhido
+                como estudo de caso por ter funcionalidades
+                e atributos de qualidade não-triviais,
+                além de pertencer a um domínio de problema
+                mais comum do que os encontrados na literatura.
+                A não-trivialidade de suas funções e de
+                seus atributos de qualidade servirá como
+                alvo para mostrar a necessidade e aplicação
+                dos conhecimentos em Arquitetura de Software.
+                Já em relação à abordagem de um domínio
+                de problema relativamente simples, essa
+                foi um dos fatores-chave para a escrita
+                deste livro. Nos livros essenciais sobre
+                Arquitetura de Software, é bastante comum
+                acompanharmos estudos de caso de projetos
+                militares ou da indústria aeroespacial.
+                Esses projetos são riquíssimos em detalhes
+                e se encaixam perfeitamente à necessidade
+                de se estudar e aplicar os conhecimentos
+                em Arquitetura de Software. Por outro lado,
+                esses mesmos projetos, apesar de bem próximos
+                à realidade dos autores dos livros em questão,
+                são distantes da realidade do leitor ainda
+                inexperiente em Engenharia de Software.
+                Sendo assim, ao encontrar estudos de caso
+                ou exemplos num domínio de problema pouco
+                familiar, o leitor não se sente motivado
+                e encontra dificuldades para concretizar
+                os conceitos expostos ao longo dos livros.</para>
+        </section>
+        <section id="cid2">
+            <title>Funcionalidades do SASF</title>
+            <para id="id325741">Com a popularização da
+                Internet, muitas empresas perceberam a
+                oportunidade de, através dela, alcançar
+                novos consumidores. O SASF se alinha com
+                essa idéia. Seu papel é permitir que um
+                cliente alugue um filme
+                <footnote id="uid1">Ao longo deste livro,
+                    apesar de usarmos a palavra “filme”,
+                    estamos nos referindo a vídeos em geral,
+                    podendo ser também, seriados de TV,
+                    musicais, ou mesmo documentários, além
+                    de filmes. Assim, os termos “filme”
+                    e “vídeo” são intercambiáveis a não
+                    ser que sejamos explícitos quanto suas
+                    diferenças.</footnote> usando apenas
+                um navegador, sem estar presente fisicamente
+                numa loja. Dessa maneira, esse sistema
+                aumenta o número dos clientes em potencial
+                da empresa, uma vez que eles deixam de
+                ser apenas aqueles capazes de chegar à
+                loja física para ser todos aqueles presentes
+                na área de alcance da infraestrutura usada
+                para entrega e coleta de vídeos.
+            </para>
+            <section id="uid2">
+                <title>Locação e 
+                    <emphasis effect="italics">Streaming</emphasis>
+                    de vídeo
+                </title>
+                <para id="id325782">O principal usuário
+                    do SASF é aquele interessado em alugar
+                    vídeos. Esse usuário, após se cadastrar
+                    no sistema, será capaz de (
+                    <link target-id="uid5"/>):
+                </para>
+                <list id="id325792" display="block" list-type="bulleted">
+                    <item id="uid3">enfileirar filmes que
+                        serão enviados para sua casa obedecendo
+                        à política de sua assinatura, </item>
+                    <item id="uid4">assistir a um filme
+                        via 
+                        <emphasis effect="italics">streaming</emphasis>
+                        em algum dispositivo ou aplicativo
+                        integrado e autorizado a comunicar
+                        com o SASF. 
+                    </item>
+                </list>
+                <figure id="uid5">
+                    <label>Figura</label>
+                    <media id="uid5_media" alt="">
+                        <image mime-type="image/png" src="../../media/sasf.png" id="uid5_onlineimage" width="500">
+                            <!-- NOTE: attribute width
+                            changes image size online (pixels).
+                            original width is 842. -->
+                        </image>
+                        <image for="pdf" mime-type="application/postscript" src="../../media/sasf.eps" id="uid5_printimage" print-width="9cm"/>
+                    </media>
+                    <caption>Principais funcionalidades
+                        do SASF: 
+                        <emphasis effect="italics">streaming</emphasis>
+                        de vídeo para diversos dispositivos
+                        e gerência do aluguel de filmes
+                    </caption>
+                </figure>
+                <para id="id325846">As opções de assinatura
+                    disponíveis a esse tipo de usuário
+                    variam em relação ao número máximo
+                    de vídeos que ele pode ter em sua casa
+                    ao mesmo tempo. Dessa maneira, dado
+                    que o usuário enfileirou inicialmente
+                    10 vídeos para aluguel, se sua assinatura
+                    permitir apenas um vídeo em sua casa
+                    por vez, o segundo vídeo da fila só
+                    será enviado para sua casa quando o
+                    primeiro for devolvido. De maneira
+                    análoga, se a assinatura for de três
+                    vídeos por vez, inicialmente, os três
+                    vídeos serão enviados e, à medida que
+                    eles forem devolvidos, a fila será
+                    esvaziada até que não sobre nenhum
+                    vídeo na fila ou o usuário esteja com
+                    três vídeos em sua casa. Vale notar
+                    que a fila pode crescer indefinidamente.</para>
+                <para id="id325862">Os vídeos são entregues
+                    na casa do usuário pelos correios e
+                    ele pode ficar com as mídias o tempo
+                    que quiser. Não há qualquer tipo de
+                    penalidade se o usuário ficar com elas
+                    por muito tempo. O único incentivo
+                    para que ele as devolva é que ele não
+                    receberá mais vídeos de sua fila até
+                    que alguma mídia seja devolvida. Portanto,
+                    a devolução também é realizada pelos
+                    correios: o usuário envia as mídias
+                    para a empresa e, assim, possibilita
+                    que mais vídeos lhe sejam enviados.</para>
+                <para id="id325870">Uma outra opção é assistir
+                    aos filmes através da Internet, via
+                    <emphasis effect="italics">streaming</emphasis>
+                    de vídeo usando algum aparelho ou aplicativo
+                    que saiba conversar com o SASF. Assim,
+                    não é preciso esperar pela entrega
+                    da mídia pelos correios, nem esperar
+                    o tempo de 
+                    <emphasis effect="italics">download</emphasis>
+                    do vídeo para que se comece a assisti-lo,
+                    já que a idéia do 
+                    <emphasis effect="italics">streaming</emphasis>
+                    é consumir o arquivo de mídia transmitido
+                    à medida que ele é recebido. Isto,
+                    ainda por cima, economiza tempo do
+                    usuário, uma vez que ele pode assistir
+                    ao filme 
+                    <emphasis effect="italics">agora</emphasis>,
+                    e diminui gastos com logística por
+                    parte da empresa, uma vez que não precisa
+                    usar os serviços de uma transportadora
+                    para realizar a entrega do filme, além
+                    de economizar com compra e manutenção
+                    de mídias.
+                </para>
+                <para id="id325906">Ao prover um serviço
+                    de 
+                    <emphasis effect="italics">streaming</emphasis>
+                    para os usuários, surgem novas preocupações.
+                    O 
+                    <emphasis effect="italics">streaming</emphasis>
+                    de vídeo realizado pelo SASF pode ter
+                    vários destinos: uma aplicação cliente
+                    executando no navegador do usuário
+                    ou como aplicativo 
+                    <emphasis effect="italics">stand-alone</emphasis>
+                    disponibilizado para 
+                    <emphasis effect="italics">download</emphasis>
+                    no próprio site, decodificadores de
+                    TV por assinatura, celulares 3G ou
+                    outros sistemas capazes de receber
+                    dados e que sejam integrados ao SASF.
+                    Por existirem tipos diferentes de destinos,
+                    abrangendo de celulares a computadores
+                    pessoais, a qualidade do vídeo transmitido
+                    deve ser também variável de acordo
+                    com as características de cada destino.
+                    Assim, se o vídeo deve ser assistido
+                    num celular que tem resolução máxima
+                    de 240x320, não há a necessidade desse
+                    ser transmitido em 
+                    <emphasis effect="italics">1080p</emphasis>
+                    <footnote id="uid6">Também chamado
+                        de 
+                        <emphasis effect="italics">full
+                            HD</emphasis>. Sua resolução
+                        é de 1920x1080 pixels.
+                    </footnote>.
+                </para>
+                <para id="id325958">Um vídeo numa resolução
+                    muito maior do que a capacidade de
+                    exibição do aparelho gera dois problemas.
+                    O primeiro é a necessidade de redimensionar
+                    o vídeo para que caiba na tela, processo
+                    que pode ser bastante custoso em termos
+                    de processamento. Já o segundo é o
+                    gasto desnecessário de banda passante,
+                    uma vez que, neste caso, um vídeo na
+                    resolução suficiente seria menor, significando
+                    menos 
+                    <emphasis effect="italics">bytes</emphasis>
+                    sendo transferidos. Por outro lado,
+                    se o destino for um decodificador de
+                    TV por assinatura, como a tela de aparelhos
+                    de televisão tem em geral uma resolução
+                    maior que telas de celulares, espera-se
+                    que o vídeo transmitido seja em maior
+                    resolução. Por isso, são disponibilizadas
+                    e sugeridas diversas opções de 
+                    <emphasis effect="italics">streaming</emphasis>
+                    para o usuário, cada uma se adequará
+                    melhor ao destino em questão.
+                </para>
+            </section>
+            <section id="uid7">
+                <title>Busca, feedback e sugestões ao usuário</title>
+                <para id="id325994">O SASF é capaz de disponibilizar
+                    centenas de milhares de títulos de
+                    vídeos aos seus usuários. Em meio a
+                    um acervo deste tamanho, surge a necessidade
+                    de facilitar a vida do usuário para
+                    que esse encontre o que deseja. Assim,
+                    operações de busca por título (original
+                    e traduzido), atores, diretores, gênero,
+                    ano de lançamento ou palavras-chave
+                    são requisitos básicos de um sistema
+                    deste porte.</para>
+                <para id="id326002">Além da funcionalidade
+                    básica de busca, o SASF sugere filmes
+                    ao usuário de acordo com seu histórico
+                    de aluguéis. Esse mecanismo de sugestão
+                    é alimentado não só pelos filmes assistidos,
+                    mas também pela nota dada pelo usuário
+                    após tê-lo assistido. Essa nota serve
+                    para refinar o motor de sugestão e
+                    fazer com que as sugestões automáticas
+                    se tornem mais precisas ao longo do
+                    tempo.</para>
+                <para id="id326011">Outra forma de sugestão
+                    é a manual, onde um usuário sugere
+                    um ou mais filmes a um amigo. Já que
+                    um membro pode receber sugestões de
+                    outros cadastrados, ele deixa de estar
+                    isolado dentro do sistema para estar
+                    agrupado com amigos de fora do SASF.
+                    Isto adiciona aspectos sociais ao sistema,
+                    além de melhorar a precisão das sugestões,
+                    uma vez que amigos terão, em potencial,
+                    mais informações sobre o usuário que
+                    o motor de sugestão. Isto também servirá
+                    para estimular mais aluguéis a fim
+                    da realização de sessões de cinema
+                    junto aos amigos.</para>
+                <para id="id326019">Para prover ainda mais
+                    informações que ajudem na escolha de
+                    um vídeo, o SASF também disponibiliza
+                    trailers e críticas sobre os filmes.
+                    Os trailers são disponibilizados pelas
+                    distribuidoras assim como sua sinopse,
+                    fotos de divulgação e documentários
+                    “por trás das câmeras”, todos disponíveis
+                    para 
+                    <emphasis effect="italics">streaming</emphasis>
+                    ou leitura independente da assinatura
+                    do usuário. Já as críticas podem ser
+                    feitas por qualquer um cadastrado no
+                    sistema.
+                </para>
+            </section>
+            <section id="uid8">
+                <title>Disponibilização de filmes e administração
+                    do sistema</title>
+                <para id="id326046">Devemos nos lembrar
+                    que os usuários que alugam filmes não
+                    são os únicos do sistema. Há outros
+                    dois tipos de usuários essenciais para
+                    que o sistema tenha sucesso, são eles
+                    o Administrador e o Distribuidor de
+                    Filmes. Observe o diagrama apresentado
+                    na Figura 
+                    <link target-id="uid9"/>.
+                </para>
+                <figure id="uid9">
+                    <label>Figura</label>
+                    <media id="uid9_media" alt="">
+                        <image mime-type="image/png" src="../../media/sasf-usecases.png" id="uid9_onlineimage" width="500">
+                            <!-- NOTE: attribute width
+                            changes image size online (pixels).
+                            original width is 595. -->
+                        </image>
+                        <image for="pdf" mime-type="application/postscript" src="../../media/sasf-usecases.eps" id="uid9_printimage" print-width="10cm">
+                            <!--NOTE: attribute width changes
+                            image size in printed PDF (if
+                            specified in .tex file)-->
+                        </image>
+                    </media>
+                    <caption>Diagrama de Casos de Uso simplificado
+                        do SASF</caption>
+                </figure>
+                <para id="id326074">O primeiro é o usuário
+                    que representa uma empresa distribuidora
+                    de filmes. A visão do sistema para
+                    esse tipo de usuário é diferente da
+                    visão do usuário comum. A empresa ganha
+                    dinheiro disponibilizando e incentivando
+                    o aluguel de filmes. Dessa maneira,
+                    como há o interesse em saber como anda
+                    a popularidade de seus vídeos, o SASF
+                    provê para a empresa dados sobre aluguéis
+                    ao longo de intervalos de tempo customizáveis.
+                    Esses dados contêm informações sobre
+                    o perfil de cada usuário que alugou
+                    o filme (por exemplo, idade declarada
+                    ou sexo), mas não contêm sua identidade,
+                    por motivos de respeito à privacidade.
+                    Esses dados servirão para a distribuidora
+                    poder direcionar a divulgação de seus
+                    filmes ou verificar se a campanha de
+                    publicidade foi efetiva. Para cada
+                    filme disponibilizado pela distribuidora,
+                    é possível também adicionar sinopses,
+                    trailers, fotos de divulgação e documentários
+                    “por trás das câmeras” para tornar
+                    o filme mais atrativo. Toda essa informação
+                    extra se torna disponível a todos os
+                    usuários do SASF.</para>
+                <para id="id326077">Já o segundo tipo de
+                    usuário essencial do SASF é o administrador
+                    do sistema. Ele está interessado em
+                    manter o SASF funcionando. Sua interação
+                    com o sistema consiste em obter informações
+                    de monitoração (por exemplo, quantos
+                    servidores estão no ar, quantas requisições
+                    por segundo cada um está recebendo
+                    no momento, o histórico de falhas de
+                    comunicação entre servidores, etc.)
+                    e, de acordo com estas informações,
+                    atuar sobre ele. As ações do administrador
+                    sobre o SASF englobam: iniciar novos
+                    servidores para atender uma demanda
+                    crescente ou isolá-los para manutenção,
+                    habilitar ou desabilitar funcionalidades
+                    por excesso de carga ou fins de teste
+                    e habilitar ou desabilitar contas de
+                    usuários mal-comportados.</para>
+            </section>
+        </section>
+        <section id="cid3">
+            <title>Capacidades do SASF</title>
+            <para id="id325604">O desafio de desenvolver
+                o SASF não está na implementação de suas
+                funcionalidades, uma vez que o desafio
+                de desenvolver um sistema de locadora é
+                pequeno e que também já existem vários
+                aplicativos que realizam 
+                <emphasis effect="italics">streaming</emphasis>
+                de vídeos. O desafio está no atendimento
+                aos seus atributos de qualidade. Dessa
+                maneira, para passarmos uma noção do tamanho
+                do problema, citaremos alguns números presentes
+                no SASF.
+            </para>
+            <section id="uid10">
+                <title>Números de usuários e aspectos de
+                    segurança</title>
+                <para id="id325628">O SASF é desenvolvido
+                    para atender a 10 milhões de usuários
+                    cadastrados, onde cerca de 20% desses
+                    usam o sistema a cada dia. Como há
+                    diversos tipos de usuários e cada um
+                    possui informações confidenciais (por
+                    exemplo, o número de cartão de crédito
+                    usado para pagar a assinatura), cada
+                    usuário deve ser autenticado para acessá-las.
+                    A autenticação servirá também para
+                    identificar o tipo de usuário e, assim,
+                    autorizá-lo a realizar apenas o conjunto
+                    de funções permitidas à sua categoria.</para>
+            </section>
+            <section id="uid11">
+                <title>Tamanho do inventário e número de
+                    operações por dia</title>
+                <para id="id326229">A principal função
+                    do sistema é executada pelo usuário
+                    que aluga filmes, e consiste na colocação
+                    de filmes em sua respectiva fila de
+                    aluguéis. O acervo do SASF é estimado
+                    em cem mil vídeos cadastrados, que
+                    estão disponíveis em 55 milhões de
+                    DVDs. Deste acervo, são realizados
+                    dois milhões de aluguéis por dia. Isto
+                    significa dois milhões de execuções
+                    por dia do processo de aluguel: (1)
+                    relacionar o vídeo a ser enviado ao
+                    específico usuário, (2) descobrir de
+                    qual ponto distribuidor será enviada
+                    a mídia a partir do endereço do usuário,
+                    (3) notificar a responsabilidade de
+                    entrega da mídia ao ponto distribuidor
+                    responsável, e (4) realizar o envio
+                    pelos correios da mídia em questão.</para>
+            </section>
+            <section id="uid12">
+                <title>Transmissões simultâneas</title>
+                <para id="id326254">Já o 
+                    <emphasis effect="italics">streaming</emphasis>
+                    de vídeos é realizado numa taxa menor
+                    que o aluguel, o que não representa
+                    uma baixa taxa de execuções. São cerca
+                    de 150 mil vídeos transmitidos por
+                    dia, ou seja, um 
+                    <emphasis effect="italics">stream</emphasis>
+                    de vídeo sendo iniciado a cada 0.57
+                    segundos caso a as transmissões fossem
+                    distribuídas uniformemente ao longo
+                    do dia. Se considerarmos que a transmissão
+                    de um vídeo dura em média uma hora,
+                    isso gera uma carga de pouco mais de
+                    seis mil usuários simultâneos fazendo
+                    <emphasis effect="italics">streaming</emphasis>.
+                    O acervo de vídeos para 
+                    <emphasis effect="italics">stream</emphasis>
+                    é menor que o de mídias convencionais,
+                    apenas 20 mil títulos, mas cada título
+                    está disponível em alguns níveis de
+                    resolução e diversas taxas de amostragem.
+                    Os títulos, inicialmente, estão disponíveis
+                    em dois níveis de resolução: 
+                    <emphasis effect="italics">Standard
+                        Definition</emphasis> (SD) e 
+                    <emphasis effect="italics">High Definition</emphasis>
+                    (HD), ou 720x480 e 1280x720 pixels
+                    respectivamente para vídeos em 
+                    <emphasis effect="italics">widescreen</emphasis>
+                    (16:9). É importante notar que 
+                    <emphasis effect="italics">widescreen</emphasis>
+                    não é o único aspecto de vídeo presente
+                    no sistema, uma vez que outros podem
+                    estar presentes, como por exemplo,
+                    o aspecto 
+                    <emphasis effect="italics">Cinemascope</emphasis>
+                    (2.35:1). Dessa maneira, o fator determinante
+                    para qualidade do vídeo é sua taxa
+                    de amostragem. Inicialmente, o SASF
+                    provê três taxas de amostragem para
+                    vídeos em SD e duas para vídeos em
+                    HD. Assim, o usuário receberá o vídeo
+                    com aquela que melhor se adequar à
+                    sua conexão de internet. A 
+                    <link target-id="uid13"/> mostra uma tabela com o
+                    tamanho esperado para vídeos de duas
+                    horas de duração em cada taxa de amostragem
+                    disponível. A partir dessa tabela,
+                    podemos também ter uma noção do espaço
+                    gasto no armazenamento de mídias.
+                </para>
+                <figure id="uid13">
+                    <label>Figura</label>
+                    <media id="uid13_media" alt="">
+                        <image mime-type="image/png" src="../../media/tabela1.png" id="uid13_onlineimage" width="500">
+                            <!-- NOTE: attribute width
+                            changes image size online (pixels).
+                            original width is 1441. -->
+                        </image>
+                        <image for="pdf" mime-type="application/postscript" src="../../media/tabela1.eps" id="uid13_printimage" print-width="8cm">
+                            <!--NOTE: attribute width changes
+                            image size in printed PDF (if
+                            specified in .tex file)-->
+                        </image>
+                    </media>
+                    <caption>Tamanhos e amostragens disponíveis</caption>
+                </figure>
+            </section>
+            <section id="uid14">
+                <title>Adição de informações sobre os vídeos</title>
+                <para id="id326358">Os usuários do SASF
+                    também podem avaliar e escrever críticas
+                    sobre os vídeos que já assistiram.
+                    Essa avaliação é feita através de uma
+                    nota dada ao filme. O SASF possui cerca
+                    de dois bilhões de notas já registradas,
+                    que podem ou não vir acompanhadas de
+                    uma crítica escrita sobre o filme.
+                    Essas críticas, inicialmente, não possuem
+                    limites de tamanho. Vale também observar
+                    que apenas cerca de 5% da notas são
+                    acompanhadas de críticas escritas,
+                    mas que totalizam cerca de 100 milhões
+                    de textos sobre filmes do acervo do
+                    SASF.</para>
+                <para id="id326367">Note que avaliação
+                    e críticas não são as únicas informações
+                    relacionadas a cada vídeo do acervo.
+                    Cada vídeo possui ainda fotos de divulgação,
+                    trailers, sinopse, lista de usuários
+                    que já alugaram e lista de usuários
+                    com o filme na fila de locação. Essas
+                    informações devem sempre estar disponíveis
+                    ao usuário para ajudá-lo na decisão
+                    de alugar um filme.</para>
+            </section>
+            <section id="uid15">
+                <title>Tempos de resposta</title>
+                <para id="id326385">Por fim, observamos
+                    que o SASF disponibiliza um grande
+                    volume de informação, seja para o usuário
+                    comum, através do 
+                    <emphasis effect="italics">streaming</emphasis>,
+                    da busca ou do aluguel de filmes, seja
+                    para o administrador, através da monitoração
+                    e ação sobre o estado do sistema. Esse
+                    volume de informação aumenta naturalmente
+                    o tempo de resposta dessas operações.
+                    Por outro lado, tempos de resposta
+                    acima do especificado ou acima da expectativa
+                    do usuário contribuem para o fracasso
+                    de um sistema. Assim, as diversas operações
+                    providas pelo SASF devem ser realizadas
+                    na velocidade da satisfação de cada
+                    usuário em questão.
+                </para>
+                <para id="id326401">No SASF, diferentes
+                    classes de usuários têm diferentes
+                    operações à sua disposição. Além disso,
+                    essas operações são bastante diferentes
+                    entre classes de usuários. Por exemplo,
+                    um administrador pode obter a velocidade
+                    média da realização da operação de
+                    aluguel executada por dado conjunto
+                    de servidores ao longo da última semana,
+                    enquanto um usuário quer apenas ver
+                    as cinco últimas críticas a determinado
+                    filme. Por isso, todas as operações
+                    disponíveis não terão o mesmo tempo
+                    de resposta, mas tempos diferentes
+                    de acordo com o volume de dados que
+                    opera, sua criticidade, e o 
+                    <emphasis effect="italics">stakeholder</emphasis>
+                    envolvido. Isto será observado ao longo
+                    do livro, além de estar descrito de
+                    forma mais estruturada no Apêndice
+                    XXX, que apresenta fragmentos do documento
+                    de requisitos do SASF. 
+                    <footnote id="uid16">Ainda falta escrever
+                        o apêndice, mostrando requisitos
+                        funcionais não-funcionais numerados,
+                        para tracking, e com valores quantificáveis.</footnote>
+                </para>
+            </section>
+        </section>
+        <section id="cid4">
+            <title>Resumo</title>
+            <para id="id326439">Como podemos observar através
+                de suas capacidades, o SASF se mostra um
+                estudo de caso significativo devido à sua
+                relativa complexidade de seus requisitos.
+                Esses requisitos dificultam ou mesmo impossibilitam
+                seu desenvolvimento se não houver um mínimo
+                de planejamento para atendê-los ou ainda
+                caso não seja adotada uma abordagem, digamos,
+                <emphasis effect="italics">arquitetural</emphasis>
+                para atendê-los.
+            </para>
+            <para id="id326453">Nos próximos capítulos
+                estudaremos os aspectos fundamentais para
+                que possamos desenvolver um sistema como
+                o SASF e, passo a passo, mostraremos como
+                esses aspectos se aplicam ao estudo de
+                caso em questão.</para>
+        </section>
+    </content>
+</document>

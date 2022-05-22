@@ -1,0 +1,623 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:md="http://cnx.rice.edu/mdml" xmlns:bib="http://bibtexml.sf.net/">
+  <title>Introdução a Design de Software</title>
+  <metadata>
+  <md:content-id>m17494</md:content-id><md:title>Introdução a Design de Software</md:title>
+  <md:abstract>Este capítulo é uma introdução a design de software. Seu objetivo é fundamentar o conhecimento do estudante de forma a fazê-lo reconhecer a relevância e os benefícios proporcionados pelo design de software.</md:abstract>
+  <md:uuid>1f0a6acf-1afa-4385-b2f4-950db5eb24c2</md:uuid>
+</metadata>
+
+<content>
+    <para id="id2258257">Antes de começarmos o estudo e a prática na disciplina de Arquitetura de Software, é apropriado sabermos onde ela se encaixa ao longo do Corpo de Conhecimento em Engenharia de Software (<emphasis effect="italics">Software Engineering Body of Knowledge</emphasis>). Design arquitetural, ou projeto da arquitetura, é a primeira das duas atividades que compõem a área de conhecimento de Design de Software (<emphasis effect="italics">Software Design Knowledge Area</emphasis>). A atividade seguinte é design detalhado. Por ser uma atividade de Design, o design arquitetural se faz por uma mistura de conhecimento e criatividade. Como criatividade é algo que se obtém através da experiência, não é nosso objetivo ensiná-la. No entanto, buscamos ao longo desse livro transmitir o <emphasis effect="italics">conhecimento</emphasis> necessário para a criação de arquiteturas de sistemas de software.</para>
+    <para id="id2258949">Certamente, uma base conceitual em Design de Software é necessária para uma melhor compreensão desse livro. Dessa maneira, este capítulo procura fundamentar o conhecimento do leitor nessa área, de forma que sua importância e seus benefícios proporcionados sejam reconhecidos. Em outras palavras, esse capítulo fará com que o leitor seja capaz de:</para>
+    <list id="id2258964" display="block" list-type="bulleted">
+      <item id="uid1">Reconhecer os conceitos básicos de design de software
+</item>
+      <item id="uid2">Descrever problemas de design através de seus elementos fundamentais
+</item>
+      <item id="uid3">Identificar princípios de design de software e explicar seus benefícios
+</item>
+      <item id="uid4">Diferenciar design de baixo-nível (detalhado) de design de alto-nível (arquitetural) e saber quando aplicar cada um
+</item>
+    </list>
+    <section id="cid1">
+      <title>Design de Software</title>
+      <para id="id2259033">A relevância de se projetar – ou fazer design de – software pode ser explicada pela complexidade crescente dos sistemas de software. Devido a essa complexidade, o risco de se construir um sistema que não alcance seus objetivos é eminente.</para>
+      <para id="id2259044">Para evitar tal risco, a prática comum de qualquer engenharia para se construir um artefato complexo, um sistema de software complexo em nosso caso, é construí-lo de acordo com um plano. Em outras palavras, <emphasis effect="italics">projetar</emphasis> o sistema antes de construí-lo. O resultado dessa atividade, também conhecida como de atividade de design, é também chamado de design. O design facilita duas atividades que são essenciais no ciclo de vida de um sistema de software. Primeiro, ele possibilita a avaliação do sistema contra seus objetivos antes mesmo dele ser construído. Dessa maneira, ele aumenta a confiança de que o sistema construído, se de acordo com o design, alcançará seus objetivos. Obviamente, uma vez que nesse ponto há apenas o modelo do sistema – o design –, a avaliação não será completa, mas isso também não quer dizer que ela não ofereça resultados importantes que levem ao sucesso do sistema. Já a outra atividade beneficiada pelo design é a própria construção do sistema, dado que ele também serve como guia para a implementação do software.</para>
+      <para id="id2259089">A seguir, mostramos um exemplo de quando o design permite a avaliação do software. O <link target-id="eip-806"/> mostra parte da primeira versão do design de um sistema distribuído de armazenamento, o <emphasis effect="italics">HBase</emphasis><footnote id="uid5"><emphasis effect="italics">Apache HBase</emphasis>: urlhttp://hbase.org</footnote> e, através de uma breve avaliação desse design, observamos uma grave limitação do software.</para>
+      
+      
+      <example id="eip-806"><label>Exemplo</label><para id="eip-id6217021">
+O HBase é um sistema de armazenamento distribuído. Isso quer dizer que os dados submetidos a ele não serão guardados em um único servidor, mas em vários. De forma simplificada, o design do HBase define dois tipos de entidades no sistema: o <emphasis effect="italics">data node</emphasis>, que é o subsistema que armazena os dados, e o <emphasis effect="italics">master node</emphasis>, que é o subsistema que sabe em quais <emphasis effect="italics">data nodes</emphasis> os dados foram escritos e podem ser recuperados. Na primeira versão do HBase, só existia um <emphasis effect="italics">master node</emphasis> que coordenava todos os <emphasis effect="italics">data nodes</emphasis>. Assim, para recuperar ou escrever dados no HBase, um cliente realizava os seguintes passos: primeiro, o cliente se comunicava com o <emphasis effect="italics">master node</emphasis> a fim de conseguir, de acordo com uma chave<footnote id="uid76766">Os dados são inseridos no HBase na forma (chave,valor).</footnote>, o endereço do <emphasis effect="italics">data node</emphasis> em que ele pode realizar a operação desejada (leitura ou escrita). Em seguida, o <emphasis effect="italics">master node</emphasis>, que coordena onde os dados devem ficar, retorna o endereço do <emphasis effect="italics">data node</emphasis> que deveria possuir dados para referida chave. A partir daí, o cliente, já com o endereço, se comunicava diretamente com o <emphasis effect="italics">data node</emphasis> e realizava a operação desejada (escrita ou leitura).
+</para>
+<para id="eip-id4362418">
+Se avaliarmos este design, podemos perceber duas características do HBase. A primeira, é que ele não adota o uso de um cliente magro (<emphasis effect="italics">thin client</emphasis>). Com isso, a implementação e configuração do cliente se torna mais complexa, uma vez que o cliente precisa conhecer o protocolo de escrita e leitura do HBase, além de precisar acessar tanto o <emphasis effect="italics">master node</emphasis> quanto os <emphasis effect="italics">data nodes</emphasis>. Isto dificulta o desenvolvimento, a operabilidade e a eventual evolução do software, uma vez que mudanças no protocolo afetam clientes e servidores. Além disso, por possuir apenas um <emphasis effect="italics">master node</emphasis>, a funcionalidade do HBase fica condicionada à sua disponibilidade. Afinal, se o <emphasis effect="italics">master node</emphasis> estiver inacessível, nenhum cliente poderá ler ou escrever no sistema, o que o torna um ponto único de falhas.
+</para></example>
+      <section id="uid7">
+        <title>O que é Design de Software</title>
+        <para id="id2259287">Para definir design de software, alguns autores o fazem em dois sentidos distintos: quando design de software é usado como <emphasis effect="italics">produto</emphasis> e quando é usado como <emphasis effect="italics">processo</emphasis>. Quando usado no primeiro sentido, o termo <emphasis effect="italics">design de software</emphasis> indica o produto que emerge do ato (ou processo) de projetar um sistema de software e sendo assim algum documento ou outro tipo de representação do desejo do projetista (ou designer). Esse produto é o resultado das decisões do designer para formar uma abstração do sistema que é desejado no mundo real. Existem diversas formas de como representar essa abstração do sistema. Podemos citar, por exemplo, desenhos usando caixas e setas, textos descritivo, ou ainda uso de linguagens ou ferramentas criadas para este propósito, como linguagens de modelagem de software, redes de petri, pseudocódigo, etc. Já quando o termo é usado no segundo sentido, <emphasis effect="italics">fazer design</emphasis> indica o processo seguido para se obter um projeto. Esse é um processo que faz parte do processo de desenvolvimento e que é orientado aos objetivos do software. Ele deve ser realizado tendo em mente os diversos <emphasis effect="italics">stakeholders</emphasis> do sistema e deve ser fundamentado no conhecimento do designer sobre o domínio do problema.</para>
+        <para id="id2259348">A partir da visão de design como artefato, podemos observar que ele deve descrever diversos aspectos do software para que, assim, possibilite sua construção. Entre estes aspectos, estão:</para>
+        <list id="id2259358" display="block" list-type="bulleted">
+          <item id="uid8">a estrutura estática do sistema, incluindo a hierarquia de seus módulos;
+</item>
+          <item id="uid9">a descrição dos dados a serem usados;
+</item>
+          <item id="uid10">os algoritmos a serem usados;
+</item>
+          <item id="uid11">o empacotamento do sistema, em termos de como os módulos estão agrupados em unidades de compilação; e
+</item>
+          <item id="uid12">as interações entre módulos, incluindo as regras de como elas devem acontecer e porque elas acontecem.
+</item>
+        </list>
+        <para id="id2259431">Podemos perceber que, apesar dos exemplos anteriores descreverem apenas <emphasis effect="italics">parte</emphasis> do design de dois sistemas, eles mostram boa parte dos aspectos que esperamos no design de um software.</para>
+        <para id="id2259442">Por fim, citamos uma definição de design que engloba todos estes aspectos:</para>
+        <para id="id2259448"><definition id="eip-id22902855"><label>Definição</label><term>design de software</term>
+<meaning id="eip-id18932265">
+<quote id="eip-id24040290">"É tanto o processo de definição da arquitetura, módulos, interfaces e outras características de um sistema quanto o resultado desse processo.”<footnote id="uid14">Freny Katki <emphasis effect="italics">et al</emphasis>, editors. <emphasis effect="italics">IEEE
+Standard Computer Dictionary: Compilation of IEEE Standard Computer Glossaries</emphasis>. Institute of Electrical and Electronics Engineers Inc., 1991.</footnote></quote>
+</meaning>
+</definition></para>
+      </section>
+      <section id="uid15">
+        <title>Características de Design de Software</title>
+        <para id="id2259498">Projetar os diversos aspectos de um sistema de software é um processo trabalhoso. No entanto, pode proporcionar diversos benefícios.</para>
+        <para id="id2259506"><emphasis effect="italics">Design de software permite avaliação prévia.</emphasis> Como desenvolver software custa tempo e dinheiro, não parece sensato alguém investir seus recursos no desenvolvimento de um sistema que não soluciona os problemas propostos pelos interessados. Dessa maneira, a avaliação prévia do sistema se torna imprescindível para garantir que ele alcance os objetivos desses interessados. Como o design descreve diversos aspectos que estarão presentes no sistema quando construído, ele permite esse tipo de avaliação. Além disso, fazer o design de um sistema é, geralmente, mais barato que construí-lo.</para>
+        <example id="eip-760"><label>Exemplo</label><para id="eip-138">Considerando o sistema do <link target-id="eip-806"/> e que um de seus objetivos fosse a alta disponibilidade, podemos avaliar que design apresentado não seria a melhor solução para o objetivo proposto. Isso ocorre porque seu design possui um ponto único de falhas, que é uma característica indesejável para sistemas que buscam alta disponibilidade. Note ainda que não foi necessário ter o <emphasis effect="italics">HBase</emphasis> desenvolvido para percebermos esse problema (na época em que implementava tal design, ele possuía cerca de cem mil linhas de código e alguns anos de desenvolvimento e, portanto, não sendo um software de desenvolvimento trivial), bastou apenas estudarmos seu design.
+</para>
+</example>
+        <para id="id2259562"><emphasis effect="italics">Design de software estimula modelagem.</emphasis> Ao modelar um sistema, o designer se concentra no domínio do problema, ignorando temporariamente detalhes menos significativos para se alcançar a solução. Isso facilita na separação da complexidade essencial da complexidade acidental do problema. E, como já dito por Fred Brooks em <emphasis effect="italics">The Mythical Man-Month</emphasis>, essa separação é benéfica para a qualidade final do sistema projetado.</para>
+        <para id="id2259587"><emphasis effect="italics">Design de software envolve planejamento.</emphasis> Uma vez que o design serve de guia para a construção do sistema, o designer deve então antecipar o que será necessário para tanto. Esse planejamento ajuda na estimativa dos diversos custos envolvidos no desenvolvimento do sistema. Entre esses custos, podemos citar:</para>
+        <list id="id2259605" display="block" list-type="bulleted">
+          <item id="uid16">Quanto tempo durará todo o desenvolvimento,
+</item>
+          <item id="uid17">Quantos desenvolvedores serão necessários para o módulo A,
+</item>
+          <item id="uid18">Se comprado, quanto custará o módulo B, e se for implementado,
+</item>
+          <item id="uid19">Ou qual será o custo total do desenvolvimento do sistema.
+</item>
+        </list>
+        <para id="id2259662"><emphasis effect="italics">Design de software facilita a comunicação</emphasis>, pois contém conhecimento sobre o sistema que pode ser gravado, transmitido e discutido entre os interessados. Um caso bem comum é o de apresentar um sistema a novos membros de um time de desenvolvimento. Informações valiosas, como por exemplo, quais os principais módulos e seus diversos comportamentos, lhes podem ser passadas através do design do sistema antes de mostrá-los o código-fonte. Dessa maneira, essas informações de alto nível de abstração ajudarão a situá-los no código posteriormente. No entanto, o design não serve apenas para os desenvolvedores. Um usuário do sistema pode procurar no design informações de um nível ainda maior de abstração, como quais funções o sistema é capaz de realizar, ou qual o desempenho delas.</para>
+        <para id="id2259697">Por outro lado, design de software também demanda algumas observações importantes.</para>
+        <para id="id2259703"><emphasis effect="italics">O problema a ser resolvido pode não permanecer o mesmo durante todo o processo de design.</emphasis> Ao passo que o design é implementado, o cliente, que é o stakeholder interessado em que o software construído solucione um problema em particular, (1) pode mudar de ideia quanto à natureza do problema; (2) pode ter descrito o problema incorretamente; ou ainda (3) pode decidir que o problema mudou ou mesmo que já fora resolvido enquanto o design é feito. Essas possibilidades não devem ser ignoradas durante o desenvolvimento, uma vez que elas podem ocasionar em perda de tempo e dinheiro durante a fase de design ou ainda ocasionar o fracasso no atendimento das necessidades do cliente.</para>
+        <para id="id2259725"><emphasis effect="italics">Há diferenças entre o design e o sistema construído a partir dele.</emphasis> O design de um software é apenas um modelo, do qual o nível de detalhes pode não ser adequado para certos tipos de avaliação. Por sinal, avaliar um design insuficientemente detalhado pode levar a resultados errôneos e, consequentemente, há sistemas que não resolvem os problemas da forma esperada. Isso é comum acontecer, por exemplo, quando por erro do projetista, detalhes importantes para a avaliação não são incluídos no design. O exemplo a seguir ilustra um caso em que a avaliação inadequada resultou em um produto com problemas.</para>
+        <example id="eip-269"><label>Exemplo</label><para id="eip-669">
+Um caso conhecido de produto com falhas por avaliação inadequada é o caso de um sistema de controle de armamento para cruzadores da marinha norte-americana que foi desenvolvido pela empresa Aegis. Depois de desenvolvido, o sistema de armamento foi instalado no cruzador U.S.S. Ticonderoga para o primeiro teste operacional. No entanto, os resultados do teste demonstraram que o sistema errava 63% dos alvos escolhidos devido a falhas no software. Posteriormente, foi descoberto que a avaliação e os testes do software de controle foram realizados numa escala menor do que as condições reais e que, além disso, os casos de teste incluíam uma quantidade de alvos menor que a esperada em campo de batalha.<footnote id="uid2323220">Uma descrição mais completa deste caso pode ser encontrada no artigo <emphasis effect="italics">The Development of Software for Ballistic-Missile Defense</emphasis><link target-id="bid0"/>, de Lin.</footnote></para>
+</example>
+        <para id="id2259785">Por mais eficaz que um design seja, sua implementação pode não ser. O fato de haver um design bem elaborado para um determinado software não garante que na fase de implementação os desenvolvedores sigam as regras previamente especificadas e que o código produzido reflita fielmente o que foi especificado. Isto é certamente um grande problema na construção de sistemas de software, pois pode acarretar a construção de um produto que não era o esperado, e até mesmo levar ao insucesso em sua construção. Felizmente, na Engenharia de Software existem dois mecanismos que visam diminuir as divergências entre design e implementação. O primeiro mecanismo diz respeito à verificação de software, isto é, verificar se o software foi construído corretamente, se atendeu às especificações do design. Por outro lado, a validação de software está ligada à satisfação do cliente diante do produto, isto é, se o software construído é o desejado, se atende aos requisitos do cliente.</para>
+      </section>
+    </section>
+    <section id="cid2">
+      <title>Elementos do processo de design de software</title>
+      <para id="id2258825">O processo de design pode ser descrito como o processo de escolha da representação de uma solução a partir de várias alternativas, dadas as restrições que um conjunto de objetivos envolve. Esse processo, ilustrado na <link target-id="uid21"/>, pode ser dividido em duas fases: <emphasis effect="italics">diversificação</emphasis> e <emphasis effect="italics">convergência</emphasis>.</para>
+      <figure id="uid21"><label>Figura</label><media id="uid21_media" alt="">
+          <image mime-type="image/png" src="../../media/designprocess.png" id="uid21_onlineimage" width="800"><!-- NOTE: attribute width changes image size online (pixels). original width is 1124. --></image>
+          <image for="pdf" mime-type="application/postscript" src="../../media/designprocess.eps" id="uid21_printimage" print-width="14cm">
+<!--NOTE: attribute width changes image size in printed PDF (if specified in .tex file)-->
+          </image>
+        </media>
+        
+      <caption>Ilustração do processo de design</caption></figure>
+      <para id="id2258867">É durante a fase de diversificação em que as <emphasis effect="italics">alternativas</emphasis> são geradas. Por alternativas, não nos referimos necessariamente a documentos descrevendo uma possível solução, mas também a ideias de solução. Essas alternativas são soluções em potencial e são geradas/obtidas a partir do conhecimento e da experiência do designer. Já na fase de convergência, o designer escolhe a alternativa (ou combinação de alternativas) que satisfaz(em) aos <emphasis effect="italics">objetivos</emphasis> esperados. A escolha comporá a <emphasis effect="italics">solução</emphasis> que se sujeitará às <emphasis effect="italics">restrições</emphasis> impostas pelo domínio do problema. Essa solução será descrita por meio de alguma <emphasis effect="italics">representação</emphasis> e essa representação escolhida deve estar de acordo com seus propósitos: descrever a solução e permitir a construção do sistema que melhor alcança os objetivos esperados.</para>
+      <para id="id2258921">Os elementos enfatizados no parágrafo anterior (objetivos, restrições, alternativas, representações e soluções), juntos, definem um arcabouço conceitual que nos ajuda a entender o processo de design de software.</para>
+      <section id="uid23">
+        <title>Objetivos</title>
+        <para id="id2260096">O processo de design tem início com uma <emphasis effect="italics">necessidade</emphasis>. Se algo é projetado, e consequentemente construído, é porque o produto proveniente do projeto suprirá essa necessidade. Em Engenharia de Software, a necessidade parte do cliente que especifica quais suas necessidades<footnote id="uid25">Vale lembrar que há transitividade nas necessidades do cliente. Um exemplo de quando acontece é quando clientes e usuários do sistema são entidades distintas. Então, entre as necessidades do cliente estarão: as necessidades do usuário devem ser atendidas. E, portanto, o software terá que atender terá que satisfazer também aos objetivos do usuário, além dos objetivos do cliente.</footnote> e, portanto, quais os objetivos a serem atingidos pelo sistema de software a ser projetado. Assim, o objetivo do processo de design pode ser definido como:</para>
+        <para id="id2260136"><definition id="eip-id1951018"><label>Definição</label><term>objetivo de design</term><meaning id="eip-id1168820238759">
+Aquilo que se pretende alcançar para resolver as necessidades do cliente.
+</meaning></definition></para>
+        <para id="id2260143">Em design de software, objetivos também são chamados de requisitos. O design se preocupa com dois tipos de requisitos: requisitos funcionais e requisitos não-funcionais. Um requisito funcional especifica a funcionalidade que um sistema exibe.</para>
+        <para id="id2260155"><definition id="eip-id3622985"><label>Definição</label><term>requisito funcional</term><meaning id="eip-id9579400">
+
+É a declaração de uma função ou comportamento providos pelo sistema sob condições específicas.
+</meaning></definition></para>
+        <para id="id2260169">Em outras palavras, <emphasis effect="italics">o que</emphasis> o sistema faz para alcançar às expectativas do cliente. Por exemplo, um requisito funcional de um programa de ordenação de números pode ser descrita como sua capacidade de ordenar inteiros; ou, se estamos falando de um sistema de informação de uma locadora de filmes em DVD, temos como requisitos funcionais, entre outros, a capacidade de buscar um filme usando palavras-chave, a capacidade de realizar o aluguel de um ou vários DVDs, ou a capacidade de realizar a devolução de um ou vários DVDs.</para>
+        <para id="id2260189">Por outro lado, um requisito não-funcional, especifica propriedades ou características que o sistema de software deve exibir diferentes dos requisitos funcionais. Os requisitos não-funcionais são atendidos pelos atributos de qualidade do software.</para>
+        <para id="id2260201"><definition id="eip-id1170314943177"><label>Definição</label><term>requisito não-funcional</term><meaning id="eip-id7712019">
+É a descrição de propriedades, características ou restrições que o software apresenta exibidas por suas funcionalidades.
+</meaning></definition></para>
+        <para id="id2260210">Em outras palavras, é basicamente <emphasis effect="italics">como</emphasis> o sistema funcionará. De volta ao exemplo do programa de ordenar números, um requisito não-funcional que podemos mencionar é o tempo de execução da função de ordenação do sistema (por exemplo, é aceitável que o tempo de execução do algoritmo de ordenação tenha uma taxa de crescimento de <m:math overflow="scroll"><m:mrow><m:mi>O</m:mi><m:mo>(</m:mo><m:mi>n</m:mi><m:mo form="prefix">log</m:mo><m:mi>n</m:mi><m:mo>)</m:mo></m:mrow></m:math>, onde <emphasis effect="italics">n</emphasis> é a quantidade de elementos a serem ordenados). Já no sistema da locadora de filmes, um exemplo de atributo de qualidade é a exposição de algumas de suas funcionalidades via internet (e.g., busca e reserva de filmes através de um <emphasis effect="italics">site</emphasis> disponibilizado pelo sistema).</para>
+        <para id="id2260284">Como os requisitos não-funcionais e os atributos de qualidade têm um papel importante na arquitetura do software, nós dedicaremos um capítulo a eles, onde serão descritos, categorizados e exemplificados em detalhes, além de serem relacionados aos stakeholders que os demandam.</para>
+      </section>
+      <section id="uid28">
+        <title>Restrições</title>
+        <para id="id2260307">O produto de design deve ser viável. Dessa maneira, restrições são as regras, requisitos, relações, convenções, ou princípios que definem o contexto do processo de design, de forma que seu produto seja viável.</para>
+        <para id="id2260317"><definition id="eip-id2594432"><label>Definição</label><term>restrição de design</term><meaning id="eip-id3250742">
+A regra, requisito, relação, convenção, ou princípio que define o texto do processo de design.
+</meaning></definition></para>
+        <para id="id2260331">É importante saber que restrições são diretamente relacionadas a objetivos e que, em alguns casos, eles são até intercambiáveis. No entanto, uma vez que não são apenas os objetivos que guiam o processo de design, é necessário diferenciar objetivos de restrições. Em outras palavras, um sistema pode ter objetivos claros, mas seu design ou algumas alternativas dele podem ser inviáveis devido às restrições.</para>
+        <para id="id2260348">A seguir, apresentamos dois exemplos que nos ajudarão a entender o papel das restrições no design. No primeiro exemplo, apesar do sistema ter um objetivo claro, seu design não é viável devido a uma restrição.</para>
+        
+        <example id="eip-189"><label>Exemplo</label><para id="eip-id1172389301384">
+Consideremos que um cliente deseje um sistema com um único objetivo: o sistema deve decidir se um programa, cuja descrição é informada como parâmetro de entrada, termina sua execução ou não.
+</para><para id="eip-id1172392790819">
+Um designer inexperiente pode até tentar encontrar alguma alternativa de design para esse requisito – mas podemos ter certeza que a tentativa será em vão. Como é bem conhecido, há uma restrição teórica em Ciência da Computação, conhecida como <emphasis effect="italics">o problema da parada</emphasis>, que impede o desenvolvimento de um programa capaz de alcançar o objetivo proposto. Como essa restrição impede a criação de qualquer alternativa de design que satisfaça o cliente, podemos observar que um design pode ser se tornar inviável mesmo que seus objetivos sejam bem claros.
+</para></example>
+        <para id="id2260397">Já no segundo exemplo, o sistema também tem um objetivo claro. No entanto, uma restrição torna uma possibilidade de design inviável.</para>
+        
+        
+        <example id="eip-0"><label>Exemplo</label><para id="eip-id17139190">
+Um cliente especifica o seguinte requisito para seu sistema de software: ele deve ser capaz de ler dados de um leitor de cartões de um modelo específico.
+No entanto, ao estudar o requisito e, consequentemente, o leitor de cartões, o designer encontra a seguinte restrição. O fabricante do leitor em questão não o fornece <emphasis effect="italics">driver</emphasis> necessário para um dos sistemas operacionais em que o sistema deve executar.</para><para id="eip-id16715358">
+Podemos observar que, se não fosse por essa restrição, o design para o módulo de entrada de dados do sistema seria simples: apenas dependeria do <emphasis effect="italics">driver</emphasis> do leitor para obter os dados dos cartões.
+No entanto, agora o designer terá que criar um design alternativo para contornar a restrição encontrada. Para isso, podemos citar algumas possibilidades desse design. Uma possibilidade seria emular um dos sistemas operacionais suportados quando o software estivesse executando num ambiente não suportado. Isso significa que seria necessária a criação de uma camada de abstração entre o <emphasis effect="italics">driver</emphasis> do leitor e o sistema operacional onde o software está executando, onde essa camada representaria o ambiente operacional suportado. Essa camada de abstração, então, seria implementada pelo sistema nativo ou por um emulado, caso o nativo fosse o não-suportado pelo <emphasis effect="italics">driver</emphasis>. Outra possibilidade de design seria o projeto e implementação do próprio <emphasis effect="italics">driver</emphasis> para o ambiente não-suportado.</para></example>
+        
+      </section>
+      <section id="uid30">
+        <title>Alternativas</title>
+        <para id="id2260503">Uma alternativa de design é uma possibilidade de solução. Uma vez que problemas de design geralmente possuem múltiplas soluções possíveis, é comum que sejam geradas mais de uma alternativa para a solução de um único problema. Note que o designer não necessariamente documentará todas as possibilidades de solução, mas, ao menos, considerará algumas delas para eleição de uma solução, mesmo que informalmente.</para>
+        <para id="id2260517"><definition id="eip-id1163913661912"><label>Definição</label><term>alternativa de design</term><meaning id="eip-id1163913131695">
+Uma possibilidade de solução representada em nível de conhecimento.
+</meaning></definition></para>
+        <para id="id2260524">O que precisamos observar é que o designer deve realizar duas tarefas essenciais após entender os objetivos e restrições envolvidos no problema de design: gerar alternativas de design e eleger a solução do problema dentre as alternativas geradas.</para>
+        <para id="id2260536">A geração de alternativas é o real desafio para os designers. Diferente dos problemas de decisão, onde alternativas são <emphasis effect="italics">conhecidas ou buscadas</emphasis> através de métodos conhecidos, problemas de design pedem a <emphasis effect="italics">criação</emphasis> de alternativas. O processo de criação deve ser controlado por princípios de design, pela experiência e imaginação do designer e deve ser guiado pelos objetivos do produto impostos pelos stakeholders. Alguns princípios essenciais de design serão apresentados ainda neste capítulo.</para>
+        <para id="id2260567">Já a eleição da solução é simplesmente a escolha de uma dentre as alternativas geradas, desde que essa sirva para a solução do problema. A escolha da solução deve ser realizada baseada em avaliações e experiência.</para>
+        
+        <example id="eip-903"><label>Exemplo</label><para id="eip-id7936057">
+De volta ao nosso programa de ordenação, consideremos apenas
+uma de suas características: o algoritmo de ordenação a ser usado. Vamos
+observar quantas alternativas um designer poderia gerar só a partir dessa
+característica.</para><para id="eip-id7936053">
+
+Uma rápida pesquisa na internet retorna nove algoritmos que respeitam o requisito imposto anteriormente de crescimento do tempo de execução (<m:math overflow="scroll"><m:mrow><m:mi>O</m:mi><m:mo>(</m:mo><m:mi>n</m:mi><m:mo form="prefix">log</m:mo><m:mi>n</m:mi><m:mo>)</m:mo></m:mrow></m:math>): <emphasis effect="italics">binary tree sort</emphasis>, <emphasis effect="italics">heapsort</emphasis>, <emphasis effect="italics">in-place merge sort</emphasis>, <emphasis effect="italics">introsort</emphasis>, <emphasis effect="italics">library sort</emphasis>, <emphasis effect="italics">merge sort</emphasis>, <emphasis effect="italics">quicksort</emphasis>, <emphasis effect="italics">smoothsort</emphasis>, <emphasis effect="italics">strand sort</emphasis>. Assim, esses nove algoritmos poderiam ser transformados em nove alternativas de design. Adicionalmente, um designer mais experiente em ordenação saberia que os dados de entrada podem definir o desempenho real do algoritmo, uma vez que uma das alternativas pode ter um ótimo desempenho para uma determinada entrada, enquanto outra alternativa, ainda que respeitando o mesmo desempenho assintótico <m:math overflow="scroll"><m:mrow><m:mi>O</m:mi><m:mo>(</m:mo><m:mi>n</m:mi><m:mo form="prefix">log</m:mo><m:mi>n</m:mi><m:mo>)</m:mo></m:mrow></m:math>, pode ter um péssimo desempenho real para a mesma entrada. Neste caso, ele definiria que dois algoritmos serão usados no design, de forma que, de acordo com os dados de entrada, o algoritmo de melhor desempenho real para esses dados seja escolhido em tempo de execução. Assim, ainda mais alternativas de design são geradas.
+</para></example>
+        <para id="id2260716">Devemos observar que a geração de alternativas poderia continuar indefinidamente caso o designer considerasse outros aspectos do problema. Dessa maneira, <emphasis effect="italics">quando parar</emphasis> a geração de alternativas é um problema também a ser resolvido pelo designer, uma vez que problemas de design geralmente têm um número infinito de soluções em potencial. Essa noção de quando parar o processo de geração de alternativas, certamente, é adquirida com a experiência.</para>
+      </section>
+      <section id="uid32">
+        <title>Representações</title>
+        <para id="id2260754">A representação é a linguagem do design. Apesar do real produto do processo de design ser a representação de um sistema de software que possibilita sua construção, descrever o sistema não é o único propósito das representações. A representação também facilita o próprio processo de design, uma vez que ajuda na comunicação dos interessados e também serve como registro das decisões tomadas.</para>
+        <para id="id2260767"><definition id="eip-id1164780912859"><label>Definição</label><term>representação de design</term><meaning id="eip-id1164784315469">
+A linguagem do processo de design que representa o produto do design para sua construção e também dá suporte ao processo de design como um todo.
+</meaning></definition></para>
+        <para id="id2260778">A representação facilita a comunicação porque torna as alternativas em produtos manipuláveis, que podem ser comunicados, avaliados, e discutidos, não só por seus criadores, mas também por outros interessados.</para>
+        <para id="id2260788">É importante observar que existem diversas dimensões a serem representadas numa única alternativa de design. Essas dimensões abrangem comportamento, estrutura, relações entre entidades lógicas e entidades físicas, entre outros. Essas dimensões são normalmente descritas em diferentes tipos de representações, que, em outro momento, serão chamadas de <emphasis effect="italics">visões</emphasis>.</para>
+        <para id="id2260809">Para exemplificar representações de design, apresentaremos duas dimensões derivadas do nosso programa-exemplo de ordenação usando duas representações diferentes. A primeira representação, ilustrada pela <link target-id="uid35"/>, mostra a dimensão estrutural de uma alternativa de design usando UML<footnote id="uid34"><emphasis effect="italics">Unified Modeling Language</emphasis> (UML)</footnote>. Examinando essa representação, podemos observar alguns aspectos da solução: como a solução foi decomposta em classes funcionais, como as diversas classes da estrutura se relacionam entre si, ou até em que pontos poderíamos reusar pedaços de software prontos para a construção, desde que implementem as mesmas interfaces descritas na representação. No entanto, devemos também observar que essa representação não é autocontida, uma vez que é necessário conhecimento em UML para entendê-la completamente.</para>
+        <figure id="uid35"><label>Figura</label><media id="uid35_media" alt="">
+            <image mime-type="image/png" src="../../media/sorting-class-diagram.png" id="uid35_onlineimage" width="800"><!-- NOTE: attribute width changes image size online (pixels). original width is 1490. --></image>
+            <image for="pdf" mime-type="application/postscript" src="../../media/sorting-class-diagram.eps" id="uid35_printimage" print-width="14cm">
+<!--NOTE: attribute width changes image size in printed PDF (if specified in .tex file)-->
+            </image>
+          </media>
+          
+        <caption>Representação estrutural do programa de ordenação</caption></figure>
+        <para id="id2260868">Já a segunda representação, <link target-id="uid36"/>, mostra parte do comportamento do programa de ordenação com alto nível de detalhe. Apesar de não conseguirmos extrair dessa representação a mesma informação apresentada na figura anterior, essa nos permite analisar seu comportamento assintótico em relação ao crescimento do tamanho dos dados de entrada. Além disso, podemos também analisar o espaço consumido na execução do algoritmo.</para>
+        <figure id="uid36"><label>Figura</label>
+          <media id="uid36_media" alt="">
+            <image mime-type="image/png" src="../../media/sort-pseudocode.png" id="uid36_onlineimage" width="692"><!-- NOTE: attribute width changes image size online (pixels). original width is 692. --></image>
+            <image for="pdf" mime-type="application/postscript" src="../../media/sort-pseudocode.eps" id="uid36_printimage"/>
+          </media>
+          <caption>Pseudocódigo do Merge sort</caption>
+        </figure>
+        <para id="id2260903">Ambas as representações mostram aspectos importantes do design de um software. No entanto, os stakeholders envolvidos no seu desenvolvimento podem ainda estar interessados em outros aspectos além da estrutura ou análise assintótica do algoritmo. Por isso, outras representações podem ainda ser necessárias para mostrar outros aspectos do sistema, e é papel do processo de design – e do designer – provê-las.</para>
+        <para id="id2260917">Por fim, se considerarmos múltiplas versões ao longo do tempo de uma única representação, poderemos observar a evolução das decisões de design feitas ao longo desse período. Assim, se considerarmos as diversas versões obtidas até se alcançar o algoritmo descrito na <link target-id="uid36"/>, perceberíamos a evolução desde o <emphasis effect="italics">merge sort</emphasis> padrão até o <emphasis effect="italics">merge sort in-place</emphasis> considerado pelo designer. Então, o histórico do design se torna peça fundamental para se entender quais decisões passadas levaram ao estado atual do design e, consequentemente, do sistema.</para>
+      </section>
+      <section id="uid37">
+        <title>Soluções</title>
+        <para id="id2260968">A solução do design não é nada além do que a descrição que permite desenvolvedores construir um sistema de software a partir dos detalhes especificados por uma ou diversas representações. Suas principais características serão descritas nos parágrafos a seguir.</para>
+        <para id="id2260981"><definition id="eip-id1164761756715"><label>Definição</label><term>solução do design</term><meaning id="eip-id1164759768632">
+A descrição do design que permite a construção do sistema de software que alcança os objetivos do design.
+</meaning></definition></para>
+        <para id="id2260990"><emphasis effect="italics">Soluções de design refletem a complexidade do problema</emphasis>, geralmente por mostrar diversos elementos e relações que compõem o problema. É possível observar essa característica quando, por exemplo, fazendo o design do sistema de informação de uma locadora que já mencionamos anteriormente. Qualquer que seja a solução, ela conterá elementos como filmes, DVDs, clientes ou gêneros de filmes, pois todos eles são inerentes ao problema em questão. No entanto, só os elementos não são o bastante para compor a solução. A solução deve também conter relações do tipo: “um cliente pode alugar um ou mais DVDs”, “um filme pode ter um ou mais gêneros”, ou “um DVD pode conter um ou mais filmes”. Em outras palavras, a solução deve conter relações similares às relações encontradas no domínio do problema. Vale lembrar que, quando diversos elementos têm diversas relações diferentes entre si, a complexidade emerge e é por isso que fazer design é difícil. Adicionalmente, para complicar ainda mais, é comum que os problemas tenham muitos elementos e relações que não são completamente conhecidos.</para>
+        <para id="id2261032"><emphasis effect="italics">É difícil validar soluções de design.</emphasis> A complexidade inerente ao problema faz surgir diversos pontos de possível validação em relação aos objetivos de design. No entanto, o problema reside na precisão da descrição dos objetivos. Normalmente, para problemas complexos, objetivos são descritos num alto-nível de abstração que dificulta ou impossibilita bastante a avaliação das soluções.</para>
+        <para id="id2261053">E, por fim, <emphasis effect="italics">a maioria dos problemas de design aceita diversas soluções.</emphasis> Isso é algo natural a problemas de design: uma vez que diversas alternativas podem ser geradas a partir de um único problema de design, diversas soluções podem ser obtidas.</para>
+      </section>
+    </section>
+    <section id="cid3">
+      <title>Níveis de design de software</title>
+      <para id="id2261080">O produto do processo de design é sempre uma solução de design. Apesar de ser a descrição que permite a construção do sistema, nada foi dito sobre o nível de detalhe contido nessa solução. Acontece que, na verdade, o design pode ocorrer em diversos níveis de detalhe.</para>
+      <para id="id2261093">De acordo com o Guia para o Corpo de Conhecimento em Engenharia de Software, o processo de design de software consiste em duas atividades: <emphasis effect="italics">design de alto nível</emphasis> e <emphasis effect="italics">design detalhado</emphasis>.</para>
+      <para id="id2261110">O design de alto nível, também conhecido como design arquitetural, trata de descrever a organização fundamental do sistema, identificando seus diversos módulos (e sua relações entre si e com o ambiente) para que se alcancem os objetivos propostos pelo cliente.</para>
+      <para id="id2261122"><definition id="eip-id8695218"><label>Definição</label><term>design arquitetural</term><meaning id="eip-id1164296217053">
+Descreve a arquitetura do software ou, em poucas palavras, como o software é decomposto e organizado em módulos e suas relações.
+</meaning></definition></para>
+      <para id="id2261132">Ao contrário do design de alto nível, o design detalhado se preocupa com a descrição detalhada de cada módulo possibilitando a construção e se adequando ao design de alto nível.</para>
+      <para id="id2261141"><definition id="eip-id1163912059968"><label>Definição</label><term>design detalhado</term><meaning id="eip-id1163912923078">
+Descreve o comportamento específico e em detalhes dos módulos que compõem o design arquitetural.
+</meaning></definition></para>
+      <para id="id2261149">Apesar dessa divisão conceitual de design em duas atividades, essa divisão pode não acontecer durante o processo de desenvolvimento do software. Algumas vezes, o designer – ou quem assume seu papel – realiza ambas as atividades em paralelo, concebendo assim um produto de design que permitirá tanto o alcance dos requisitos de qualidade (que normalmente é tarefa da arquitetura), quanto a construção precisa do sistema por meio de seus detalhes. No entanto, adotaremos a separação conceitual das duas atividades de forma que possamos nos focar no design arquitetural, que é o principal assunto desse livro e que será discutido nos próximos capítulos.</para>
+    </section>
+    <section id="cid4">
+      <title>Princípios e técnicas de design de software</title>
+      <para id="id2261187">Antes de iniciarmos nossos estudos em Arquitetura de Software, gostaríamos de lembrar alguns princípios e técnicas que são essenciais ao design de software.</para>
+      <para id="id2261195">Há diversos princípios, técnicas, e abordagens nessa área que geralmente resultam em bons produtos de design de software. Uma vez que há muitos livros e artigos sobre esse assunto, gostaríamos apenas de fazer uma breve exposição do assunto nessa seção, fazendo com que o leitor relembre os princípios e técnicas – caso já os conheça – e indicando referências para um maior aprofundamento sobre o assunto. Os princípios, técnicas e abordagens essenciais para um designer que apresentaremos são as seguintes:</para>
+      <list id="id2261209" display="block" list-type="bulleted">
+        <item id="uid39">Divisão e conquista
+</item>
+        <item id="uid40">Abstração
+</item>
+        <item id="uid41">Encapsulamento
+</item>
+        <item id="uid42">Modularização
+</item>
+        <item id="uid43">Separação de preocupações
+</item>
+        <item id="uid44">Acoplamento e coesão
+</item>
+        <item id="uid45">Separação de políticas da execução de algoritmos
+</item>
+        <item id="uid46">Separação de interfaces de suas implementações
+</item>
+      </list>
+      <section id="uid47">
+        <title>Divisão e Conquista</title>
+        <para id="id2261321">Divisão e conquista é uma técnica para resolução de problemas que consiste em
+decompor um problema em subproblemas menores
+e <emphasis effect="italics">independentes</emphasis> a fim de resolvê-los separadamente, para que,
+posteriormente, as soluções sejam combinadas e formem a solução do problema
+inicialmente proposto.</para>
+        <para id="id2261340">A estratégia é baseada na ideia de que atacar um problema complexo por diversas
+frentes é mais simples e factível de resolução do que tentar resolvê-lo
+completamente de uma só vez. A técnica de divisão e conquista possui três
+etapas bem definidas:</para>
+        <list id="id2261352" display="block" list-type="bulleted">
+          <item id="uid48">Divisão: dividir o problema original em subproblemas menores;
+</item>
+          <item id="uid49">Conquista: resolver cada um dos subproblemas gerados na fase de divisão;
+</item>
+          <item id="uid50">Combinação: combinar as soluções de cada subproblema, compondo a
+solução para o problema inicial.
+</item>
+        </list>
+        <para id="id2261398">Em Ciência da Computação, essa estratégia é muito utilizada no projeto de
+algoritmos e, normalmente, é instanciada através do uso de recursão, uma vez que os problemas devem ser decompostos e as
+soluções dos subproblemas devem ser combinadas ao final da execução para compor
+a solução do problema inicial. Por exemplo, o algoritmo de ordenação
+<emphasis effect="italics">mergesort</emphasis> se utiliza dessa técnica para ordenar uma sequência de
+inteiros de maneira eficiente. Esse algoritmo se baseia na idéia de quem dadas
+duas sequências ordenadas, é trivial ordená-las em uma única sequência.
+Portanto, a estratégia do <emphasis effect="italics">mergesort</emphasis> é particionar uma sequência em
+várias subsequências até que seja trivial ordená-las, isto é, sequências de dois
+elementos. Por fim, o algoritmo combina as sequências em uma só
+sequência ordenada.</para>
+        <para id="id2261438">No entanto, como este livro foi escrito com foco em arquitetura de
+software, nada mais apropriado do que trazermos exemplos em nível arquitetural dos assuntos que
+abordamos. A estratégia de divisão e conquista também é aplicada constantemente
+em decisões de mais alto nível no projeto de software. Por exemplo, a decisão
+de organizar uma aplicação <emphasis effect="italics">web</emphasis> em camadas nada mais é que dividir um
+problema maior em diferentes níveis de abstração, onde cada camada será responsável por
+implementar um serviço mais básico e específico (apresentação, lógica de
+negócio e armazenamento).</para>
+        <para id="id2261466">Vários são os benefícios providos pela estratégia de divisão e conquista. No
+nosso exemplo, a divisão da arquitetura em camadas propicia a implementação
+de cada camada separadamente. Além disso, as camadas podem ser tratadas como
+componentes reusáveis de software, uma vez que implementam um serviço único e
+bem definido. Portanto, divisão e conquista também viabiliza o reuso de
+software.</para>
+      </section>
+      <section id="uid51">
+        <title>Abstração</title>
+        <para id="id2261490">Abstração é um princípio essencial para se lidar com complexidade. Esse princípio recomenda que um elemento que compõe o design deva ser representado apenas por suas características essenciais, de forma que permita a distinção de outros elementos por parte do observador. Como resultado, temos a representação de um elemento do design mais simples, uma vez que detalhes desnecessários são descartados, facilitando então o entendimento, comunicação e avaliação.</para>
+        <para id="id2261503">O que poderemos observar é que a maioria das técnicas empregadas por designers ajudam na elevação do nível de abstração do design e, assim, baixam o nível de complexidade da solução.</para>
+      </section>
+      <section id="uid52">
+        <title>Encapsulamento</title>
+        <para id="id2261523">Encapsulamento está relacionado à ocultação de detalhes de implementação de um elemento de um sistema aos que usarão esse elemento. Fazendo isso, o acoplamento entre os elementos é minimizado e sua contribuição para a complexidade do sistema é restringida às informações que eles expõem.</para>
+        <para id="id2261536">Encapsulamento pode ser obtido de diferentes maneiras: modularizando o sistema, separando suas preocupações, separando interfaces de implementações, ou separando políticas da execução de algoritmos.</para>
+      </section>
+      <section id="uid53">
+        <title>Modularização</title>
+        <para id="id2261556">Modularização é a decomposição significativa do sistema em módulos. A modularização introduz partições bem-definidas e documentadas ao sistema ao decidir como estruturas lógicas do sistema serão divididas fisicamente. Podemos citar alguns benefícios da modularização:</para>
+        <list id="id2261569" display="block" list-type="bulleted">
+          <item id="uid54">Facilita o entendimento, uma vez que cada módulo pode ser estudado separadamente;
+</item>
+          <item id="uid55">Facilita o desenvolvimento, uma vez que cada módulo pode ser projetado, implementado e testado separadamente;
+</item>
+          <item id="uid56">Diminui o tempo de desenvolvimento, uma vez que módulos podem ser implementados em paralelo, ou ainda reusados; e
+</item>
+          <item id="uid57">Promove a flexibilidade no produto, uma vez que um módulo pode ser substituído por outro, desde que implemente as mesmas interfaces.
+</item>
+        </list>
+      </section>
+      <section id="uid58">
+        <title>Separação de preocupações</title>
+        <para id="id2261645">A separação de preocupações está fortemente ligada ao princípio da modularização. De certa maneira, a separação de preocupações define a regra para definir os módulos de um sistema: preocupações diferentes ou não-relacionadas devem se restringir a módulos diferentes. Assim, separando preocupações, obtemos benefícios semelhantes aos da modularização.</para>
+      </section>
+      <section id="uid59">
+        <title>Acoplamento e coesão</title>
+        <para id="id2261668">Acoplamento e coesão são princípios usados para medir se módulos de um design foram bem divididos.</para>
+        <para id="id2261675">Acoplamento é a medida de interdependência entre módulos de software. Ou seja, quanto mais dependente um módulo A é da implementação do módulo B, maior é o acoplamento entre os módulos A e B. Alto acoplamento implica que (1) os módulos envolvidos serão mais difíceis de entender, uma vez que precisam ser entendidos em conjunto; (2) os módulos envolvidos serão mais difíceis de modificar, uma vez que as mudanças impactarão mais de um módulo; e (3) os módulos envolvidos serão mais difíceis de manter, uma vez que um problema num módulo se espalhará pelos módulos com quem está altamente acoplados.</para>
+        <para id="id2261689">Por outro lado, coesão é uma medida intramódulo. Ela é a medida da relação entre tarefas realizadas dentro de um mesmo módulo. As tarefas de um módulo podem estar relacionadas entre si por diferentes motivos. Esses motivos são usados para classificar os diferentes tipos de coesão:</para>
+        <list id="id2261702" display="block" list-type="labeled-item">
+          <item id="uid60"><label><emphasis effect="italics">Coesão funcional</emphasis>:</label>as tarefas estão agrupadas por suas funções serem similares.
+</item>
+          <item id="uid61"><label><emphasis effect="italics">Coesão sequencial</emphasis>:</label>as tarefas estão agrupadas por elas pertencerem à mesma sequência de operações. Elas compartilham dados a cada etapa da sequência, mas não realizam uma operação completa quando executadas juntas.
+</item>
+          <item id="uid62"><label><emphasis effect="italics">Coesão comunicativa</emphasis>:</label>as tarefas estão agrupadas porque usam os mesmos dados, mas não estão relacionadas de nenhuma outra maneira.
+</item>
+          <item id="uid63"><label><emphasis effect="italics">Coesão temporal</emphasis>:</label>as tarefas estão agrupadas por serem executadas no mesmo intervalo de tempo.
+</item>
+          <item id="uid64"><label><emphasis effect="italics">Coesão procedural</emphasis>:</label>as tarefas estão agrupadas porque elas devem ser executadas numa ordem específica.
+</item>
+          <item id="uid65"><label><emphasis effect="italics">Coesão lógica</emphasis>:</label>as tarefas estão agrupadas por compartilharem uma mesma <emphasis effect="italics">flag</emphasis> de controle, que indicará qual tarefa será realizada durante a execução do sistema.
+</item>
+          <item id="uid66"><label><emphasis effect="italics">Coesão coincidente</emphasis>:</label>as tarefas estão agrupadas sem qualquer critério.
+</item>
+        </list>
+        <para id="id2261866">Para alcançarmos bons designs, podemos ordenar os tipos de coesão dos mais desejáveis para os menos desejáveis: funcional, sequencial, comunicativa, temporal, procedural, lógica, e coincidente.</para>
+      </section>
+      <section id="uid67">
+        <title>Separação de Decisões de Execução de Algoritmos</title>
+        <para id="id2261887">Essa técnica realiza a separação de preocupações apresentando uma abordagem simples: ou um módulo deve se preocupar com as decisões sensíveis ao contexto do problema ou com a execução de algoritmos, mas não ambos. Em outras palavras, alguns módulos devem apenas executar algoritmos sem fazer qualquer decisão sensível ao domínio do problema. Essas decisões devem ser deixadas para os módulos específicos para realização dessas decisões e que também serão responsáveis por suprir parâmetros para os módulos de execução de algoritmos.</para>
+        <para id="id2261901">Essa separação facilita o reuso e manutenção, principalmente dos módulos de algoritmos, uma vez que eles são menos específicos que os módulos de decisões sensíveis a contexto.</para>
+      </section>
+      <section id="uid68">
+        <title>Separação de Interfaces de suas Implementações</title>
+        <para id="id2261922">A separação entre interfaces e implementações também beneficia a modularização. Essa técnica recomenda a descrição da funcionalidade a ser implementada por algum módulo por meio de contratos, chamados interfaces. Assim, os módulos implementarão as interfaces de forma a comporem o sistema.</para>
+        <para id="id2261935">Usando essa técnica, o acoplamento entre módulos e seus clientes é diminuído, uma vez que os clientes estarão ligados apenas a interfaces – e não implementações –, e benefícios como facilidade no reuso, melhor entendimento do código, e menor custo de manutenção são alcançados.</para>
+      </section>
+    </section>
+    <section id="id2261950">
+      <title>Resumo</title>
+      
+      <para id="id2258200">Esse capítulo expôs o conhecimento necessário sobre Design de Software para o estudo de Arquitetura de Software. Espera-se que, ao final desse capítulo, o leitor saiba:</para>
+      <list id="id2258209" display="block" list-type="bulleted">
+        <item id="uid69">o que é design software, seja como produto ou como processo, e quais são suas características e benefícios;
+</item>
+        <item id="uid70">como os problemas de design de software podem ser decompostos; e
+</item>
+        <item id="uid71">o que são os princípios e técnicas de design de software e quais seus benefícios.
+</item>
+      </list>
+      <para id="id2262262">Pela existência de ótimos livros sobre Design de Software já escritos tendo em vista o mesmo público-alvo que nós (o leitor ainda inexperiente), nós preferimos não nos aprofundar nos assuntos expostos nesse capítulo, uma vez que nossa intenção foi de apenas introduzi-los. Para informações mais detalhadas, recomendamos os livros e artigos sobre Design de Software apresentados na seção de referências.</para>
+    </section>
+    <section id="id2262276">
+      <title>Referências</title>
+      <section id="id2262283">
+        <title>Teoria em Design de Software</title>
+        <para id="id2262289">Recomendamos o livro Software Design <link target-id="bid1"/>, de Budgen, aos interessados em mais informações sobre a teoria em design de software. Dois artigos que apresentam discussões úteis sobre o assunto são <emphasis effect="italics">Software Design and Architecture – The Once and Future Focus of Software Engineering</emphasis><link target-id="bid2"/>, de Taylor e Van der Hoek, e <emphasis effect="italics">Conceptual Foundations of Design Problem Solving</emphasis><link target-id="bid3"/>, de Smith e Browne. Inclusive, este último é a nossa referência sobre o arcabouço conceitual de design usado neste capítulo.</para>
+      </section>
+      <section id="id2262335">
+        <title>Processo de Design</title>
+        <para id="id2262341">Em nível mais prático da execução do processo de design, citamos as seguintes referências: <emphasis effect="italics">The Mythical Man-Month: Essays on Software Engineering</emphasis><link target-id="bid4"/>, de Brooks, que discute as causas da complexidade que assola o processo de design de software; <emphasis effect="italics">Software Design: Methods and Techniques</emphasis><link target-id="bid5"/>, que descreve as etapas que podemos encontrar no processo de design; e o <emphasis effect="italics">Guide to the Software Engineering Body of Knowledge</emphasis> (SWEBOK) <link target-id="bid6"/>, que apresenta os níveis de design.</para>
+      </section>
+      <section id="id2262387">
+        <title>Técnicas e Ferramentas</title>
+        <para id="id2262394">Por fim, citamos referências que descrevem ferramentas e técnicas que podemos usar durante o processo de design.</para>
+        <para id="id2262401">Sobre a linguagem de modelagem UML, mais informações podem ser encontradas no site do <emphasis effect="italics">Object Management Group</emphasis> (OMG) <link target-id="bid7"/>.</para>
+        <para id="id2262419">Já sobre técnicas de design, citamos o livro de Booch <emphasis effect="italics">et al</emphasis>, <emphasis effect="italics">Object-Oriented Analysis and Design with Applications</emphasis><link target-id="bid8"/>, o de McConnell, <emphasis effect="italics">Code Complete</emphasis><link target-id="bid9"/> e o de Buschmann et al, <emphasis effect="italics">Pattern-Oriented Software Architecture, Volume 1: A System of Patterns</emphasis><link target-id="bid10"/>. Este último é mais específico ao design arquitetural.</para>
+      </section>
+    </section>
+    <section id="id2262466">
+      <title>Exercícios</title>
+      
+      <exercise id="eip-409"><label>Exercício</label>
+<problem id="eip-799">
+  <para id="eip-756">
+Quais os benefícios de se projetar sistemas?
+  </para>
+</problem>
+
+
+</exercise>
+      <exercise id="eip-210"><label>Exercício</label><problem id="eip-936">
+  <para id="eip-769">
+Duas fases importantes do projeto de software são as fases de Divergência e Convergência. Descreva o que é feito em cada fase.
+  </para>
+</problem>
+
+
+</exercise>
+      <exercise id="eip-465"><label>Exercício</label><problem id="eip-221">
+  <para id="eip-45">
+Jack Reeves, em <emphasis effect="italics">What is Software Design?</emphasis><link target-id="bid11"/>, afirma que o código fonte é design. Qual a sua opinião a respeito da afirmativa?
+  </para>
+</problem>
+
+</exercise>
+      <exercise id="eip-341"><label>Exercício</label><problem id="eip-507">
+  <para id="eip-954">
+Qual padrão de projeto viabiliza a separação de política e implementação?
+  </para>
+</problem>
+
+
+</exercise>
+      <exercise id="eip-190"><label>Exercício</label><problem id="eip-679">
+  <para id="eip-672">
+Defina para coesão e acoplamento e sugira métricas para medi-las em software.
+  </para>
+</problem>
+
+</exercise>
+      <exercise id="eip-342"><label>Exercício</label><problem id="eip-453">
+  <para id="eip-427">
+Cite dificuldades que podem ser encontradas durante a aplicação de cada técnica de design apresentada no capítulo.
+  </para>
+</problem>
+
+</exercise>
+      <exercise id="eip-633"><label>Exercício</label><problem id="eip-952">
+  <para id="eip-698">
+
+Represente um design de software de duas maneiras diferentes. Para isso, antes será necessário descrever o problema que o software deve resolver.
+  </para>
+</problem>
+
+</exercise>
+      <exercise id="eip-846"><label>Exercício</label><problem id="eip-85">
+  <para id="eip-974">Elabore uma solução de design diferente para o problema descrito na resposta do anterior e descreva-a usando os mesmos tipos de representações usados anteriormente.  </para>
+</problem>
+
+</exercise>
+    </section>
+  </content>
+  <bib:file>
+    <bib:entry id="bid6">
+      <bib:book>
+<!--required fields-->
+        <bib:author>Abran, Alain and Moore, James W. and Bourque, Pierre and Dupuis, Robert and Tripp, Leonard L.</bib:author>
+        <bib:title>Guide to the Software Engineering Body of Knowledge (SWEBOK)</bib:title>
+        <bib:publisher>IEEE</bib:publisher>
+        <bib:year>2004</bib:year>
+<!--optional fields-->
+        <bib:volume/>
+        <bib:series/>
+        <bib:address/>
+        <bib:edition/>
+        <bib:month/>
+        <bib:note/>
+      </bib:book>
+    </bib:entry>
+    <bib:entry id="bid5">
+      <bib:incollection>
+<!--required fields-->
+        <bib:author>Belady, L.</bib:author>
+        <bib:title>Foreword</bib:title>
+        <bib:booktitle>Software Design: Methods and Techniques (L.J. Peters, author)</bib:booktitle>
+        <bib:publisher>Yourdon Press</bib:publisher>
+        <bib:year>1981</bib:year>
+<!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:type/>
+        <bib:chapter/>
+        <bib:pages/>
+        <bib:address/>
+        <bib:edition/>
+        <bib:month/>
+        <bib:note/>
+      </bib:incollection>
+    </bib:entry>
+    <bib:entry id="bid8">
+      <bib:book>
+<!--required fields-->
+        <bib:author>Booch, Grady and Maksimchuk, Robert A. and Engel, Michael W. and Young, Bobbi J. and Conallen, Jim and Houston, Kelli A.</bib:author>
+        <bib:title>Object-Oriented Analysis and Design with Applications (3rd Edition)</bib:title>
+        <bib:publisher>Addison-Wesley Professional</bib:publisher>
+        <bib:year>2007</bib:year>
+<!--optional fields-->
+        <bib:volume/>
+        <bib:series/>
+        <bib:address/>
+        <bib:edition/>
+        <bib:month>April</bib:month>
+        <bib:note/>
+      </bib:book>
+    </bib:entry>
+    <bib:entry id="bid10">
+      <bib:book>
+<!--required fields-->
+        <bib:author>Buschmann, Frank and Meunier, Regine and Rohnert, Hans and Sommerlad, Peter and Stal, Michael and Sommerlad, Peter and Stal, Michael</bib:author>
+        <bib:title>Pattern-Oriented Software Architecture, Volume 1: A System of Patterns</bib:title>
+        <bib:publisher>John Wiley &amp; Sons</bib:publisher>
+        <bib:year>1996</bib:year>
+<!--optional fields-->
+        <bib:volume/>
+        <bib:series/>
+        <bib:address/>
+        <bib:edition/>
+        <bib:month>August</bib:month>
+        <bib:note/>
+      </bib:book>
+    </bib:entry>
+    <bib:entry id="bid4">
+      <bib:book>
+<!--required fields-->
+        <bib:author>Brooks, Frederick P.</bib:author>
+        <bib:title>The Mythical Man-Month: Essays on Software Engineering, 20th Anniversary Edition</bib:title>
+        <bib:publisher>Addison-Wesley Professional</bib:publisher>
+        <bib:year>1995</bib:year>
+<!--optional fields-->
+        <bib:volume/>
+        <bib:series/>
+        <bib:address/>
+        <bib:edition/>
+        <bib:month>August</bib:month>
+        <bib:note/>
+      </bib:book>
+    </bib:entry>
+    <bib:entry id="bid1">
+      <bib:book>
+<!--required fields-->
+        <bib:author>Budgen, David</bib:author>
+        <bib:title>Software Design (2nd Edition)</bib:title>
+        <bib:publisher>Addison Wesley</bib:publisher>
+        <bib:year>2003</bib:year>
+<!--optional fields-->
+        <bib:volume/>
+        <bib:series/>
+        <bib:address/>
+        <bib:edition/>
+        <bib:month>May</bib:month>
+        <bib:note/>
+      </bib:book>
+    </bib:entry>
+    <bib:entry id="bid9">
+      <bib:book>
+<!--required fields-->
+        <bib:author>Mcconnell, Steve</bib:author>
+        <bib:title>Code Complete, Second Edition</bib:title>
+        <bib:publisher>Microsoft Press</bib:publisher>
+        <bib:year>2004</bib:year>
+<!--optional fields-->
+        <bib:volume/>
+        <bib:series/>
+        <bib:address/>
+        <bib:edition/>
+        <bib:month>June</bib:month>
+        <bib:note/>
+      </bib:book>
+    </bib:entry>
+    <bib:entry id="bid7">
+      <bib:misc>
+<!--required fields-->
+<!--optional fields-->
+        <bib:author>Object Management Group, Inc., </bib:author>
+        <bib:title>Unified Modeling Language</bib:title>
+        <bib:howpublished>http://www.uml.org</bib:howpublished>
+        <bib:month>September</bib:month>
+        <bib:year>2008</bib:year>
+        <bib:note/>
+      </bib:misc>
+    </bib:entry>
+    <bib:entry id="bid11">
+      <bib:article>
+<!--required fields-->
+        <bib:author>Reeves, Jack W.</bib:author>
+        <bib:title>What is Software Design?</bib:title>
+        <bib:journal>C++ Journal</bib:journal>
+        <bib:year>1992</bib:year>
+<!--optional fields-->
+        <bib:volume/>
+        <bib:number/>
+        <bib:pages/>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid3">
+      <bib:article>
+<!--required fields-->
+        <bib:author>Smith, G. F. and Browne, G. J.</bib:author>
+        <bib:title>Conceptual Foundations of Design Problem Solving</bib:title>
+        <bib:journal>Systems, Man and Cybernetics, IEEE Transactions on</bib:journal>
+        <bib:year>1993</bib:year>
+<!--optional fields-->
+        <bib:volume>23</bib:volume>
+        <bib:number>5</bib:number>
+        <bib:pages>1209–1219</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid2">
+      <bib:inproceedings>
+<!--required fields-->
+        <bib:author>Taylor, Richard N. and van der Hoek, Andre</bib:author>
+        <bib:title>Software Design and Architecture – The Once and Future Focus of Software Engineering</bib:title>
+        <bib:booktitle>FOSE '07: 2007 Future of Software Engineering</bib:booktitle>
+        <bib:year>2007</bib:year>
+<!--optional fields-->
+        <bib:editor/>
+        <bib:number/>
+        <bib:series/>
+        <bib:pages>226–243</bib:pages>
+        <bib:address>Washington, DC, USA</bib:address>
+        <bib:month/>
+        <bib:organization/>
+        <bib:publisher>IEEE Computer Society</bib:publisher>
+        <bib:note/>
+      </bib:inproceedings>
+    </bib:entry>
+  </bib:file>
+</document>

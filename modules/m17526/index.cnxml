@@ -1,0 +1,139 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:md="http://cnx.rice.edu/mdml">
+  <title>Mensagens do Livro</title>
+  <metadata>
+  <md:content-id>m17526</md:content-id><md:title>Mensagens do Livro</md:title>
+  <md:abstract>Apresentação das mensagens presentes no livro "Arquitetura de Software".</md:abstract>
+  <md:uuid>e1fc80c3-d923-4c20-8a22-a2480aeeb018</md:uuid>
+</metadata>
+
+<content>
+    <para id="id322240">O conteúdo deste livro está dividido em seis capítulos (além dos capítulos de estudos de caso) e cada capítulo serve para transmitir um conjunto específico de mensagens sobre a disciplina de Arquitetura de Software. Além de mensagens, há outros dois tipos de elementos que são essenciais para a composição de livro: definições, que descrevem os conceitos fundamentais, e boas práticas, que são recomendações a serem seguidas pelo leitor ao aplicar o conhecimento presente no livro. As recomendações têm um papel importante, principalmente, nos estudos de caso, quando o lidamos com os diversos <emphasis effect="italics">trade-offs</emphasis> presentes na prática de Arquitetura de Sotware.</para>
+    <para id="id322259">A seguir, apresentamos os capítulos e suas mensagens:</para>
+    <section id="id322263">
+      <title>Cap. 2: Introdução a Design de Software</title>
+      <para id="id322270">Neste capítulo apresentamos design de software e mostramos que ele é essencial no processo de desenvolvimento de software independentemente do nível de detalhe em que ele é aplicado. No entanto, o design de alto nível é enfatizado, uma vez que projetar arquitetura é fazer design em alto nível. Mostramos também os elementos que compõem os problemas de design. As mensagens do capítulo são:</para>
+      <list id="id322279" display="block" list-type="bulleted">
+        <item id="uid1">O design é a estrutura ou o comportamento de um sistema que resolve ou contribui para a resolução das forças que atuam sobre esse sistema.
+</item>
+        <item id="uid2">Um design representa apenas um ponto no espaço de decisão.
+</item>
+        <item id="uid3">Um design pode ser singular, representando apenas uma folha na árvore de decisões,, ou coletivo, representando um conjunto de decisões.
+</item>
+        <item id="uid4">São cinco os elementos que compõem os problemas de design: objetivos, restrições, alternativas, representações e soluções.
+</item>
+        <item id="uid5">Design é necessário em todos os níveis de detalhe durante o processo de desenvolvimento do software.
+</item>
+      </list>
+    </section>
+    <section id="id322351">
+      <title>Cap. 3: Estudo de Caso: SASF</title>
+      <para id="id322357">Neste capítulo, ilustramos a necessidade de aplicar os conhecimentos de Arquitetura de Software por meio de um problema de design complexo. Nele, apresentamos tanto os requisitos de um sistema web de locação e transmissão de vídeos quanto seus stakeholders. Uma vez que este capítulo apenas descreve um caso, não há mensagens explícitas a serem transmitidas.</para>
+    </section>
+    <section id="id322367">
+      <title>Cap. 4: Fundamentos de Arquitetura de Software</title>
+      <para id="id322373">Este capítulo apresenta a definição de Arquitetura de Software usando um padrão ISO/IEEE. Como a definição apenas não é o bastante para entendermos o porquê de se aplicar os conhecimentos de arquitetura durante o ciclo de desenvolvimento, mostramos seus benefícios explicitamente através de exemplos e o estudo de caso. Além da definição ISO/IEEE, mostraremos outras definições que diversos autores fizeram ao longo da história, uma vez que elas expõem características importantes para o entendimento do assunto. As mensagens deste capítulo são:</para>
+      <list id="id322381" display="block" list-type="bulleted">
+        <item id="uid6">Arquitetura é design, mas nem todo design é arquitetural. É o arquiteto quem define a fronteira entre o design arquitetural e o não-arquitetural, definindo quais decisões serão necessárias para atender aos objetivos de desenvolvimento, de comportamento e de qualidade do sistema.
+</item>
+        <item id="uid7">A arquitetura também é um veículo de comunicação entre stakeholders.
+</item>
+        <item id="uid8">A arquitetura contém as decisões antecipadas de design, que têm o impacto mais caro (caso seja necessário mudá-las ou caso elas estejam erradas).
+</item>
+        <item id="uid9">A arquitetura é uma abstração transferível do sistema.
+</item>
+        <item id="uid10">A arquitetura facilita a construção do sistema.
+</item>
+        <item id="uid11">A arquitetura facilita o entendimento do sistema.
+</item>
+        <item id="uid12">A arquitetura facilita o reuso durante o ciclo de vida do sistema.
+</item>
+        <item id="uid13">A arquitetura facilita a evolução do sistema.
+</item>
+        <item id="uid14">A arquitetura facilita a análise do sistema.
+</item>
+        <item id="uid15">A arquitetura facilita a gerência durante o desenvolvimento do sistema.
+</item>
+        <item id="uid16">Documentar a arquitetura ajuda no controle intelectual do software.
+</item>
+        <item id="uid17">Documentar a arquitetura ajuda a manter a integridade conceitual do sistema.
+</item>
+        <item id="uid18">A arquitetura do software restringe o vocabulário de alternativas de design.
+</item>
+        <item id="uid19">Documentar a arquitetura permite a ligação entre os requisitos e as decisões de design do software.
+</item>
+        <item id="uid20">Documentar a arquitetura tem impacto negativo na imprecisão da especificação, que é fonte de complexidade do sistema.
+</item>
+        <item id="uid21">Documentar a arquitetura ajuda na divisão de tarefas entre os times de desenvolvimento.
+</item>
+      </list>
+    </section>
+    <section id="id322591">
+      <title>Cap. 5: Stakeholders</title>
+      <para id="id322597">Os stakeholders têm grande influência no design da arquitetura porque são eles que impõem os requisitos que o sistema deve atender. Por isso, para entendermos essa influência, devemos estudá-los. Os stakeholders demonstram essa influência porque possuem diversas responsabilidades durante o ciclo de vida do software. Neste capítulo apresentamos quem são os stakeholders do software mais comuns e suas características. As mensagens deste capítulo são:</para>
+      <list id="id322606" display="block" list-type="bulleted">
+        <item id="uid22">Stakeholders influenciam a arquitetura de diversas maneiras e não necessariamente estão de acordo entre si e é por isso que surgem os <emphasis effect="italics">trade-offs</emphasis> durante o design do software.
+</item>
+        <item id="uid23">Os seguintes stakeholders devem ser considerados durante o projeto da arquitetura:
+<list id="id322640" display="block" list-type="bulleted"><item id="uid24">o próprio arquiteto ou outros futuros arquitetos;
+</item><item id="uid25">os engenheiros de requisitos;
+</item><item id="uid26">os designers;
+</item><item id="uid27">os desenvolvedores;
+</item><item id="uid28">os testadores;
+</item><item id="uid29">os responsáveis pela integração do software com outros sistemas;
+</item><item id="uid30">os mantenedores do software;
+</item><item id="uid31">os designers de outros sistemas;
+</item><item id="uid32">o gerente do desenvolvimento;
+</item><item id="uid33">o time de controle de qualidade do software.
+</item></list></item>
+        <item id="uid34">O arquiteto deve ter pleno conhecimento de todo o ciclo de vida do software, para ser capaz de lidar com os <emphasis effect="italics">trade-offs</emphasis> que surgirão entre os stakeholders.
+</item>
+        <item id="uid35">O arquiteto deve enteder a relação entre os stakeholders e os atributos de qualidade do software.
+</item>
+      </list>
+    </section>
+    <section id="id322794">
+      <title>Cap. 6: Atributos de Qualidade</title>
+      <para id="id322800">Uma vez que os atributos de qualidade do software são proporcionados, principalmente, por sua arquitetura e é por meio dos atributos de qualidade que o software atende aos requisitos não-funcionais, devemos estudar esses atributos. Este capítulo trata tanto dos requisitos não-funcionais quanto dos atributos de qualidade, enfatizando suas relações e ferramentas de design úteis para o alcance dos atributos. Usamos o modelo ISO/IEC 9126-1:2001 – mas não nos restringimos a ele – para definir a qualidade de software e os atributos que ele deve exibir para tanto. As mensagens deste capítulo são:</para>
+      <list id="id322809" display="block" list-type="bulleted"><item id="uid36">A arquitetura se preocupa principalmente com os requisitos não-funcionais, não apenas técnicos, mas também relacionados a negócio.
+</item>
+        <item id="uid37">Não existe <emphasis effect="italics">a arquitetura correta</emphasis>. Existems arquiteturas que são mais ou menos adequadas aos requisitos.
+</item>
+        <item id="uid38">A arquitetura permite uma forma de rastreamento entre a implementação do software e seus requisitos.
+</item>
+        <item id="uid39">A arquitetura de software permite diversos atributos de qualidade, entre eles:
+<list id="id322869" display="block" list-type="bulleted"><item id="uid40">desempenho;
+</item><item id="uid41">escalabilidade;
+</item><item id="uid42">confiabilidade;
+</item><item id="uid43">disponibilidade;
+</item><item id="uid44">segurança;
+</item><item id="uid45">manutenibilidade;
+</item><item id="uid46">portabilidade;
+</item><item id="uid47">extensibilidade.
+</item></list></item>
+        </list>
+    </section>
+    <section id="eip-289"><title>Cap. 7: Técnicas de Design Arquitetural </title><para id="eip-470">Ao introduzirmos design de software, citamos alguns princípios e técnicas que são fundamentais ao processo, pois facilitam a representação e a escolha da solução entre as alternativas de design. No entanto, não fomos explícitos sobre como estes princípios e técnicas são fundamentais ao processo de design arquitetural.  Já no capítulo sobre atributos de qualidade, mencionamos a existência de táticas arquiteturais que ajudam na implementação de alguns requisitos de qualidade, mas não apresentamos essas táticas a não ser de forma breve e apenas por meio de exemplos.  </para><para id="eip-607">Este capítulo, por sua vez, tem como objetivo tanto apresentar os princípios de design em nível arquitetural, quanto apresentar algumas táticas arquiteturais que implementam requisitos de qualidade. Neste capítulo, descrevemos os seguintes princípios de design arquitetural: </para><list id="eip-558"><item>uso da abstração ou níveis de complexidade</item>
+<item>separação de preocupações</item>
+<item>uso padrões e estilos arquiteturais</item>
+</list><para id="eip-108">Além disso, apresentamos diversas táticas arquiteturais para alcançarmos os seguintes atributos de qualidade:</para><list id="eip-799"><item>desempenho e escalabilidade</item>
+<item>segurança</item>
+<item>tolerância a faltas</item>
+<item>compreensibilidade e modificabilidade</item>
+<item>operabilidade</item></list></section><section id="id322980">
+      <title>Cap. 8: Documentação da Arquitetura</title>
+      <para id="id322986">Depois de entender os conceitos, a importância e ter noções de design de arquitetura, o leitor precisar saber como capturar a informação arquitetura e documentá-la. Conceitos de visões arquiteturais são introduzidos para facilitar a documentação das diferentes dimensões que uma arquitetura apresenta. Este capítulo pretende ser agnóstico a linguagens ou modelos de documentação de arquitetura, mas apresenta um exemplo de como fazê-lo. As mensagens deste capítulo são:</para>
+      <list id="id322996" display="block" list-type="bulleted"><item>O documento de arquitetura
+                auxilia no processo de design, é uma ferramenta
+                de comunicação entre stakeholders e pode
+                servir de modelo de análise do software.</item>
+<item id="uid49">Toda informação presente numa arquitetura é uma decisão arquitetural.
+</item>
+        <item id="uid50">Decisões arquiteturais podem ser existenciais, descritivas ou executivas.
+</item>
+        <item id="uid51">Decisões arquiteturais se relacionam, podendo restringir, impedir, facilitar, compor, conflitar, ignorar, depender ou ser alternativa a outras decisões arquiteturais.
+</item>
+        <item id="uid52">Um único diagrama não é suficiente para conter a quantidade de informação que deve ser mostrada por um arquiteto. Por isso, a necessidade de múltiplas visões da arquitetura.
+</item></list>
+    </section>
+  </content>
+</document>

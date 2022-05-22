@@ -1,0 +1,1195 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:md="http://cnx.rice.edu/mdml" xmlns:bib="http://bibtexml.sf.net/">
+    <title>Stakeholders</title>
+    <metadata>
+  <md:content-id>m26195</md:content-id><md:title>Stakeholders</md:title>
+  <md:abstract>Sobre a importância e a influência dos stakeholders no projeto da Arquitetura de Software</md:abstract>
+  <md:uuid>51ed97f9-856b-4d80-b1e5-cc8418feff30</md:uuid>
+</metadata>
+
+<content>
+        <para id="id178616">O ciclo de vida do software
+            é composto por diversas responsabilidades atribuídas
+            a pessoas, grupos e entidades a quem chamamos
+            de 
+            <emphasis effect="italics">stakeholders</emphasis>
+            ou interessados. Entre essas responsabilidades,
+            podemos citar o financiamento, o projeto, o
+            desenvolvimento, o teste, o uso e a manutenção
+            do software. A arquitetura, por sua vez, tem
+            como objetivos tanto facilitar o cumprimento
+            das responsabilidades dos stakeholders, quanto
+            atender às suas necessidades. Entre as necessidades,
+            citamos a urgência por desempenho, diversos
+            aspectos de segurança e usabilidade. Por sua
+            vez, o cumprimento desses objetivos tem impacto
+            direto nos atributos de qualidade exibidos
+            pelo software. Logo, os stakeholders têm forte
+            influência sobre a arquitetura do software
+            e também sobre os atributos de qualidade que
+            este exibirá ao longo de seu ciclo de vida
+            e é por isso que dedicamos um capítulo a eles.
+        </para>
+        <para id="id178634">Este capítulo tem como objetivo
+            fazer com que o leitor seja capaz de:</para>
+        <list id="id178639" display="block" list-type="bulleted">
+            <item id="uid2">Entender o conceito de stakeholders
+                da arquitetura de um software </item>
+            <item id="uid3">Identificar alguns stakeholders
+                e sua influência em uma arquitetura </item>
+            <item id="uid4">Relacionar stakeholders com
+                os atributos de qualidade impostos a um
+                software </item>
+            <item id="uid5">Entender que stakeholders também
+                se relacionam entre si, podendo, inclusive,
+                ser conflitantes </item>
+        </list>
+        <section id="cid1">
+            <title>Quem são os interessados em um sistema
+                de software?</title>
+            <para id="id178702">É comum termos como principais
+                interessados no ciclo de vida de um software
+                os seus usuários e desenvolvedores. Acontece
+                que eles não são os únicos envolvidos ou,
+                ao menos, são grupos homogêneos em termos
+                de interesses e necessidades. Entretanto,
+                para termos um ponto de partida, vamos
+                considerar um cenário em que existem apenas
+                esses dois grupos e algumas simplificações.
+                Nesse cenário, eles ambos os grupos são
+                homogêneos, ou seja, todos os usuários
+                e desenvolvedores apresentam os mesmos
+                interesses e necessidades, e os usuários
+                se encarregam de impor as necessidades,
+                enquanto os desenvolvedores cuidam para
+                que essas necessidades sejam alcançadas
+                através do produto de software. Para montarmos
+                esse cenário, vamos partir de um sistema
+                parecido com o nosso estudo de caso e,
+                pouco a pouco, retirar interesses e necessidades
+                dos envolvidos para observar suas influências
+                no software e em sua arquitetura. Esse
+                processo é ilustrado através do 
+                <link target-id="eip-525"/>.
+            </para>
+            <example id="eip-525">
+                <label>Exemplo</label>
+                <para id="eip-694"> Vamos considerar uma
+                    simplificação do SASF que chamaremos
+                    SSF (Sistema de Streaming de Filmes).
+                    Ele é mais simples porque realiza apenas
+                    uma das duas principais funcionalidades
+                    do SASF: transmitir de filmes. Por
+                    sua semelhança, consideramos que ele
+                    possui um conjunto de interessados
+                    parecido com o do SASF. Entretanto,
+                    para compormos um cenário sem conflitos,
+                    vamos começar descartando as distribuidoras
+                    de filmes desse conjunto. Com isso,
+                    passamos a responsabilidade de disponibilizar
+                    filmes aos usuários que inicialmente
+                    usam o software apenas para assisti-los.
+                    Contudo, as distribuidoras não são
+                    consideradas interessadas apenas por
+                    disponibilizarem filmes. Elas têm também
+                    a preocupação com que o software respeite
+                    os direitos autorais desses filmes.
+                    Para tanto, o SASF e o SSF são obrigados
+                    a só permitir a transmissão de filmes
+                    a pessoas autorizadas e impedir a redistribuição
+                    de vídeos por parte dos usuários. Essas
+                    obrigações têm efeito na arquitetura
+                    de ambos os produtos, que tem que prover
+                    não só meios de autenticar e autorizar
+                    usuários, para distinguir usuários
+                    que assistem dos usuários que distribuem
+                    filmes, como também prover meios de
+                    impedir ou dificultar a redistribuição
+                    do conteúdo transmitido. </para>
+                <para id="eip-2321"> A autenticação e autorização
+                    são feitas por um módulo responsável
+                    pelo cadastro e autenticação de usuários
+                    e criação de sessões de uso. Esse módulo
+                    provê opções para se cadastrar como
+                    distribuidor ou consumidor de filmes.
+                    Para o cadastro, o usuário deve prover
+                    informações para contato qualquer que
+                    seja seu papel. Porém, enquanto a conta
+                    para um consumidor é criada assim que
+                    o número de seu cartão de crédito seja
+                    verificado junto a operadora, o mesmo
+                    não acontece para a conta do distribuidor.
+                    Para o cadastro de um consumidor ser
+                    efetivado, é necessária uma verificação
+                    não-automática de sua autenticidade.
+                    Essa verificação é iniciada a partir
+                    de uma notificação por e-mail, que
+                    indica o distribuidor recém-cadastrado
+                    e que é enviado às pessoas do departamento
+                    responsável pela verificação de usuários.
+                    </para>
+                <para id="eip021312">A proteção contra
+                    redistribuição do conteúdo transmitido,
+                    por sua vez, é feita por meio da Gestão
+                    de Direitos Digitais (GDD)
+                    <footnote id="uid6">
+                        <emphasis effect="italics">Digital
+                            Rights Management</emphasis>
+                        (DRM)
+                    </footnote>. Por isso, a arquitetura
+                    não só define o servidor de stream,
+                    mas também o aplicativo cliente e reprodutor
+                    de filmes que é o único capaz de decodificar
+                    o vídeo. 
+                </para>
+                <para id="qweqweas"> Por outro lado, ao
+                    descartarmos as distribuidoras de filmes
+                    de seu grupo de interessados, o SSF
+                    fica livre das restrições impostas
+                    por elas e passar a não necessitar
+                    de uma arquitetura que permita autenticação
+                    e autorização para distribuição de
+                    filmes, nem proteção do conteúdo distribuído.
+                    Por isso, sua arquitetura pode ser
+                    simplificada. Uma forma de simplificar
+                    é não mais usar a GDD. Dessa maneira,
+                    fica decidido que a transmissão será
+                    feita usando qualquer formato de vídeo
+                    amplamente adotado por reprodutores
+                    de mídia. Essa decisão exclui até o
+                    que antes era a necessidade: implementar
+                    um reprodutor de filmes próprio, mas
+                    também melhora a usabilidade, uma vez
+                    que agora o usuário está livre para
+                    assistir a filmes com o reprodutor
+                    que desejar. </para>
+                <para id="a1231ass">A desconsideração de
+                    apenas um grupo de interessados causou
+                    mudanças profundas tanto nos atributos
+                    de segurança, quanto nos de usabilidade
+                    do sistema e, como consequência, causou
+                    mudanças também na arquitetura. Se
+                    continuarmos a simplificação de nosso
+                    cenário e desconsiderarmos o cliente
+                    do software, poderemos então descartar
+                    a necessidade de um baixo custo de
+                    desenvolvimento e operação. Assim,
+                    para alcançarmos desempenho esperado
+                    pelos consumidores de filmes, a arquitetura
+                    do SSF poderia adotar uma técnica simples,
+                    porém cara: para servir mais rápido,
+                    basta apenas dispor de mais recursos
+                    computacionais, por exemplo, processadores,
+                    HDs, memória e conexões maiores, mais
+                    rápidos e em maior número. Com essa
+                    decisão de aumentar os recursos não
+                    se importando com o preço, o SSF poderá
+                    não só servir os usuários mais rápido,
+                    como também servir a mais usuários.
+                    <footnote id="example-footnote123123">Desempenho
+                        é um atributo comumente esperado
+                        pelos usuários, que nunca querem
+                        esperar pelo serviço. Já escalabilidade
+                        não é um atributo requerido explicitamente
+                        por eles, mas se torna necessária
+                        quando o número de usuários aumenta
+                        e não se aceita que o desempenho
+                        degrade.</footnote>Essa abordagem
+                    de apenas melhorar o hardware para
+                    servir a uma maior demanda é o que
+                    no próximo capítulo chamamos de escalabilidade
+                    vertical. A escalabilidade vertical
+                    costuma ser bem cara e ter um limite
+                    menor de crescimento em relação à sua
+                    alternativa, que é a escalabilidade
+                    horizontal. Nesse segundo tipo de escalabilidade,
+                    a organização do software e como ele
+                    se comunica realiza um papel essencial
+                    para atender à grande demanda de usuários,
+                    mesmo quando executando em hardware
+                    de menor capacidade. Em outras palavras,
+                    há um melhor aproveitamento dos recursos
+                    disponíveis, algo que só pode ser alcançado
+                    por meio de uma arquitetura bem pensada.
+                    
+                </para>
+            </example>
+            <para id="id178845">É importante lembrar que
+                dentro de um mesmo grupo de interessados
+                podem existir interesses conflitantes entre
+                si. Afinal, um grupo pode se organizar
+                em subgrupos de interesses comuns, mas
+                um subgrupo pode demonstrar interesses
+                conflitantes com outro subgrupo. Portanto,
+                subgrupos diferentes de usuários ou de
+                desenvolvedores resultam em requisitos
+                diferentes, que significam atributos de
+                qualidade diferentes e que são frutos de
+                arquiteturas diferentes. Podemos observar
+                isso no estudo de caso (também citado no
+                <link target-id="eip-525"/>), quando o
+                grupo de usuários se organiza em dois subgrupos:
+                os que se cadastram no sistema para alugar
+                filmes e as distribuidoras de filmes. O
+                resultado dessa divisão e o conflito podem
+                também ser observados no exemplo (e na
+                <link target-id="uid8"/>). Por um lado,
+                as distribuidoras impõem seus requisitos
+                de proteção aos direitos autorais. Por
+                outro, os usuários têm a forma de interação
+                com o sistema modificada, uma vez que devem
+                usar um reprodutor de filmes específico
+                para que os requisitos das distribuidoras
+                sejam alcançados. Em resumo, mesmo fazendo
+                parte de um mesmo grupo de envolvidos,
+                a influência de cada subgrupo não pode
+                ser desconsiderada, uma vez que ela pode
+                ser grande o bastante para modificar, inclusive,
+                a forma de outros subgrupos interagirem
+                com o sistema.
+            </para>
+            <figure id="uid8">
+                <label>Figura</label>
+                <media id="uid8_media" alt="">
+                    <image mime-type="image/png" src="../../media/stakeholders-conflitos.png" id="uid8_onlineimage" width="500">
+                        <!-- NOTE: attribute width changes
+                        image size online (pixels). original
+                        width is 2500. -->
+                    </image>
+                    <image for="pdf" mime-type="application/postscript" src="../../media/stakeholders-conflitos.eps" id="uid8_printimage" print-width="8cm">
+                        <!--NOTE: attribute width changes
+                        image size in printed PDF (if specified
+                        in .tex file)-->
+                    </image>
+                </media>
+                <caption>Stakeholders de um mesmo grupo,
+                    mas divergindo nos requisitos.</caption>
+            </figure>
+            <section id="uid9">
+                <title>Importância dos interessados</title>
+                <para id="id178898">Podemos observar por
+                    meio do 
+                    <link target-id="eip-525"/> que a presença
+                    ou ausência de um interessado tem grande
+                    influência na arquitetura. Além disso,
+                    é comum que sua ausência dê espaço
+                    para simplificações nas decisões arquiteturais.
+                    <footnote id="uid10">Note que uma arquitetura
+                        mais simples não necessariamente
+                        significa um produto com desenvolvimento
+                        mais barato ou execução mais rápida.</footnote>
+                    Entretanto, no mundo real, os envolvidos
+                    não se limitam a usuários e desenvolvedores.
+                    Há diversos outros tipos de envolvidos
+                    que influenciam o desenvolvimento do
+                    software de diversas maneiras diferentes.
+                    Esses envolvidos que influenciam o
+                    ciclo de vida do software também são
+                    chamados 
+                    <emphasis effect="italics">stakeholders</emphasis>.
+                    Devido ao conceito de stakeholder ser
+                    bastante amplo e transcender a Engenharia
+                    de Software, preocupamo-nos apenas
+                    com aqueles que impactam a arquitetura
+                    e, por isso, usamos a definição dada
+                    por Rozanski e Woods:
+                </para>
+                <para id="id178934">
+                    <definition id="stakeholder-def">
+                        <label>Definição</label>
+                        <term>stakeholder</term>
+                        <meaning id="stakeholder-meaning">
+                            “Um stakeholder em uma arquitetura
+                            de software é uma pessoa, grupo
+                            ou entidade com um interesse
+                            ou preocupações sobre a realização
+                            da arquitetura.”
+                            <footnote id="uid11">N. Rozanski
+                                and E. Woods. 
+                                <emphasis effect="italics">Software
+                                Systems Architecture: Working
+                                With Stakeholders Using
+                                Viewpoints and Perspectives</emphasis>,
+                                Addison-Wesley Professional
+                                2005.
+                            </footnote>
+                        </meaning>
+                    </definition>
+                </para>
+                <para id="id178961">Alguns stakeholders
+                    têm diferentes responsabilidades durante
+                    o ciclo de vida do software. Entre
+                    as responsabilidades, podemos citar
+                    financiamento, projeto, desenvolvimento,
+                    teste, uso, manutenção e até passagem
+                    de conhecimento sobre ele. Outros stakeholders,
+                    por sua vez, esperam que o software
+                    funcione de alguma forma específica:
+                    eles têm necessidades em relação ao
+                    software. Por exemplo, é comum para
+                    um usuário esperar que o resultado
+                    alcançado pelo software seja confiável
+                    ou que seja alcançado em um tempo hábil.
+                    Quando estamos no espaço do problema,
+                    costumamos chamar essas responsabilidades
+                    e necessidades de requisitos do software.
+                    Por outro lado, quando estamos no espaço
+                    da solução, costumamos chamá-las de
+                    <emphasis effect="italics">atributos
+                        de qualidade</emphasis>. Logo,
+                    os stakeholders têm forte influência
+                    sobre a arquitetura de um software
+                    porque ela é uma ferramenta essencial
+                    para proporcionar seus atributos de
+                    qualidade e atender aos requisitos,
+                    como, por exemplo: custo, reusabilidade,
+                    testabilidade, manutenibilidade, legibilidade,
+                    desempenho, escalabilidade, segurança,
+                    confiabilidade, entre outros.
+                </para>
+            </section>
+        </section>
+        <section id="cid2">
+            <title>Tipos de stakeholders e sua relação
+                com os atributos de qualidade</title>
+            <para id="id178556">Entre os diversos tipos
+                de stakeholders que influenciam a arquitetura,
+                podemos citar os usuários, os desenvolvedores,
+                os gerentes, os testadores, os clientes
+                (que podem ou não ser usuários), os designers
+                de outros sistemas e os mantenedores, além
+                dos analistas e o próprio arquiteto do
+                sistema. Considerando que esse é um conjunto
+                heterogêneo de papéis, é natural que cada
+                papel possua diferentes necessidades e
+                responsabilidades que têm efeito sobre
+                a arquitetura e que, eventualmente, resultem
+                em conflitos.</para>
+            <para id="id178566">Resolver conflitos de interesses
+                entre stakeholders está entre as obrigações
+                de um arquiteto de software. Ele deve ser
+                consciente de que muitas vezes não será
+                possível agradar perfeitamente a todos
+                os interessados, uma vez que esses conflitos
+                podem impedir o projeto de uma solução
+                ótima. Portanto, sua obrigação será a de
+                produzir uma arquitetura boa o suficiente
+                e que faça todos os stakeholders ficarem
+                satisfeitos. Por isso, é importante que
+                cada envolvido seja informado de como a
+                solução de seu interesse foi restringida
+                pelos interesses de outros envolvidos.</para>
+            <para id="id178575">A seguir, podemos observar
+                duas situações de divergências entre stakeholders
+                que resultam em conflitos entre os atributos
+                de qualidade.</para>
+            <example id="eip-768">
+                <label>Exemplo</label>
+                <para id="eip-871">As distribuidoras esperam
+                    que os direitos autorais de seus filmes
+                    sejam protegidos, já os usuários querem
+                    apenas assistir a seus filmes sem dificuldades
+                    ou interrupções. A forma encontrada
+                    para proteger os direitos autorais
+                    foi por meio da Gestão de Direitos
+                    Digitais. Essa decisão implica em restringir
+                    o reprodutor de mídia que pode ser
+                    usado e obrigar o usuário a se autenticar
+                    no sistema para assistir a algum filme.
+                    Tanto a restrição do reprodutor de
+                    mídia, quanto a autenticação do usuário
+                    dificultam a tarefa de assistir a um
+                    filme, uma vez que o usuário pode não
+                    se lembrar de seu login ou senha ou
+                    ele pode não estar acostumado com o
+                    reprodutor de filmes permitido. Por
+                    isso, essa decisão de segurança tem
+                    impacto negativo na usabilidade. Portanto,
+                    podemos observar aqui um conflito entre
+                    segurança e usabilidade. </para>
+            </example>
+            <example id="eip-973">
+                <label>Exemplo</label>
+                <para id="eip-393"> Ainda no SASF e também
+                    pela decisão de proteger os direitos
+                    autorais usando GDD, o arquivo contendo
+                    o filme é transmitido encriptado para
+                    o cliente. Essa encriptação é uma forma
+                    de dificultar a reprodução do vídeo
+                    em programas não autorizados. No entanto,
+                    o reprodutor de vídeo autorizado deve
+                    pagar um preço por isso: para decodificar
+                    um arquivo com GDD, é necessário mais
+                    processamento e, portanto, maior consumo
+                    de recursos. Isso ocasiona perda de
+                    desempenho, o que pode ser crítico
+                    em dispositivos com menos recursos,
+                    como celulares. Por isso, a decisão
+                    de segurança também tem impacto negativo
+                    no desempenho, caracterizando um conflito
+                    entre esses dois atributos. </para>
+            </example>
+            <para id="id179128">Note que para afirmarmos
+                que uma arquitetura alcançou algum sucesso,
+                os stakeholders devem se mostrar satisfeitos
+                com o sistema desenvolvido a partir dela.
+                Para tanto, espera-se que o arquiteto seja
+                capaz de projetar uma arquitetura que alcance
+                dois principais objetivos: atendimento
+                de requisitos e resolução de conflitos.</para>
+            <section id="uid14">
+                <title>Atendimento aos requisitos como
+                    medida de sucesso</title>
+                <para id="id179145">O primeiro objetivo,
+                    atender aos requisitos dos stakeholders,
+                    acaba sendo óbvio, pois para satisfazer
+                    os interessados, o sistema deve fazer
+                    o que eles esperam dele. Mas apesar
+                    de óbvio, enfatizar esse objetivo serve
+                    para o arquiteto iniciante perceber
+                    que seu objetivo principal é projetar
+                    uma arquitetura com atributos de qualidade
+                    capazes de atender aos requisitos do
+                    sistema 
+                    <emphasis effect="italics">impostos
+                        e esperados pelos stakeholders</emphasis>
+                    e não só por ele próprio. No exemplo
+                    a seguir, mostramos um caso quando
+                    isso não acontece.
+                </para>
+                <example id="eip-803">
+                    <label>Exemplo</label>
+                    <para id="eip-969"> Em alguns celulares
+                        e outros aparelhos que executam
+                        software embarcado, espera-se que
+                        esse software tenha um bom desempenho,
+                        principalmente considerando a escassez
+                        de recursos do ambiente de execução.
+                        Afinal, o usuário não quer pressionar
+                        uma tecla e esperar vários segundos
+                        pela resposta. Por outro lado,
+                        não se espera que o software seja
+                        extensível, uma vez que alguns
+                        desses aparelhos nem ao menos permitem
+                        atualizações de software. Considerando
+                        que, nesse caso, desempenho e economia
+                        de recursos são requisitos mais
+                        críticos que extensibilidade, de
+                        nada adianta o arquiteto do software
+                        para aparelhos que não permitem
+                        atualizações projete uma arquitetura
+                        que torne o software extensível,
+                        com diversos níveis de abstração,
+                        quando esses níveis impactam negativamente
+                        no desempenho. </para>
+                </example>
+                <para id="id179174">Pode parecer ingenuidade
+                    tomar decisões em favor da extensibilidade
+                    quando se espera desempenho, como ilustrado
+                    no 
+                    <link target-id="eip-803"/>. No entanto,
+                    esse erro é muito comum e não é só
+                    cometido por arquitetos inexperientes.
+                    Muitos arquitetos não consideram o
+                    real impacto de suas decisões e se
+                    deixam levar por modas de padrões,
+                    <emphasis effect="italics">frameworks</emphasis>
+                    <footnote id="uid15">É comum que a
+                        adoção de um 
+                        <emphasis effect="italics">framework</emphasis>
+                        seja seguida de decisões arquiteturais
+                        impostas por ele e essas decisões
+                        podem comprometer ou conflitar
+                        com os objetivos traçados pelo
+                        arquiteto e esperados pelos stakeholders.
+                    </footnote> ou abordagens que prometem
+                    resolver todos seus problemas. Às vezes,
+                    é apenas considerado que assim será
+                    mais fácil “vender” a arquitetura ao
+                    gerente do projeto.
+                </para>
+                <para id="id179211">Por fim, poderíamos
+                    ainda afirmar a partir do primeiro
+                    objetivo: não importa o quanto “de
+                    acordo com as boas práticas” a arquitetura
+                    de um software está, se ela não atende
+                    aos requisitos que esperam que ela
+                    atenda. Ela, simplesmente, estaria
+                    acertando o alvo errado.
+                    <footnote id="uid16">Mas é claro que
+                        as boas práticas serão 
+                        <emphasis effect="italics">ferramentas</emphasis>
+                        para resolver os problemas propostos
+                        pelos stakeholders.
+                    </footnote> Portanto, a medida de atendimento
+                    aos requisitos do sistema é a melhor
+                    medida de sucesso da arquitetura, desde
+                    que se conheçam os requisitos.
+                </para>
+            </section>
+            <section id="uid17">
+                <title>Conflitos entre requisitos e atributos
+                    de qualidade</title>
+                <para id="id179252">Situações de conflito
+                    surgem quando requisitos de stakeholders
+                    divergem ou afetam atributos de qualidade
+                    comuns. Podemos observar que esse tipo
+                    de situação está presente, inclusive,
+                    em alguns exemplos anteriores (<link target-id="eip-768"/> e 
+                    <link target-id="eip-973"/>). Nesses
+                    exemplos são ilustrados conflitos entre
+                    atributos de segurança e usabilidade
+                    e entre segurança e desempenho. A seguir,
+                    citamos outros atributos de qualidade
+                    e relacionamos a alguns stakeholders
+                    que têm requisitos que comumente divergem
+                    durante o ciclo de vida do software.
+                </para>
+                <example id="eip-156">
+                    <label>Exemplo</label>
+                    <title>Desempenho versus custo</title>
+                    <para id="eip-652"> Usuários buscam
+                        por maior desempenho, enquanto
+                        clientes e gerentes costumam preferir
+                        menor custo de desenvolvimento.
+                        Esses atributos divergem porque
+                        é comum que maior desempenho resulte
+                        em uma solução que necessite de
+                        mais recursos computacionais ou
+                        ainda desenvolvedores mais qualificados
+                        na sua construção. </para>
+                </example>
+                <example id="eip-178">
+                    <label>Exemplo</label>
+                    <title>Desempenho versus escalabilidade</title>
+                    <para id="eip-966"> O cliente, que
+                        espera ganhar dinheiro a partir
+                        da popularização do software, impõe
+                        o requisito que ele seja capaz
+                        de servir a demanda crescente de
+                        usuários. Já os usuários continuam
+                        buscando por desempenho do software,
+                        não se importando se há dez, mil
+                        ou um milhão de usuários usando-o
+                        ao mesmo tempo. Uma forma simples
+                        de servir a demanda crescente de
+                        usuários, ou escalar, seria não
+                        se preocupar com o tempo de resposta
+                        do serviço para cada usuário e
+                        aumentá-lo drasticamente. No entanto,
+                        o aumento do tempo de resposta
+                        é um indício de perda de desempenho,
+                        caracterizando o conflito. </para>
+                </example>
+                <example id="eip-222">
+                    <label>Exemplo</label>
+                    <title>Usabilidade versus segurança</title>
+                    <para id="eip-764"> Em um último exemplo,
+                        citamos o conflito entre usabilidade
+                        e segurança. Usuários esperam realizar
+                        suas tarefas rapidamente, sem dúvidas
+                        e sem erros causados pela dificuldade
+                        de usar, ou seja, esperam usabilidade
+                        do software. Por outro lado, auditores,
+                        clientes e os próprios usuários
+                        esperam que suas informações estejam
+                        a salvo, tanto para casos de ataques,
+                        quanto para manipulação indevida.
+                        Medidas de segurança devem ser
+                        projetadas e o software deve prover
+                        meios de autenticação, autorização,
+                        confidencialidade e auditabilidade.
+                        Ao tomar essas medidas, a usabilidade
+                        é afetada negativamente, uma vez
+                        que mais passos serão necessários
+                        para se realizar as mesmas ações.
+                        Por exemplo, para começar a usar
+                        o software, agora será necessário
+                        inserir uma senha para que o usuário
+                        seja autenticado. Portanto, a adoção
+                        de políticas de segurança costuma
+                        afetar negativamente a usabilidade
+                        do sistema. </para>
+                </example>
+            </section>
+            <section id="uid19">
+                <title>Responsabilidades dos stakeholders</title>
+                <para id="id179357">Como já foi mencionado
+                    anteriormente, stakeholders têm responsabilidades
+                    durante o ciclo de vida do software.
+                    A seguir, agrupamos as responsabilidades
+                    em quatro grandes tipos e citamos seu
+                    principais interessados:</para>
+                <list id="id179364" display="block" list-type="bulleted">
+                    <item id="uid21">Uso ou aquisição do
+                        sistema, que são responsabilidades
+                        de usuários e clientes; </item>
+                    <item id="uid22">Desenvolvimento, descrição
+                        e documentação da arquitetura do
+                        sistema, que são responsabilidades
+                        do arquiteto do sistema; </item>
+                    <item id="uid23">Desenvolvimento e
+                        manutenção do sistema, que são
+                        responsabilidades que envolvem
+                        o maior número de stakeholders:
+                        arquitetos, projetistas, programadores,
+                        mantenedores, testadores, engenheiros
+                        de domínio, gerentes de projetos
+                        e desenvolvedores, entre outros;
+                        </item>
+                    <item id="uid24">Avaliação do sistema
+                        e do seu desenvolvimento, que são
+                        responsabilidades de CIOs
+                        <footnote id="uid25">Chief Information
+                            Officer ou CIO é o nome dado
+                            ao diretor do departamento
+                            de Tecnologia da Informação
+                            de uma empresa.</footnote>,
+                        auditores e avaliadores independentes.
+                        
+                    </item>
+                </list>
+                <para id="id179435">Por fim, descrevemos
+                    alguns dos stakeholders citados e qual
+                    sua influência da arquitetura e em
+                    sua documentação. Para tanto, mencionamos
+                    quais são seus interesses comuns e
+                    o que eles esperam da documentação
+                    da arquitetura.</para>
+                <section id="uid26">
+                    <title>Usuários</title>
+                    <para id="id179450">A principal preocupação
+                        dos usuários é com as funcionalidades
+                        providas pelo sistema, pouco importando
+                        como o software foi dividido em
+                        módulos ou como esses módulos se
+                        comunicam entre si. Podemos afirmar
+                        que um usuário só pensa em um atributo
+                        de qualidade, por exemplo, em desempenho
+                        ou em segurança, quando algum desses
+                        lhe faltar.</para>
+                    <para id="id179459">Essa despreocupação
+                        com a organização interna do software
+                        poderia nos fazer afirmar ingenuamente
+                        que a arquitetura não interessa
+                        ao usuário. No entanto, ela interessa,
+                        ainda que indiretamente, uma vez
+                        que o sistema deve possuir uma
+                        arquitetura que proporcione os
+                        atributos de qualidade esperados
+                        pelos usuários para que funcione
+                        de forma satisfatória.</para>
+                    <para id="id179467">Já em relação à
+                        documentação, os usuários estão
+                        interessados em saber as capacidades
+                        e o comportamento do sistema. Vale
+                        notar que essa informação pode
+                        estar em outros documentos, como
+                        em um manual do usuário, mas esse
+                        e outros documentos devem ser escritos
+                        tendo por base o documento de arquitetura,
+                        que deve conter essas informações.</para>
+                </section>
+                <section id="uid27">
+                    <title>Clientes</title>
+                    <para id="id179485">Da mesma forma
+                        que os usuários, os clientes não
+                        costumam se preocupar em detalhes
+                        técnicos da arquitetura. Eles estão
+                        interessados nas características
+                        da arquitetura ligadas ao seu negócio:
+                        se o sistema faz o que deveria
+                        fazer, seus custos, sejam de desenvolvimento
+                        ou de execução, e o planejamento
+                        de seu desenvolvimento. Isso se
+                        faz necessário para justificar
+                        o dinheiro investido no software.</para>
+                    <para id="id179494">Clientes também
+                        se mostram interessados na justificativa
+                        de resolução dos eventuais conflitos,
+                        principalmente se essa resolução
+                        tem impacto no negócio.</para>
+                </section>
+                <section id="uid28">
+                    <title>Arquiteto</title>
+                    <para id="id179509">Uma vez que é o
+                        principal responsável por projetar
+                        a arquitetura, o arquiteto tem
+                        a obrigação de conhecer os stakeholders
+                        envolvidos no sistema. Isso permitirá
+                        que ele saiba o que os stakeholders
+                        esperam do sistema e, por fim,
+                        seja capaz de projetar o sistema
+                        de acordo com os requisitos esperados.
+                        O arquiteto também é responsável
+                        por negociar os conflitos de interesses
+                        entre os stakeholders, o que resultará
+                        numa arquitetura com atributos
+                        de qualidade que agradem a vários,
+                        mesmo que parcialmente.</para>
+                    <para id="id179518">A necessidade de
+                        conhecer e dialogar com os diversos
+                        stakeholders faz com que o arquiteto
+                        precise de habilidades tanto sociais
+                        quanto técnicas. Em relação ao
+                        conhecimento técnico, ser experiente
+                        no domínio do problema o ajudará
+                        a identificar previamente as dificuldades
+                        e soluções a serem encontradas
+                        ao longo do desenvolvimento. Já
+                        as habilidades sociais o ajudam
+                        tanto na descoberta de requisitos,
+                        quanto na negociação de divergências.</para>
+                </section>
+                <section id="uid29">
+                    <title>Desenvolvedor</title>
+                    <para id="id179538">O desenvolvedor
+                        vê a arquitetura como base para
+                        construir o sistema. Há dois extremos
+                        de como a arquitetura pode ser
+                        apresentada para ele. Ela pode
+                        ser apresentada como uma especificação,
+                        onde não há qualquer liberdade
+                        de design durante o desenvolvimento.
+                        Ou ela pode ser apresentada como
+                        um guia, que apresenta algumas
+                        restrições essenciais para que
+                        o software alcance o sucesso, mas
+                        também possui diversas liberdades
+                        para as decisões de implementação
+                        e design de baixo-nível que ficam
+                        a cargo do time de desenvolvimento.
+                        Ao longo de todo o espectro, o
+                        desenvolvedor espera pela ideia
+                        geral do sistema, onde as funcionalidades
+                        serão implementadas, quem serão
+                        os responsáveis por elas e quais
+                        as decisões de design de alto-nível
+                        relacionadas a elas.</para>
+                    <para id="id179554">Um desenvolvedor
+                        comumente espera que a arquitetura
+                        também seja viável e de acordo
+                        com suas habilidades, além de que
+                        possua as decisões de design escritas
+                        de forma clara e objetiva. Ele
+                        também espera que o documento de
+                        arquitetura possibilite a associação
+                        dos requisitos do sistema às partes
+                        que o compõem. Essa associação
+                        é o que chamamos de rastreabilidade,
+                        que torna mais fácil tanto a manutenção
+                        quanto o entendimento do sistema.</para>
+                </section>
+                <section id="uid30">
+                    <title>Testador</title>
+                    <para id="id179573">O testador procura
+                        no documento de arquitetura as
+                        restrições as quais o software
+                        deve obedecer. Além disso, ele
+                        espera que o software seja 
+                        <emphasis effect="italics">testável</emphasis>
+                        e, para tanto, sua arquitetura
+                        deve proporcionar tal atributo
+                        de qualidade.
+                    </para>
+                    <para id="id179584">O nível de testabilidade
+                        de um software está diretamente
+                        ligado a capacidade dele (ou de
+                        suas partes) ser posto em execução
+                        em ambiente de desenvolvimento
+                        e de seu comportamento, interno
+                        ou externo, ser verificável a partir
+                        do esperado.</para>
+                </section>
+                <section id="uid31">
+                    <title>Gerente de projeto</title>
+                    <para id="id179601">O gerente de projeto,
+                        assim como o cliente, está interessado
+                        em custos e planejamento. No entanto,
+                        ele também se preocupa com detalhes
+                        técnicos da arquitetura e como
+                        ela ajudará no desenvolvimento
+                        do software. A arquitetura o ajudará
+                        a resolver problemas do tipo: como
+                        dividir o time de desenvolvimento
+                        a fim de paralelizar a construção
+                        dos módulos, quais partes do software
+                        podem ter o código reusado, terceirizado
+                        ou comprado, ou ainda como as funcionalidades
+                        serão divididas entre os múltiplos
+                        <emphasis effect="italics">releases</emphasis>
+                        do software.
+                    </para>
+                </section>
+            </section>
+        </section>
+        <section id="cid3">
+            <title>Resumo</title>
+            <para id="id179625">De maneira alguma esgotamos
+                o assunto sobre stakeholders. Por outro
+                lado, não devemos nos aprofundar ainda
+                mais para não perdermos nosso foco que
+                é o design da arquitetura. Entretanto,
+                acreditamos alcançar os objetivos deste
+                capítulo, mesmo com uma abordagem superficial
+                sobre o assunto. Assim, esperamos que o
+                leitor, a partir de agora:</para>
+            <list id="id179634" display="block" list-type="bulleted">
+                <item id="uid32">entenda e exemplifique
+                    o conceito de stakeholders da arquitetura
+                    de um software; </item>
+                <item id="uid33">entenda a influência desses
+                    stakeholders; </item>
+                <item id="uid34">relacione os stakeholders
+                    aos atributos de qualidade esperados
+                    pelo software; e </item>
+                <item id="uid35">entenda que os stakeholders
+                    se relacionam entre si, podendo, inclusive,
+                    gerar demandas conflitantes. </item>
+            </list>
+            <para id="id179687">Nos capítulos a seguir,
+                voltamos nosso foco aos atributos de qualidade
+                e às técnicas de como se projetar uma arquitetura
+                que atenda a esses atributos. Ainda assim,
+                não podemos esquecer que nossos objetivos
+                como arquitetos são descritos explicita
+                ou implicitamente pelos stakeholders e
+                por sua influência sobre arquitetura do
+                software.</para>
+        </section>
+        <section id="id179696">
+            <title>Referências</title>
+            <section id="id179702">
+                <title>Definição e papel dos stakeholders</title>
+                <para id="id179709">O padrão ISO/IEEE 1471-2000
+                    <link target-id="bid0"/>, além de definir
+                    stakeholders, modela seu papel em relação
+                    aos vários elementos relacionados à
+                    arquitetura de software. É nesse padrão
+                    que Rozanski e Woods se baseiam para
+                    para chegar à definição de stakeholders
+                    no livro 
+                    <emphasis effect="italics">Software
+                        Systems Architecture: Working With
+                        Stakeholders Using Viewpoints and
+                        Perspectives</emphasis>
+                    <link target-id="bid1"/>, onde dedicam
+                    um capítulo inteiro sobre o assunto.
+                    Outras duas importantes referências
+                    sobre o papel dos stakeholders ao longo
+                    da vida da arquitetura são dois livros
+                    publicados pelo Software Engineering
+                    Institute, da Carnegie Mellon University:
+                    <emphasis effect="italics">Software
+                        Architecture in Practice</emphasis>
+                    de Bass 
+                    <emphasis effect="italics">et al</emphasis>
+                    <link target-id="bid2"/> e 
+                    <emphasis effect="italics">Documenting
+                        Software Architecture: Views and
+                        Beyond</emphasis> de Clements 
+                    <emphasis effect="italics">et al</emphasis>
+                    <link target-id="bid3"/>. Ambos mostram
+                    a importância de considerar os stakeholders,
+                    sendo o segundo mais completo pois
+                    também trata das escolhas que o arquiteto
+                    deve fazer ao criar as visões da arquitetura
+                    de acordo com os interessados.
+                </para>
+            </section>
+            <section id="id179775">
+                <title>Arquiteto como stakeholder</title>
+                <para id="id179781">Taylor 
+                    <emphasis effect="italics">et al</emphasis>,
+                    no livro 
+                    <emphasis effect="italics">Software
+                        Architecture: Foundations, Theory,
+                        and Practice</emphasis>
+                    <link target-id="bid4"/>, dedicam todo
+                    um capítulo sobre a responsabilidade
+                    do arquiteto como stakeholder, incluindo
+                    os diversos papéis que ele pode assumir
+                    durante o ciclo de vida do software.
+                </para>
+                <para id="id179803">Outros artigos importantes
+                    sobre o papel do arquiteto de software
+                    que podemos citar são o 
+                    <emphasis effect="italics">The Software
+                        Architect – and The Software Architecture
+                        Team</emphasis> de Kruchten 
+                    <link target-id="bid5"/>, o 
+                    <emphasis effect="italics">Who Needs
+                        an Architect?</emphasis> de Fowler
+                    <link target-id="bid6"/> e o 
+                    <emphasis effect="italics">The Software
+                        Architect: Essence, Intuition,
+                        and Guiding Principles</emphasis>
+                    de McBride 
+                    <link target-id="bid7"/>.
+                </para>
+            </section>
+            <section id="id179842">
+                <title>Responsabilidades dos stakeholders</title>
+                <para id="id179848">Booch discute sobre
+                    a “despreocupação” dos usuários em
+                    relação à arquitetura em 
+                    <emphasis effect="italics">The Irrelevance
+                        of Architecture</emphasis>
+                    <link target-id="bid8"/>. Já em 
+                    <emphasis effect="italics">Goodness
+                        of Fit</emphasis>
+                    <link target-id="bid9"/>, ele escreve
+                    sobre o que seria uma arquitetura de
+                    sucesso.
+                </para>
+                <para id="id179875">Por fim, Hohmann, no
+                    livro 
+                    <emphasis effect="italics">Beyond Software
+                        Architecture</emphasis>
+                    <link target-id="bid10"/> trata das
+                    diversas preocupações ligadas aos atributos
+                    de qualidade do software. Preocupações
+                    que não são apenas do arquiteto, mas
+                    também são dos diversos envolvidos
+                    no desenvolvimento do software.
+                </para>
+            </section>
+        </section>
+        <section id="id179893">
+            <title>Exercícios</title>
+            <exercise id="eip-489">
+                <label>Exercício</label>
+                <problem id="eip-472">
+                    <para id="eip-144"> Qual a importância
+                        da identificação dos stakeholders
+                        na arquitetura de um sistema de
+                        software? </para>
+                </problem>
+            </exercise>
+            <exercise id="eip-720">
+                <label>Exercício</label>
+                <problem id="eip-122">
+                    <para id="eip-361"> A identificação
+                        de muitos stakeholders em uma arquitetura
+                        aumenta a chance de sucesso. No
+                        entanto, os interesses dos stakeholders
+                        muitas vezes não são claros e podem
+                        ser conflitantes e/ou contraditórios.
+                        Cite mais exemplos desses conflitos/contradições.
+                        </para>
+                </problem>
+            </exercise>
+            <exercise id="eip-108">
+                <label>Exercício</label>
+                <problem id="eip-158">
+                    <para id="eip-201"> É impossível capturar
+                        as características funcionais e
+                        as propriedades de qualidade de
+                        um sistema complexo com um simples
+                        modelo. De que forma poder-se-ia
+                        representar arquiteturalmente sistemas
+                        complexos de forma que seja gerenciável
+                        e compreensível por uma faixa de
+                        stakeholders técnicos e de negócio?
+                        </para>
+                </problem>
+            </exercise>
+        </section>
+    </content>
+    <bib:file>
+        <bib:entry id="bid2">
+            <bib:book>
+                <!--required fields-->
+                <bib:author>Bass, Len and Clements, Paul
+                    and Kazman, Rick</bib:author>
+                <bib:title>Software Architecture in Practice,
+                    Second Edition</bib:title>
+                <bib:publisher>Addison-Wesley Professional</bib:publisher>
+                <bib:year>2003</bib:year>
+                <!--optional fields-->
+                <bib:volume/>
+                <bib:series/>
+                <bib:address/>
+                <bib:edition/>
+                <bib:month>April</bib:month>
+                <bib:note/>
+            </bib:book>
+        </bib:entry>
+        <bib:entry id="bid9">
+            <bib:article>
+                <!--required fields-->
+                <bib:author>Booch, G.</bib:author>
+                <bib:title>Goodness of Fit</bib:title>
+                <bib:journal>Software, IEEE</bib:journal>
+                <bib:year>2006</bib:year>
+                <!--optional fields-->
+                <bib:volume>23</bib:volume>
+                <bib:number>6</bib:number>
+                <bib:pages>14–15</bib:pages>
+                <bib:month/>
+                <bib:note/>
+            </bib:article>
+        </bib:entry>
+        <bib:entry id="bid8">
+            <bib:article>
+                <!--required fields-->
+                <bib:author>Booch, Grady</bib:author>
+                <bib:title>The Irrelevance of Architecture</bib:title>
+                <bib:journal>Software, IEEE</bib:journal>
+                <bib:year>2007</bib:year>
+                <!--optional fields-->
+                <bib:volume>24</bib:volume>
+                <bib:number>3</bib:number>
+                <bib:pages>10–11</bib:pages>
+                <bib:month/>
+                <bib:note/>
+            </bib:article>
+        </bib:entry>
+        <bib:entry id="bid3">
+            <bib:book>
+                <!--required fields-->
+                <bib:author>Clements, Paul and Bachmann,
+                    Felix and Bass, Len and Garlan, David
+                    and Ivers, James and Little, Reed and
+                    Nord, Robert and Stafford, Judith</bib:author>
+                <bib:title>Documenting Software Architectures:
+                    Views and Beyond</bib:title>
+                <bib:publisher>Addison-Wesley Professional</bib:publisher>
+                <bib:year>2002</bib:year>
+                <!--optional fields-->
+                <bib:volume/>
+                <bib:series/>
+                <bib:address/>
+                <bib:edition/>
+                <bib:month>September</bib:month>
+                <bib:note/>
+            </bib:book>
+        </bib:entry>
+        <bib:entry id="bid6">
+            <bib:article>
+                <!--required fields-->
+                <bib:author>Fowler, M.</bib:author>
+                <bib:title>Design - Who Needs an Architect?</bib:title>
+                <bib:journal>Software, IEEE</bib:journal>
+                <bib:year>2003</bib:year>
+                <!--optional fields-->
+                <bib:volume>20</bib:volume>
+                <bib:number>5</bib:number>
+                <bib:pages>11–13</bib:pages>
+                <bib:month/>
+                <bib:note/>
+            </bib:article>
+        </bib:entry>
+        <bib:entry id="bid10">
+            <bib:book>
+                <!--required fields-->
+                <bib:author>Hohmann, Luke</bib:author>
+                <bib:title>Beyond Software Architecture:
+                    Creating and Sustaining Winning Solutions</bib:title>
+                <bib:publisher>Addison-Wesley Professional</bib:publisher>
+                <bib:year>2003</bib:year>
+                <!--optional fields-->
+                <bib:volume/>
+                <bib:series/>
+                <bib:address/>
+                <bib:edition/>
+                <bib:month>January</bib:month>
+                <bib:note/>
+            </bib:book>
+        </bib:entry>
+        <bib:entry id="bid0">
+            <bib:article>
+                <!--required fields-->
+                <bib:author>IEEE, and ISO/IEC, </bib:author>
+                <bib:title>Systems and Software Engineering
+                    - Recommended Practice for Architectural
+                    Description of Software-Intensive Systems</bib:title>
+                <bib:journal>ISO/IEC 42010 IEEE Std 1471-2000
+                    First edition 2007-07-15</bib:journal>
+                <bib:year>2007</bib:year>
+                <!--optional fields-->
+                <bib:volume/>
+                <bib:number/>
+                <bib:pages>c1–24</bib:pages>
+                <bib:month>July</bib:month>
+                <bib:note/>
+            </bib:article>
+        </bib:entry>
+        <bib:entry id="bid5">
+            <bib:article>
+                <!--required fields-->
+                <bib:author>Kruchten, P.</bib:author>
+                <bib:title>The Software Architect – and
+                    The Software Architecture Team</bib:title>
+                <bib:journal>Software Architecture; TC2
+                    First Working IFIP Conference on Software
+                    Architecture (WICSA1)</bib:journal>
+                <bib:year/>
+                <!--optional fields-->
+                <bib:volume>2</bib:volume>
+                <bib:number/>
+                <bib:pages>565–583</bib:pages>
+                <bib:month/>
+                <bib:note/>
+            </bib:article>
+        </bib:entry>
+        <bib:entry id="bid7">
+            <bib:inproceedings>
+                <!--required fields-->
+                <bib:author>McBride, Matthew R.</bib:author>
+                <bib:title>The Software Architect: Essence,
+                    Intuition, and Guiding Principles</bib:title>
+                <bib:booktitle>OOPSLA '04: Companion to
+                    the 19th annual ACM SIGPLAN conference
+                    on Object-oriented programming systems,
+                    languages, and applications</bib:booktitle>
+                <bib:year>2004</bib:year>
+                <!--optional fields-->
+                <bib:editor/>
+                <bib:number/>
+                <bib:series/>
+                <bib:pages>230–235</bib:pages>
+                <bib:address/>
+                <bib:month/>
+                <bib:organization/>
+                <bib:publisher>ACM Press</bib:publisher>
+                <bib:note/>
+            </bib:inproceedings>
+        </bib:entry>
+        <bib:entry id="bid1">
+            <bib:book>
+                <!--required fields-->
+                <bib:author>Rozanski, Nick and Woods, Eóin</bib:author>
+                <bib:title>Software Systems Architecture:
+                    Working With Stakeholders Using Viewpoints
+                    and Perspectives</bib:title>
+                <bib:publisher>Addison-Wesley Professional</bib:publisher>
+                <bib:year>2005</bib:year>
+                <!--optional fields-->
+                <bib:volume/>
+                <bib:series/>
+                <bib:address/>
+                <bib:edition/>
+                <bib:month>April</bib:month>
+                <bib:note/>
+            </bib:book>
+        </bib:entry>
+        <bib:entry id="bid4">
+            <bib:book>
+                <!--required fields-->
+                <bib:author>Taylor, R. N. and Medvidovi,
+                    Nenad and Dashofy, Irvine E.</bib:author>
+                <bib:title>Software Architecture: Foundations,
+                    Theory, and Practice</bib:title>
+                <bib:publisher>John Wiley &amp; Sons</bib:publisher>
+                <bib:year>2009</bib:year>
+                <!--optional fields-->
+                <bib:volume/>
+                <bib:series/>
+                <bib:address/>
+                <bib:edition/>
+                <bib:month>January</bib:month>
+                <bib:note/>
+            </bib:book>
+        </bib:entry>
+    </bib:file>
+</document>

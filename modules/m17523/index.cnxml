@@ -1,0 +1,544 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:md="http://cnx.rice.edu/mdml" xmlns:bib="http://bibtexml.sf.net/">
+  <title>Técnicas de Design Arquitetural</title>
+  <metadata>
+  <md:content-id>m17523</md:content-id><md:title>Técnicas de Design Arquitetural</md:title>
+  <md:abstract>Capítulo onde descrevemos técnicas de design arquitetural. Este capítulo ainda está em construção. Ele precisa de exemplos e estudos de caso para as técnicas citadas.</md:abstract>
+  <md:uuid>1c93e595-8ced-4d10-a553-23998dfb514b</md:uuid>
+</metadata>
+
+<content>
+    <para id="id236122">Ao introduzirmos design de software, citamos alguns princípios e técnicas que são fundamentais ao processo, pois facilitam a representação e a escolha da solução entre as alternativas de design. No entanto, não fomos explícitos sobre como estes princípios e técnicas são fundamentais ao processo de design arquitetural. Já no capítulo sobre atributos de qualidade, mencionamos a existência de táticas arquiteturais que ajudam na implementação de alguns requisitos de qualidade, mas não apresentamos essas táticas a não ser de forma breve e apenas por meio de exemplos.</para>
+    <para id="id236131">Este capítulo, por sua vez, tem como objetivo tanto apresentar os princípios de design em nível arquitetural, quanto apresentar algumas táticas arquiteturais que implementam requisitos de qualidade. Neste capítulo, descrevemos os seguintes princípios de design arquitetural:</para>
+    <list id="id236143" display="block" list-type="bulleted">
+      <item id="uid1">uso da abstração ou níveis de complexidade;
+</item>
+      <item id="uid2">separação de preocupações; e
+</item>
+      <item id="uid3">uso de padrões e estilos arquiteturais.
+</item>
+    </list>
+    <para id="id236183">Em relação às táticas arquiteturais, apresentamos as que implementam os seguintes atributos de qualidade:</para>
+    <list id="id236190" display="block" list-type="bulleted">
+      <item id="uid4">desempenho e escalabilidade;
+</item>
+      <item id="uid5">segurança;
+</item>
+      <item id="uid6">tolerância a faltas;
+</item>
+      <item id="uid7">compreensibilidade e modificabilidade; e
+</item>
+      <item id="uid8">operabilidade.
+</item>
+    </list>
+    <section id="cid1">
+      <title>Princípios e Técnicas de Design Arquitetural</title>
+      <para id="id236261">Há alguns princípios e técnicas que, quando aplicados, geralmente resultam em boas soluções de design. Entre eles, podemos citar: divisão e conquista, abstração, encapsulamento, modularização, separação de preocupações, acoplamento e coesão, separação de interfaces de suas implementações, entre outros. Inclusive, muitos destes já foram apresentados no capítulo sobre Design, mas sem o devido foco em design arquitetural. Por isso, nesta seção, descrevemos novamente alguns deles, desta vez mostrando seu papel na arquitetura. Os princípios e técnicas que apresentamos a seguir são três: uso da abstração ou níveis de complexidade, separação de preocupações e uso de padrões e estilos arquiteturais.</para>
+      <section id="uid9">
+        <title>Abstração</title>
+        <para id="id236285">Abstração é a seleção de um conjunto de conceitos que representam um todo mais complexo. Por ser um modelo do software, a arquitetura já elimina, ou em outras palavras, <emphasis effect="italics">abstrai</emphasis> naturalmente alguns detalhes do software. Por exemplo, é comum que não tenhamos decisões em nível algorítmico na arquitetura. Mesmo assim, podemos tirar proveito do uso de níveis de detalhe (ou de abstração) ao projetá-la.</para>
+        <para id="id236301">Podemos nos beneficiar do uso da abstração ao realizarmos o processo de design de forma iterativa, onde cada passo é realizado em um nível de detalhe. De forma simplificada, podemos dizer que a sequência de passos pode ocorrer seguindo duas estratégias de acordo com os níveis de abstração do software.</para>
+        <para id="id236309">A primeira estratégia é a <emphasis effect="italics">top-down</emphasis> (do nível mais alto de abstração para o mais baixo). Se o design ocorre no sentido <emphasis effect="italics">top-down</emphasis>, o arquiteto usa elementos e relações arquiteturais descritos em alto nível de abstração para iniciar o projeto da arquitetura. No primeiro nível de abstração, o mais alto, é comum que os elementos arquiteturais usados no projeto mostrem apenas <emphasis effect="italics">o que</emphasis> realizam e não <emphasis effect="italics">como</emphasis> realizam suas responsabilidades. A partir daí, a cada passo do processo, o arquiteto segue refinando o design, adicionando mais detalhes aos elementos arquiteturais e às suas relações, até que possuam informações sobre <emphasis effect="italics">como</emphasis> realizar suas responsabilidades. Neste ponto, é comum termos elementos arquiteturais que realizam funções e serviços mais básicos ou de infraestrutura e que, eventualmente, farão parte da composição das funcionalidades em níveis mais altos.</para>
+        <para id="id236353">Um problema recorrente ao se aplicar a estratégia <emphasis effect="italics">top-down</emphasis> é o de <emphasis effect="italics">quando parar</emphasis>. Afinal, podemos notar que o arquiteto poderia seguir indefinidamente adicionando detalhes à arquitetura até que o design deixe de ser um modelo para ser o próprio sistema. Para definir o ponto de parada do processo de adição de detalhes, o arquiteto deve avaliar se o nível atual de abstração contém ou não informações suficientes para guiar o time de desenvolvimento na implementação dos requisitos de qualidade do software. Devemos ainda observar que os dois extremos da condição de parada podem trazer desvantagens: se as informações presentes na arquitetura são insuficientes, a liberdade proporcionada ao design de baixo nível pode resultar numa solução que não implementa os requisitos de qualidade esperados. Por outro lado, se são excessivas, a arquitetura pode: (1) custar mais tempo do que o disponível para ser projetada; (2) desmotivar o time de desenvolvimento, por “engessar” o design de baixo nível pela grande quantidade de restrições; e (3) ser inviável, por ter sido projetada sem o conhecimento que muitas vezes só pode ser obtido durante o processo de implementação<footnote id="uid10">Devemos nos lembrar que alguns requisitos de qualidade não são completamente conhecidos em etapas iniciais do ciclo de desenvolvimento. Por exemplo, a tolerância a faltas ou o tempo de recuperação podem ser muito dependentes da solução de design de baixo nível.</footnote>.</para>
+        <para id="id236400">A outra estratégia, mais usada por quem possui experiência no domínio do problema, é a <emphasis effect="italics">bottom-up</emphasis>. Esta estratégia consiste em definir elementos arquiteturais básicos e com maior nível de detalhe (serviços ou funções de infraestrutura, por exemplo), e compor serviços presentes em maiores níveis de abstração a partir desses elementos. A experiência no domínio do problema é necessária justamente na definição dos elementos mais detalhados, ou seja, experiência é necessária para definir o nível de abstração mais baixo que servirá de ponto de partida do processo de design. Nesta estratégia, detalhes excessivos ou insuficientes no nível mais baixo de abstração trazem as mesmas desvantagens já apresentadas quando falamos sobre o ponto de parada da estratégia <emphasis effect="italics">top-down</emphasis>.</para>
+      </section>
+      <section id="uid11">
+        <title>Separação de preocupações</title>
+        <para id="id236437">A separação de preocupações é a divisão do design em partes idealmente independentes. Entre estas partes, podemos citar aspectos funcionais e não-funcionais do sistema. Os aspectos funcionais, como é de se esperar, são o que o sistema é capaz de fazer. Já os não-funcionais são os aspectos de qualidade do sistema, como desempenho, segurança, monitoração, etc. A separação dos diferentes aspectos permite que cada uma das partes seja um problema de design a ser resolvido de forma independente, permitindo maior controle intelectual por parte do arquiteto, uma vez que agora ele só precisa se focar em um aspecto da arquitetura de cada vez.</para>
+        <para id="id236452">Vale observar que a separação completa das diferentes preocupações (ou dos diferentes aspectos) da arquitetura do software é o caso ótimo da aplicação deste princípio, mas não é o caso comum. Isto ocorre porque, como já vimos anteriormente, diferentes funcionalidades e qualidades do software se relacionam entre si. Portanto, apesar de ser vantajoso pensar na solução de design de cada aspecto separadamente, o arquiteto deve também projetar a integração desses aspectos. Esta integração é fundamental por dois motivos. O primeiro, mais óbvio, é que o software é composto por seus aspectos trabalhando em conjunto – e não separadamente. Já o segundo motivo é que a própria integração influencia nas diferentes soluções de design dos aspectos do software. Por exemplo, aspectos de armazenamento devem estar de acordo com aspectos de segurança do software, ou aspectos de desempenho devem trabalhar em conjunto com aspectos de comunicação ou mesmo localização dos elementos da arquitetura.</para>
+      </section>
+      <section id="uid12">
+        <title>Padrões e estilos arquiteturais</title>
+        <para id="id236481">Outro princípio muito usado durante o processo de design arquitetural é o uso de padrões. Os padrões podem ser considerados como experiência estruturada de design, pronta para ser reusada para solucionar problemas recorrentes. Um padrão de design arquitetural define elementos, relações e regras a serem seguidas que já tiveram sua utilidade avaliada em soluções de problemas passados.</para>
+        <para id="id236489">A principal diferença entre um padrão arquitetural<footnote id="uid13">Também chamado de estilo arquitetural.</footnote> e um padrão de design é que o primeiro lida com problemas em nível arquitetural, se tornando assim mais abrangente no software. Por outro lado, a aplicação de um padrão de design tem efeito mais restrito na solução. Mais uma vez, devemos lembrar que essa divisão não é absoluta e que podemos encontrar padrões inicialmente descritos como arquiteturais tendo efeito apenas local no design e vice-versa.</para>
+        <para id="id236509">De acordo com McConnell no livro <emphasis effect="italics">Code Complete</emphasis><footnote id="uid14">McConnell, S. <emphasis effect="italics">Code Complete</emphasis>. Microsoft Press, Segunda edição, Junho 2004.</footnote>, podemos citar os seguintes benefícios do uso de padrões em um projeto:</para>
+        <list id="id236533" display="block" list-type="bulleted">
+          <item id="uid15"><emphasis effect="italics">Padrões reduzem a complexidade da solução ao prover abstrações reusáveis</emphasis>. Um padrão arquitetural já define elementos, serviços e relações arquiteturais, diminuindo assim a quantidade de novos conceitos que devem ser introduzidos à solução.
+</item>
+          <item id="uid16"><emphasis effect="italics">Padrões promovem o reuso</emphasis>. Como padrões arquiteturais são soluções de design para problemas recorrentes, é possível que a implementação (parcial ou total) do padrão já esteja disponível para reuso, facilitando o desenvolvimento.
+</item>
+          <item id="uid17"><emphasis effect="italics">Padrões facilitam a geração de alternativas</emphasis>. Mais de um padrão arquitetural pode resolver o mesmo problema, só que de forma diferente. Portanto, conhecendo diversos padrões, um arquiteto pode avaliar e escolher qual ou quais padrões irão compor a solução do problema, considerando os benefícios e analisando as desvantagens proporcionadas por eles.
+</item>
+          <item id="uid18"><emphasis effect="italics">Padrões facilitam a comunicação</emphasis>. Padrões arquiteturais facilitam a comunicação da arquitetura porque descrevem conceitos e elementos que estarão presentes no design. Portanto, se uma solução de design contém padrões que são conhecidos por todos os participantes da comunicação, os elementos e conceitos definidos pelos padrões não precisam ser explicitados, uma vez que os participantes já devem conhecê-los também.
+</item>
+        </list>
+        <para id="id236620">A seguir, citamos alguns padrões arquiteturais que foram popularizados no livro <emphasis effect="italics">Pattern-Oriented Software Architecture</emphasis><footnote id="uid19">Buschmann, F. <emphasis effect="italics">et al</emphasis>, <emphasis effect="italics">Pattern-Oriented Software Architecture, Volume 1: A System of Patterns.</emphasis> John Wiley &amp; Sons, Agosto 1996.</footnote>, de Buschmann <emphasis effect="italics">et al</emphasis>:</para>
+        <list id="id236655" display="block" list-type="labeled-item">
+          <item id="uid20"><label><emphasis effect="italics">Layers</emphasis> (ou Camadas):</label>este padrão define a organização do software em serviços agrupados em <emphasis effect="italics">camadas de abstração</emphasis>. As camadas são relacionadas de modo que cada uma só deve se comunicar com a camada adjacente acima ou abaixo dela. Se apresentamos graficamente as camadas empilhadas, as camadas dos níveis superiores apresentam um nível de abstração maior, mais próximas aos serviços disponíveis aos usuários. Enquanto isso, nas camadas inferiores, temos serviços mais básicos, normalmente de infraestrutura, e que servem para compor os serviços de camadas mais acima. Como exemplo de arquitetura que usa este padrão, podemos citar a arquitetura da pilha de protocolos TCP/IP. Ela é organizada em cinco camadas, sendo elas: Aplicação, Transporte, Rede, Enlace e Física.
+</item>
+          <item id="uid21"><label><emphasis effect="italics">Pipes &amp; Filters</emphasis>:</label>este padrão organiza o software para processar fluxos de dados em várias etapas. Dois elementos básicos são definidos: os chamados <emphasis effect="italics">filters</emphasis>, que são os elementos responsáveis por uma etapa do fluxo de processamento; e os chamados <emphasis effect="italics">pipes</emphasis>, que são os canais de comunicação entre dois <emphasis effect="italics">filters</emphasis> adjacentes. Note que a arquitetura pode conter diferentes <emphasis effect="italics">pipes</emphasis> e <emphasis effect="italics">filters</emphasis>, de modo que possam reusados e recombinados para diferentes propósitos. O exemplo canônico de uso do padrão <emphasis effect="italics">Pipes &amp; Filters</emphasis> é a arquitetura de um compilador, que pode ser dividida nos seguintes <emphasis effect="italics">filters</emphasis>: analisador léxico, analisador sintático, analisador semântico, gerador de código intermediário e otimizador, que são conectados por diferentes <emphasis effect="italics">pipes</emphasis>. Entre eles, encontramos o <emphasis effect="italics">pipe</emphasis> que conecta o analisador léxico ao sintático e que transmite um fluxo de <emphasis effect="italics">tokens</emphasis>; o <emphasis effect="italics">pipe</emphasis> que transporta a árvore de derivação sintática do analisador sintático para o analisador semântico; o <emphasis effect="italics">pipe</emphasis> que transporta a árvore de sintaxe do analisador semântico para o gerador de código intermediário; e, por fim, o <emphasis effect="italics">pipe</emphasis> que conecta o gerador de código intermediário ao otimizador.
+</item>
+          <item id="uid22"><label><emphasis effect="italics">Model-View-Controller</emphasis>:</label>este padrão, por sua vez, divide a arquitetura em três elementos distintos: a lógica de negócio (ou <emphasis effect="italics">model</emphasis>), que representa as funcionalidades e os dados do sistema; visões (ou <emphasis effect="italics">views</emphasis>), que representam a forma de exibir o estado da lógica de negócio ao usuário; e os controladores (ou <emphasis effect="italics">controllers</emphasis>), que são responsáveis pela entrada de dados dos usuários. O padrão também define que deve existir um mecanismo de propagação de mudanças, de forma que a interface com o usuário (composta das visões e dos respectivos controladores) se mantenha consistente com a lógica de negócio. Este padrão é comum em sistemas interativos e foi também popularizado em sistemas <emphasis effect="italics">web</emphasis> por meio de <emphasis effect="italics">frameworks</emphasis>, a exemplo de <emphasis effect="italics">JSF</emphasis><footnote id="uid23"><emphasis effect="italics">JavaServer Faces Technology (JSF)</emphasis>: <link url="http://java.sun.com/javaee/javaserverfaces/">http://java.sun.com/javaee/javaserverfaces/</link></footnote>, <emphasis effect="italics">Struts</emphasis><footnote id="uid24"><emphasis effect="italics">Apache Struts</emphasis>: <link url="http://struts.apache.org/">http://struts.apache.org/</link></footnote> e <emphasis effect="italics">Spring MVC</emphasis><footnote id="uid25"><emphasis effect="italics">Spring Framework</emphasis>: <link url="http://www.springsource.org/">http://www.springsource.org/</link></footnote>.
+</item>
+          <item id="uid26"><label><emphasis effect="italics">Microkernel</emphasis>:</label>este padrão é a base de arquiteturas extensíveis orientadas a <emphasis effect="italics">plugins</emphasis>. Ele define um elemento arquitetural que será o núcleo do sistema e elementos chamados pontos de extensão. Este núcleo provê serviços de infraestrutura para compor as funcionalidades mais básicas do sistema e um serviço de registro e configuração de componentes em tempo de execução. O serviço de registro e configuração tem como responsabilidade a adição de novas funcionalidades a partir dos pontos de extensão pré-definidos. Estes pontos de extensão servem para guiar e restringir os tipos de funcionalidades a serem adicionadas. Como exemplo de aplicação do padrão <emphasis effect="italics">Microkernel</emphasis>, podemos citar o sistema operacional <emphasis effect="italics">MINIX</emphasis><footnote id="uid27"><emphasis effect="italics">MINIX</emphasis>: <link url="http://www.minix3.org/">http://www.minix3.org/</link></footnote>, o ambiente de desenvolvimento <emphasis effect="italics">Eclipse</emphasis><footnote id="uid28"><emphasis effect="italics">Eclipse</emphasis>: <link url="http://www.eclipse.org/">http://www.eclipse.org</link></footnote> e diversos sistemas de manipulação de imagens que são extensíveis por meio de <emphasis effect="italics">plugins</emphasis>, como o <emphasis effect="italics">GIMP</emphasis><footnote id="uid29"><emphasis effect="italics">The GNU Image Manipulation Program</emphasis> (GIMP): <link url="http://www.gimp.org">http://www.gimp.org</link></footnote> e o <emphasis effect="italics">ImageJ</emphasis><footnote id="uid30"><emphasis effect="italics">ImageJ - Image Processing and Analysis in Java</emphasis>: <link url="http://rsbweb.nih.gov/ij/">http://rsbweb.nih.gov/ij/</link></footnote>.
+</item>
+        </list>
+      </section>
+    </section>
+    <section id="cid2">
+      <title>Táticas de Design</title>
+      <para id="id237028">Por meio da aplicação de padrões, somos capazes de reusar a experiência de outros projetistas por meio de soluções estruturadas de design. No entanto, há outra forma de reuso de experiência de design e que não é propriamente definida como padrões. Esta forma é chamada de tática de design e, apesar de cada tática ter objetivos bem definidos, seu conteúdo é menos estruturado, normalmente contendo apenas ideias ou dicas de projeto que ajudam na implementação de atributos de qualidade. A principal diferença entre táticas e padrões de design é que, ao contrário dos padrões, as táticas não necessariamente descrevem elementos arquiteturais que devem existir na solução. Desta maneira, é responsabilidade do arquiteto defini-los de forma a seguir as dicas contidas nas táticas.</para>
+      <para id="id237045">Ao aplicar as táticas ao design, assim como durante a aplicação de padrões, o arquiteto deve também considerar os <emphasis effect="italics">trade-offs</emphasis> existentes: por um lado, uma tática pode aumentar o grau de atendimento a um atributo de qualidade, mas, por outro lado, pode afetar negativamente outros atributos. Por isso, para facilitar a avaliação dos <emphasis effect="italics">trade-offs</emphasis> durante o design, apresentaremos algumas táticas de acordo com as qualidades que elas implementam, mas também seremos explícitos sobre o que é afetado negativamente.</para>
+      <para id="id237067">A seguir, apresentamos táticas de design de acordo com os seguintes atributos de qualidade:</para>
+      <list id="id237072" display="block" list-type="bulleted">
+        <item id="uid31">desempenho e escalabilidade;
+</item>
+        <item id="uid32">segurança;
+</item>
+        <item id="uid33">tolerância a faltas;
+</item>
+        <item id="uid34">compreensibilidade e modificabilidade; e
+</item>
+        <item id="uid35">operabilidade.
+</item>
+      </list>
+      <section id="uid36">
+        <title>Desempenho e escalabilidade</title>
+        <para id="id237142">Para melhorar desempenho de uma aplicação ou facilitar a adição de recursos computacionais para atender a uma maior demanda, podemos citar as seguintes táticas arquiteturais.</para>
+        <section id="uid37">
+          <title>Não mantenha estado</title>
+          <para id="id237157">Se os elementos da arquitetura são projetados de forma a não manter estado (<emphasis effect="italics">stateless</emphasis>), ou seja, que eles sejam capazes de realizar suas funções apenas com os parâmetros presentes nas requisições, fica mais fácil replicá-los para dividir a carga de requisições entre as réplicas. Basta apenas que seja definido uma balanceador de carga para distribuir as chamadas entre estes elementos. Note que se a demanda aumenta, pode-se também aumentar o número de elementos <emphasis effect="italics">stateless</emphasis> para suprimir a demanda sem muito esforço. Basta então informar ao balanceador sobre os novos elementos para que ele os considere na distribuição de novas requisições.</para>
+          <para id="id237181">É importante observar que nem todos os elementos arquiteturais podem ser <emphasis effect="italics">stateless</emphasis>. Por exemplo, elementos de dados essencialmente mantêm estado (e, portanto, são <emphasis effect="italics">stateful</emphasis>). Assim, é possível que, em algum ponto da arquitetura, os diversos elementos <emphasis effect="italics">stateless</emphasis> precisem de dados ausentes nos parâmetros das requisições e portanto terão que fazer novas requisições aos elementos <emphasis effect="italics">stateful</emphasis>. Se os elementos que mantêm estado não forem capazes de responder a esta carga de novas requisições, eles se tornarão o gargalo da arquitetura, prejudicando o desempenho de todo o sistema.</para>
+        </section>
+        <section id="uid38">
+          <title>Partição de dados</title>
+          <para id="id237224">Para melhorar o desempenho e a escalabilidade de elementos de dados, podemos dividir o conjunto de dados entre elementos de execução. Cada um destes elementos que possui <emphasis effect="italics">parte</emphasis> dos dados é chamado de partição (ou <emphasis effect="italics">shard</emphasis>). Há duas técnicas de partição de dados que merecem ser citadas: a partição horizontal e a partição vertical.</para>
+          <para id="id237244">Primeiro, vamos apresentar a partição horizontal por meio de um exemplo. Se pensamos em dados relacionais, que estão organizados em linhas e colunas, a partição horizontal é a divisão em grupos de linhas entre os elementos arquiteturais de dados em execução. Por exemplo, se temos um banco de dados com dois milhões de usuários e temos dois servidores, <emphasis effect="italics">A</emphasis> e <emphasis effect="italics">B</emphasis>, executando esse banco de dados, os usuários com índices de zero a um milhão devem estar localizados no servidor <emphasis effect="italics">A</emphasis> e o restante dos usuários devem estar localizados no servidor <emphasis effect="italics">B</emphasis>. A partir desta divisão, para um cliente do banco de dados encontrar as informações de um dado usuário, agora ele deve ser capaz de localizar em qual servidor os dados estão de acordo com o índice que procura. Note que isso é uma forma de dividir a carga de requisições entre elementos de execução, mesmo usando elementos <emphasis effect="italics">stateful</emphasis>.</para>
+          <para id="id237299">Já a partição vertical consiste na seleção de algumas colunas do modelo de dados para serem servidas por elementos de execução diferentes. Assim, se temos novamente os servidores <emphasis effect="italics">A</emphasis> e <emphasis effect="italics">B</emphasis>, informações sobre todos os usuários estão em ambos os servidores. No entanto, informações mais requisitadas (por exemplo, nome do usuário e grupo de permissões o qual ele pertence no sistema) podem ser encontradas no servidor <emphasis effect="italics">A</emphasis>, que dispõe de hardware melhor, enquanto informações menos requisitadas podem ser encontradas no servidor <emphasis effect="italics">B</emphasis>. Da mesma forma que no caso anterior, o cliente deve ser capaz de localizar em qual servidor os dados estão. Só que agora, a localização é feita de acordo com o tipo de dados requisitados e não o seu índice.</para>
+        </section>
+        <section id="uid39">
+          <title>
+            <emphasis effect="italics">Caching</emphasis>
+          </title>
+          <para id="id237359">Em um sistema, existem algumas informações que são mais requisitadas que outras. Por exemplo, a página de alguém muito popular numa rede social ou as notícias de primeira página de um portal de notícias. Portanto, podemos nos aproveitar desta característica ao projetar sistemas.</para>
+          <para id="id237367">Se algumas informações são muito mais requisitadas que outras, o desempenho aparente de um sistema pode ser melhorado se conseguirmos servir essas informações com melhor desempenho. Uma forma de conseguir isso é usando um <emphasis effect="italics">cache</emphasis>. Um <emphasis effect="italics">cache</emphasis> é um elemento arquitetural capaz de servir informações com maior desempenho do que o elemento de dados que guarda essas informações originalmente. Portanto, ao requisitar alguns dados, o cliente pode primeiro requisitar ao <emphasis effect="italics">cache</emphasis>. Caso o <emphasis effect="italics">cache</emphasis> possua os dados requisitados, eles serão retornados mais rapidamente do que se o cliente tivesse requisitado apenas ao elemento de dados original. No entanto, precisamos observar que para desempenhar melhor do que os servidores de dados, o <emphasis effect="italics">cache</emphasis> normalmente armazena um conjunto limitado de dados. Esta limitação o obriga a implementar as chamadas políticas de <emphasis effect="italics">caching</emphasis>, que são diferentes formas de comportamento para maximizar a quantidade de “acertos” nas requisições de disponibilidade de informação e manter a consistência entre o <emphasis effect="italics">cache</emphasis> e o elemento de dados original.</para>
+        </section>
+        <section id="uid40">
+          <title>Táticas de processamento</title>
+          <para id="id237434">Entre as táticas de processamento para melhorar o desempenho da aplicação (em oposição às táticas de dados vistas anteriormente: partição de dados e <emphasis effect="italics">caching</emphasis>), podemos citar: partição, paralelização e distribuição de processamento.</para>
+          <para id="id237446">A partição de processamento é a divisão do processamento entre elementos arquiteturais distintos para tirar proveito das características de cada elemento de execução do software. Um exemplo simples é distribuir um grande processamento de dados entre os elementos da arquiteturais <emphasis effect="italics">mais próximos</emphasis> a esses dados, com a finalidade de evitar ao máximo a transferência de arquivos. Assim, a característica do elemento de execução procurada para realizar a distribuição é se o elemento possui ou não os dados necessários para o processamento. Por exemplo, se observarmos a arquitetura de um sistema de processamento de grandes conjuntos de dados chamado <emphasis effect="italics">MapReduce</emphasis><footnote id="uid41">A arquitetura do <emphasis effect="italics">MapReduce</emphasis> é brevemente apresentada por Dean e Ghemawat no artigo <emphasis effect="italics">MapReduce: Simplified Data Processing on Large Clusters</emphasis><link target-id="bid0"/>.</footnote> (ou de sua implementação <emphasis effect="italics">open source</emphasis>, o <emphasis effect="italics">Hadoop</emphasis><footnote id="uid42"><emphasis effect="italics">Apache Hadoop</emphasis>: <link url="http://hadoop.apache.org/">http://hadoop.apache.org/</link></footnote>), percebemos que ele divide o processamento em tarefas menores e tenta associar cada tarefa ao processador que esteja mais próximo dos dados necessários. Com esta política de atribuição de tarefas, o <emphasis effect="italics">MapReduce</emphasis> consegue processar grandes massas de dados em tempo relativamente pequeno.</para>
+          <para id="id237529">Já a paralelização de processamento consiste em permitir que linhas de execução independentes, por exemplo, chamadas de usuários diferentes em um sistema web, ocorram simultaneamente. Essa paralelização pode ser realizada de diferentes maneiras: em diferentes <emphasis effect="italics">threads</emphasis> dentro de um mesmo processo, em diferentes processos dentro de um mesmo sistema operacional e em diferentes elementos de execução de um sistema (tipicamente, em diferentes servidores). Esta paralelização melhora o desempenho porque aumenta a vazão de respostas e pode utilizar recursos, inicialmente, ociosos.</para>
+          <para id="id237548">Por fim, há a distribuição de processamento ao longo do tempo. Esta tática consiste em permitir que algumas tarefas de processamento requisitadas pelo usuário não sejam executadas sincronamente e, portanto, não fazendo com que ele espere pelo processamento de algo que não utilizará no momento. Assim, aumentamos o desempenho aparente do software. Um exemplo de distribuição de processamento ao longo do tempo é o de tratamento de imagens em sistemas de redes sociais. Quando um usuário faz o <emphasis effect="italics">upload</emphasis> de uma imagem, essa imagem precisa ser otimizada para ocupar menos espaço de armazenamento no sistema. No entanto, este tratamento não é feito de forma síncrona, ou seja, quando o usuário envia a imagem, mas sim é agendado para ser executado em algum momento no futuro.</para>
+        </section>
+        <section id="uid43">
+          <title>Menos camadas de abstração</title>
+          <para id="id237576">Apesar de projetar um sistema em diversas camadas de abstração melhorar o reuso (pela possibilidade das camadas serem reusadas), o entendimento (porque diferentes camadas representam diferentes níveis de abstração, facilitando o controle intelectual da complexidade) e até mesmo a testabilidade do sistema (dado que as camadas podem ser desenvolvidas e testadas separadamente), a presença de muitas camadas em um sistema pode prejudicar seu desempenho. Isto ocorre porque quanto mais camadas de abstração existem no design, principalmente se desnecessárias, mais recursos serão consumidos. Entre os recursos consumidos, podemos citar a memória, uma vez que mais camadas de implementação significam mais camadas a serem carregadas durante a execução, e mais ciclos de processamento, para realizar a comunicação entre diferentes camadas.</para>
+        </section>
+        <section id="uid44">
+          <title>Desvantagens das táticas de desempenho e escalabilidade</title>
+          <para id="id237605">Podemos observar que as táticas que acabamos de apresentar aumentam a complexidade da arquitetura, uma vez que apresentam novos elementos tanto em nível de design, quanto em nível de execução. Em nível de design, os novos elementos podem prejudicar a modificabilidade e a compreensibilidade do software, dado que adicionam novas relações e conceitos e até sugerem a diminuição dos níveis de abstração. Já em nível de execução, novos elementos podem dificultar: a segurança, porque agora os dados estarão ainda mais distribuídos no sistema e mais entidades poderão acessá-los; a tolerância a falhas, porque podem surgir mais pontos únicos de falhas; e a operabilidade, considerando que os novos elementos de execução impõem mais tarefas de configuração.</para>
+        </section>
+      </section>
+      <section id="uid45">
+        <title>Segurança</title>
+        <para id="id237631">Para implementar a segurança em um sistema de software, o arquiteto deve conhecer, além de técnicas de autorização, autenticação, criptografia e auditabilidade, os seguintes princípios.</para>
+        <section id="uid46">
+          <title>Princípio do menor privilégio</title>
+          <para id="id237647">O princípio do menor privilégio consiste em garantir ao usuário, cliente do software ou módulo do sistema apenas os privilégios necessários para que sejam capazes de concluir suas tarefas. Assim, caso este usuário, cliente ou módulo sejam comprometidos (passem a se comportar de forma nociva ao sistema), a quantidade de dano que poderão causar ao sistema será limitada.</para>
+        </section>
+        <section id="uid47">
+          <title>Princípio da falha com segurança</title>
+          <para id="id237665">O princípio de falha com segurança (<emphasis effect="italics">fail-safe</emphasis>) é o de garantir que em caso de qualquer problema, seja de comunicação, autenticação ou falta em um serviço, o comportamento padrão seja um comportamento <emphasis effect="italics">seguro</emphasis>. Por exemplo, se um usuário com privilégios de acesso tenta ler um arquivo privado e o sistema de autorização está indisponível, o comportamento padrão do sistema de leitura deve ser o de negar o acesso ao arquivo. Dessa maneira, mesmo que usuários autorizados sejam privados do acesso aos seus arquivos, os não-autorizados não conseguirão acesso indevido. O mesmo princípio deve ser aplicado, por exemplo, em sistemas de controle de tráfego. Se os indicadores de estado dos semáforos estão com problemas, os semáforos devem falhar no estado “pare”, uma vez que fazer com que todos os veículos parem nas vias de um cruzamento é mais seguro do que fazer com que mais de uma via seja indicada para seguir.</para>
+        </section>
+        <section id="uid48">
+          <title>Princípio da defesa em profundidade</title>
+          <para id="id237705">O princípio da defesa em profundidade sugere que a arquitetura deve aplicar diferentes técnicas de segurança em diferentes níveis do software. Por exemplo, um cliente autenticado do software deve não só ser autorizado a chamar uma função, mas a função chamada deve também ser autorizada a acessar as informações necessárias para o dado cliente. Esta técnica tanto permite que medidas de segurança mais específicas ao contexto possam ser utilizadas, quanto permite manter a segurança do software mesmo durante a falha de alguma medida de segurança adotada.</para>
+        </section>
+        <section id="uid49">
+          <title>Desvantagens das táticas de segurança</title>
+          <para id="id237724">Podemos observar que, assim como as táticas de desempenho e escalabilidade, as táticas de segurança aumentam a complexidade da arquitetura. Isto ocorre porque também adicionam novos elementos arquiteturais à solução. Estes novos elementos, por serem novos conceitos, prejudicam a compreensibilidade do sistema em tempo de design e a operabilidade durante a execução. Além disso, as táticas de segurança também requerem a execução de passos adicionais de processamento (por exemplo, criptografar uma mensagem ou checar se senha inserida é válida), o que prejudica o desempenho da aplicação.</para>
+        </section>
+      </section>
+      <section id="uid50">
+        <title>Tolerância a Faltas</title>
+        <para id="id237742">A área de sistemas distribuídos contribui com muitas técnicas que podem ser aplicadas à arquitetura para que os sistemas sejam projetados para serem mais tolerantes a faltas. Entre estas técnicas, podemos citar as seguintes.</para>
+        <section id="uid51">
+          <title>Evitar ponto único de falhas</title>
+          <para id="id237758">Se muitas funcionalidades dependem de apenas um serviço que executa em apenas um recurso computacional, todo o sistema estará comprometido se esse único serviço falhar. Este único serviço ou recurso computacional no qual o sistema depende é o que chamamos de ponto único de falhas. Portanto, para que o software não seja completamente dependente de um único elemento, o arquiteto deve se preocupar em evitar os pontos únicos de falhas a partir do design. Para isso, ele pode distribuir responsabilidades entre diferentes elementos da arquitetura ou mesmo replicar processamento, de forma que o ponto único seja eliminado.</para>
+        </section>
+        <section id="uid52">
+          <title>Partição de dados</title>
+          <para id="id237778">Já mostramos que a partição de dados é benéfica para o desempenho e a escalabilidade do sistema. No entanto, ao particionarmos os dados por diversos elementos de armazenamento, distribuímos também as responsabilidades do servidor de dados. Portanto, se um dos elementos de armazenamento falha, ainda podemos ter o sistema disponível para parte dos usuários (aqueles os quais as informações ainda estão disponíveis por meio dos elementos de armazenamento que não falharam).</para>
+        </section>
+        <section id="uid53">
+          <title>Partição e distribuição de processamento</title>
+          <para id="id237797">Obtemos benefícios semelhantes aos de particionar os dados quando particionamos e distribuímos processamento por diferentes elementos da arquitetura. Diferentes responsabilidades atribuídas a diferentes elementos da arquitetura permitem que o software continue funcionando, mesmo que parcialmente, em caso de faltas.</para>
+          <para id="id237805">Além disso, quando usamos processamento síncrono, amarramos a confiabilidade no processamento aos dois ou mais elementos que estão relacionados sincronamente. Por exemplo, se o elemento <emphasis effect="italics">A</emphasis> realiza uma função que precisa chamar uma função síncrona no elemento <emphasis effect="italics">B</emphasis>, a função de <emphasis effect="italics">A</emphasis> só será executada com sucesso caso <emphasis effect="italics">B</emphasis> também esteja disponível. No entanto, se a chamada a <emphasis effect="italics">B</emphasis> for assíncrona, a função chamada em <emphasis effect="italics">A</emphasis> pode ser executada com sucesso mesmo que <emphasis effect="italics">B</emphasis> esteja indisponível temporariamente. Dessa maneira, assim que <emphasis effect="italics">B</emphasis> estiver novamente disponível, sua função poderá ser executada.</para>
+        </section>
+        <section id="uid54">
+          <title>Redundância</title>
+          <para id="id237894">Não só podemos distribuir diferentes responsabilidades de processamento a diferentes elementos da arquitetura, como também podemos atribuir a <emphasis effect="italics">mesma</emphasis> responsabilidade a diferentes elementos. Assim, durante a execução, em caso de qualquer problema com um dos responsáveis, outro pode assumir seu lugar e retornar corretamente a resposta. Isso é o que chamamos de atribuir redundância a alguns elementos da arquitetura, sejam elementos de dados ou de processamento. Vale observar que não basta apenas replicar a responsabilidade do elemento em questão, mas decidir (1) se o elemento redundante ficará sempre ativo ou apenas entrará em execução quando a falha do original for identificada, (2) como as falhas serão identificadas durante a execução e (3) como os clientes do elemento que falhou redirecionarão suas chamadas para o elemento redundante.</para>
+        </section>
+        <section id="uid55">
+          <title>Desvantagens das táticas de tolerância a faltas</title>
+          <para id="id237922">Como as táticas de tolerância a faltas se aproveitam de algumas táticas de desempenho e escalabilidade, elas proporcionam as mesmas desvantagens em relação à compreensibilidade, modificabilidade e operabilidade, uma vez que aumentam a complexidade da solução de design.</para>
+        </section>
+      </section>
+      <section id="uid56">
+        <title>Compreensibilidade e Modificabilidade</title>
+        <para id="id237940">Algumas técnicas que aumentam a compreensibilidade e a modificabilidade da arquitetura já foram mencionadas anteriormente:</para>
+        <list id="id237945" display="block" list-type="bulleted">
+          <item id="uid57">uso de camadas de abstração;
+</item>
+          <item id="uid58">separação de preocupações;
+</item>
+          <item id="uid59">aplicação de padrões;
+</item>
+          <item id="uid60">alta coesão e baixo acoplamento.
+</item>
+        </list>
+        <para id="id237999">No entanto, não discutimos as desvantagens comuns a essas técnicas. Por ser comum que ambos os atributos sejam alcançados por meio da abstração de detalhes e que a abstração leva à adição de novas camadas de implementação, podemos notar que as técnicas mencionadas anteriormente necessitam de mais recursos computacionais para a execução, afetando negativamente o desempenho. No entanto, ao termos processadores e canais de dados cada vez mais rápidos, além de memória e sistemas de armazenamento cada vez mais baratos, o efeito negativo causado por essas técnicas pode ser irrisório comparado ao benefício da compreensibilidade e da modificabilidade no processo de desenvolvimento.</para>
+      </section>
+      <section id="uid61">
+        <title>Operabilidade</title>
+        <para id="id238025">Por fim, para proporcionar operabilidade ao sistema de software, o arquiteto deve aplicar as seguintes técnicas durante o design da arquitetura.</para>
+        <section id="uid62">
+          <title>Monitoração e análise do estado do sistema</title>
+          <para id="id238040">O operador só é capaz de agir sobre o software, se ele possuir informações sobre seu estado interno. Para isso, é vantajoso que a arquitetura permita a monitoração do estado de seus elementos mais importantes durante a execução. Note que em um grande sistema, o conjunto de elementos monitorados pode ser grande, gerando assim uma grande massa de dados de monitoração. Portanto, a monitoração pode ser tornar um problema, uma vez que a geração e o consumo dos dados pode necessitar de muitos recursos computacionais (canal de comunicação, caso os dados sejam transferidos entre elementos do sistema, e armazenamento, caso os dados sejam armazenados, e processamento, para extrair informações dos dados). Portanto, a arquitetura deve proporcionar meios de geração e análise dos dados de monitoração, mas deve também implementar meios de agregação e compactação dos dados de forma que poupem o consumo de recursos computacionais.</para>
+        </section>
+        <section id="uid63">
+          <title>Computação autonômica</title>
+          <para id="id238069">Uma forma ainda mais eficiente de proporcionar operabilidade ao software é a de delegar tarefas que antes seriam de responsabilidade do operador ao próprio software. Portanto, permitir que o software seja capaz de pôr ou retirar de execução servidores, realizar <emphasis effect="italics">backups</emphasis>, ou realizar outras atividades para a melhoria da qualidade de serviço. Realizar automaticamente estas e outras atividades baseadas apenas no estado atual do sistema e sem intervenção humana é o que chamamos de computação autonômica. Para permitir a adição de aspectos de computação autonômica ao software, sua arquitetura deve estar preparada de forma que dados sobre o estado atual do sistema não sejam apenas coletados, mas também sejam analisados automaticamente e os resultados dessa análise sejam capaz de ativar automaticamente tarefas de administração do sistema.</para>
+        </section>
+        <section id="uid64">
+          <title>Desvantagens das técnicas de operabilidade</title>
+          <para id="id238099">Como já mencionamos anteriormente, a monitoração e a análise do estado atual do sistema podem consumir muitos recursos computacionais, impactando negativamente no desempenho. Por outro lado, ao possibilitarmos a análise do software em tempo de execução, podemos identificar problemas inicialmente desconhecidos na arquitetura, como gargalos de desempenho ou pontos únicos de falhas. Com estes problemas identificados, o arquiteto pode então corrigi-los na arquitetura, melhorando assim o desempenho e a tolerância a faltas do software.</para>
+        </section>
+      </section>
+    </section>
+    <section id="id238109">
+      <title>Resumo</title>
+      <para id="id238116">Este capítulo expôs o que um arquiteto deve saber em relação às técnicas e princípios de design arquitetural. Devemos admitir que seu objetivo é ambicioso, uma vez que que existem muitos livros e artigos de Design de Software sobre o mesmo assunto. No entanto, a maioria dos livros e artigos disponíveis não são explicitamente escritos sobre Arquitetura de Software ou não têm como público-alvo o leitor ainda inexperiente. Daí nossa tentativa de preencher esta lacuna.</para>
+      <para id="id238124">Ao final deste capítulo, esperamos que o leitor conheça os seguintes princípios de design arquitetural:</para>
+      <list id="id238129" display="block" list-type="bulleted">
+        <item id="uid65">uso da abstração ou níveis de complexidade;
+</item>
+        <item id="uid66">separação de preocupações; e
+</item>
+        <item id="uid67">uso de padrões e estilos arquiteturais.
+</item>
+      </list>
+      <para id="id238172">Mas, além disso, esperamos que o leitor também reconheça algumas táticas que implementam os seguintes atributos de qualidade:</para>
+      <list id="id238179" display="block" list-type="bulleted"><item id="uid68">desempenho e escalabilidade;
+</item>
+        <item id="uid69">segurança;
+</item>
+        <item id="uid70">tolerância a faltas;
+</item>
+        <item id="uid71">compreensibilidade e modificabilidade; e
+</item>
+        <item id="uid72">operabilidade.
+</item>
+      </list>
+      <para id="id238245">Para informações mais detalhadas sobre os princípios e técnicas apresentados, deixamos uma lista de referências para estudos posteriores.</para>
+    </section>
+    <section id="id238252">
+      <title>Referências</title>
+      <section id="id238259">
+        <title>Abstração e separação de preocupações</title>
+        <para id="id238266">Sobre os benefícios e aplicação da abstração e separação de preocupações no design de software, recomendamos a leitura do livro <emphasis effect="italics">Code Complete</emphasis><link target-id="bid1"/>, de McConnell. Além dele, podemos citar os seguintes artigos sobre o assunto: <emphasis effect="italics">The Structure of The THE-multiprogramming System</emphasis><link target-id="bid2"/>, de <emphasis effect="italics">Dijkstra</emphasis>, e o <emphasis effect="italics">On The Criteria to Be Used in Decomposing Systems Into Modules</emphasis><link target-id="bid3"/>, de Parnas.</para>
+      </section>
+      <section id="id238314">
+        <title>Padrões e estilos arquiteturais</title>
+        <para id="id238321">Há diversos padrões e estilos arquiteturais, inclusive catalogados de acordo com seus objetivos. Apesar de termos citado apenas quatro padrões que foram inicialmente descritos por Buschmann, existem muito mais padrões descritos por este autor e outros autores na série de livros <emphasis effect="italics">Pattern-Oriented Software Architecture</emphasis><link target-id="bid4"/>, <link target-id="bid5"/>, <link target-id="bid6"/>, <link target-id="bid7"/>. Recomendamos também sobre o assunto os livros <emphasis effect="italics">Patterns of Enterprise Application Architecture</emphasis><link target-id="bid8"/>, escrito por Fowler, e o <emphasis effect="italics">Software Architecture in Practice</emphasis><link target-id="bid9"/>, escrito por Bass <emphasis effect="italics">et al</emphasis>.</para>
+      </section>
+      <section id="id238387">
+        <title>Técnicas arquiteturais</title>
+        <para id="id238394">Sobre técnicas arquiteturais, podemos citar o livro <emphasis effect="italics">Beautiful Architecture</emphasis><link target-id="bid10"/>, editado por Spinellis e Gousios. Ele mostra na prática a aplicação de diversas técnicas para o alcance de requisitos de qualidade por meio do design arquitetural. Sendo menos prático, porém mais abrangente na exposição de técnicas arquiteturais, podemos citar tanto o livro <emphasis effect="italics">Software Architecture: Foundations, Theory, and Practice</emphasis><link target-id="bid11"/>, de Taylor <emphasis effect="italics">et al</emphasis>, quanto o livro <emphasis effect="italics">Software Systems Architecture</emphasis><link target-id="bid12"/>, de Rozanski e Woods. O livro <emphasis effect="italics">The Art of Systems Architecting</emphasis><link target-id="bid13"/>, de Maier e Rechtin, descreve poucas (porém valiosas) técnicas de arquitetura de software. Neste livro, as técnicas são chamadas de heurísticas.</para>
+        <para id="id238457">Podemos ainda mencionar alguns artigos sobre desempenho de software em geral: <emphasis effect="italics">Performance Anti-Patterns</emphasis><link target-id="bid14"/>, de Smaalders; sobre replicação de dados: <emphasis effect="italics">Optimistic Replication</emphasis><link target-id="bid15"/>, de Saito e Shapiro; e sobre segurança: <emphasis effect="italics">In Search of Architectural Patterns for Software Security</emphasis><link target-id="bid16"/>, de Ryoo <emphasis effect="italics">et al</emphasis>.</para>
+        <para id="id238502">Por fim, mencionamos dois blogs que contêm muitas descrições de problemas arquiteturais reais e como foram resolvidos na indústria: o <emphasis effect="italics">HighScalability.com</emphasis><link target-id="bid17"/> e o <emphasis effect="italics">Engineering @ Facebook</emphasis><link target-id="bid18"/>.</para>
+      </section>
+    </section>
+  </content>
+  <bib:file>
+    <bib:entry id="bid9">
+      <bib:book>
+        <!--required fields-->
+        <bib:author>Bass, Len and Clements, Paul and Kazman, Rick</bib:author>
+        <bib:title>Software Architecture in Practice</bib:title>
+        <bib:publisher>Addison-Wesley Professional</bib:publisher>
+        <bib:year>2003</bib:year>
+        <!--optional fields-->
+        <bib:volume/>
+        <bib:series/>
+        <bib:address/>
+        <bib:edition>2</bib:edition>
+        <bib:month>April</bib:month>
+        <bib:note/>
+      </bib:book>
+    </bib:entry>
+    <bib:entry id="bid7">
+      <bib:book>
+        <!--required fields-->
+        <bib:author>Buschmann, Frank and Henney, Kevlin and Schmidt, Douglas C.</bib:author>
+        <bib:title>Pattern Oriented Software Architecture Volume 5: On Patterns and Pattern Languages</bib:title>
+        <bib:publisher>Wiley</bib:publisher>
+        <bib:year>2007</bib:year>
+        <!--optional fields-->
+        <bib:volume/>
+        <bib:series/>
+        <bib:address/>
+        <bib:edition/>
+        <bib:month>June</bib:month>
+        <bib:note/>
+      </bib:book>
+    </bib:entry>
+    <bib:entry id="bid6">
+      <bib:book>
+        <!--required fields-->
+        <bib:author>Buschmann, Frank and Henney, Kevlin and Schmidt, Douglas C.</bib:author>
+        <bib:title>Pattern-Oriented Software Architecture Volume 4: A Pattern Language for Distributed Computing</bib:title>
+        <bib:publisher>Wiley</bib:publisher>
+        <bib:year>2007</bib:year>
+        <!--optional fields-->
+        <bib:volume/>
+        <bib:series/>
+        <bib:address/>
+        <bib:edition/>
+        <bib:month>May</bib:month>
+        <bib:note/>
+      </bib:book>
+    </bib:entry>
+    <bib:entry id="bid4">
+      <bib:book>
+        <!--required fields-->
+        <bib:author>Buschmann, Frank and Meunier, Regine and Rohnert, Hans and Sommerlad, Peter and Stal, Michael and Sommerlad, Peter and Stal, Michael</bib:author>
+        <bib:title>Pattern-Oriented Software Architecture, Volume 1: A System of Patterns</bib:title>
+        <bib:publisher>John Wiley &amp; Sons</bib:publisher>
+        <bib:year>1996</bib:year>
+        <!--optional fields-->
+        <bib:volume/>
+        <bib:series/>
+        <bib:address/>
+        <bib:edition/>
+        <bib:month>August</bib:month>
+        <bib:note/>
+      </bib:book>
+    </bib:entry>
+    <bib:entry id="bid0">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Dean, J. and Ghemawat, S.</bib:author>
+        <bib:title>MapReduce: Simplified Data Processing on Large Clusters</bib:title>
+        <bib:journal>6th Symposium on Operating Systems Design &amp; Implementation (OSDI’04)</bib:journal>
+        <bib:year>2004</bib:year>
+        <!--optional fields-->
+        <bib:volume/>
+        <bib:number/>
+        <bib:pages/>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid2">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Dijkstra, Edsger W.</bib:author>
+        <bib:title>The Structure of The THE-multiprogramming System</bib:title>
+        <bib:journal>Commun. ACM</bib:journal>
+        <bib:year>1968</bib:year>
+        <!--optional fields-->
+        <bib:volume>11</bib:volume>
+        <bib:number>5</bib:number>
+        <bib:pages>341–346</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid18">
+      <bib:misc>
+        <!--required fields-->
+        <!--optional fields-->
+        <bib:author>Facebook Team, </bib:author>
+        <bib:title>Engineering @ Facebook</bib:title>
+        <bib:howpublished>http://www.facebook.com/notes.php?id=9445547199</bib:howpublished>
+        <bib:month/>
+        <bib:year/>
+        <bib:note/>
+      </bib:misc>
+    </bib:entry>
+    <bib:entry id="bid8">
+      <bib:book>
+        <!--required fields-->
+        <bib:author>Fowler, Martin</bib:author>
+        <bib:title>Patterns of Enterprise Application Architecture</bib:title>
+        <bib:publisher>Addison-Wesley Professional</bib:publisher>
+        <bib:year>2002</bib:year>
+        <!--optional fields-->
+        <bib:volume/>
+        <bib:series/>
+        <bib:address/>
+        <bib:edition/>
+        <bib:month>November</bib:month>
+        <bib:note/>
+      </bib:book>
+    </bib:entry>
+    <bib:entry id="bid17">
+      <bib:misc>
+        <!--required fields-->
+        <!--optional fields-->
+        <bib:author>Hoff, Todd</bib:author>
+        <bib:title>High Scalability: Building bigger, faster, more reliable websites</bib:title>
+        <bib:howpublished>http://highscalability.com</bib:howpublished>
+        <bib:month/>
+        <bib:year/>
+        <bib:note/>
+      </bib:misc>
+    </bib:entry>
+    <bib:entry id="bid1">
+      <bib:book>
+        <!--required fields-->
+        <bib:author>McConnell, Steve, </bib:author>
+        <bib:title>Code Complete</bib:title>
+        <bib:publisher>Microsoft Press</bib:publisher>
+        <bib:year>2004</bib:year>
+        <!--optional fields-->
+        <bib:volume/>
+        <bib:series/>
+        <bib:address/>
+        <bib:edition>Second</bib:edition>
+        <bib:month>June</bib:month>
+        <bib:note/>
+      </bib:book>
+    </bib:entry>
+    <bib:entry id="bid13">
+      <bib:book>
+        <!--required fields-->
+        <bib:author>Maier, Mark W. and Rechtin, Eberhardt</bib:author>
+        <bib:title>The Art of Systems Architecting</bib:title>
+        <bib:publisher>CRC</bib:publisher>
+        <bib:year>2000</bib:year>
+        <!--optional fields-->
+        <bib:volume/>
+        <bib:series/>
+        <bib:address/>
+        <bib:edition>2</bib:edition>
+        <bib:month>June</bib:month>
+        <bib:note/>
+      </bib:book>
+    </bib:entry>
+    <bib:entry id="bid3">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Parnas, D. L.</bib:author>
+        <bib:title>On The Criteria to Be Used in Decomposing Systems Into Modules</bib:title>
+        <bib:journal>Classics in Software Engineering</bib:journal>
+        <bib:year/>
+        <!--optional fields-->
+        <bib:volume/>
+        <bib:number/>
+        <bib:pages>139–150</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid16">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Ryoo, Jungwoo and Laplante, Phil and Kazman, Rick</bib:author>
+        <bib:title>In Search of Architectural Patterns for Software Security</bib:title>
+        <bib:journal>Computer</bib:journal>
+        <bib:year>2009</bib:year>
+        <!--optional fields-->
+        <bib:volume>42</bib:volume>
+        <bib:number>6</bib:number>
+        <bib:pages>98–100</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid12">
+      <bib:book>
+        <!--required fields-->
+        <bib:author>Rozanski, Nick and Woods, Eóin</bib:author>
+        <bib:title>Software Systems Architecture: Working With Stakeholders Using Viewpoints and Perspectives</bib:title>
+        <bib:publisher>Addison-Wesley Professional</bib:publisher>
+        <bib:year>2005</bib:year>
+        <!--optional fields-->
+        <bib:volume/>
+        <bib:series/>
+        <bib:address/>
+        <bib:edition/>
+        <bib:month>April</bib:month>
+        <bib:note/>
+      </bib:book>
+    </bib:entry>
+    <bib:entry id="bid10">
+      <bib:book>
+        <!--required fields-->
+        <bib:author>Spinellis, Diomidis and Gousios, Georgios</bib:author>
+        <bib:title>Beautiful Architecture: Leading Thinkers Reveal the Hidden Beauty in Software Design</bib:title>
+        <bib:publisher>O'Reilly Media, Inc.</bib:publisher>
+        <bib:year>2009</bib:year>
+        <!--optional fields-->
+        <bib:volume/>
+        <bib:series/>
+        <bib:address/>
+        <bib:edition/>
+        <bib:month>January</bib:month>
+        <bib:note/>
+      </bib:book>
+    </bib:entry>
+    <bib:entry id="bid14">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Smaalders, Bart</bib:author>
+        <bib:title>Performance Anti-Patterns</bib:title>
+        <bib:journal>Queue</bib:journal>
+        <bib:year>2006</bib:year>
+        <!--optional fields-->
+        <bib:volume>4</bib:volume>
+        <bib:number>1</bib:number>
+        <bib:pages>44–50</bib:pages>
+        <bib:month/>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid15">
+      <bib:article>
+        <!--required fields-->
+        <bib:author>Saito, Yasushi and Shapiro, Marc</bib:author>
+        <bib:title>Optimistic Replication</bib:title>
+        <bib:journal>ACM Comput. Surv.</bib:journal>
+        <bib:year>2005</bib:year>
+        <!--optional fields-->
+        <bib:volume>37</bib:volume>
+        <bib:number>1</bib:number>
+        <bib:pages>42–81</bib:pages>
+        <bib:month>March</bib:month>
+        <bib:note/>
+      </bib:article>
+    </bib:entry>
+    <bib:entry id="bid5">
+      <bib:book>
+        <!--required fields-->
+        <bib:author>Schmidt, Douglas and Stal, Michael and Rohnert, Hans and Buschmann, Frank</bib:author>
+        <bib:title>Pattern-Oriented Software Architecture, Volume 2, Patterns for Concurrent and Networked Objects</bib:title>
+        <bib:publisher>John Wiley &amp; Sons</bib:publisher>
+        <bib:year>2000</bib:year>
+        <!--optional fields-->
+        <bib:volume/>
+        <bib:series/>
+        <bib:address/>
+        <bib:edition/>
+        <bib:month>September</bib:month>
+        <bib:note/>
+      </bib:book>
+    </bib:entry>
+    <bib:entry id="bid11">
+      <bib:book>
+        <!--required fields-->
+        <bib:author>Taylor, R. N. and Medvidovi, Nenad and Dashofy, Irvine E.</bib:author>
+        <bib:title>Software Architecture: Foundations, Theory, and Practice</bib:title>
+        <bib:publisher>John Wiley &amp; Sons</bib:publisher>
+        <bib:year>2009</bib:year>
+        <!--optional fields-->
+        <bib:volume/>
+        <bib:series/>
+        <bib:address/>
+        <bib:edition/>
+        <bib:month>January</bib:month>
+        <bib:note/>
+      </bib:book>
+    </bib:entry>
+  </bib:file>
+</document>

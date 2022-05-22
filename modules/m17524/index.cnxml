@@ -1,0 +1,2994 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:md="http://cnx.rice.edu/mdml" xmlns:bib="http://bibtexml.sf.net/">
+    <title>Fundamentos de Arquitetura de Software</title>
+    <metadata>
+  <md:content-id>m17524</md:content-id><md:title>Fundamentos de Arquitetura de Software</md:title>
+  <md:abstract>Neste capítulo, arquitetura é definida e tem seus benefícios e características expostos.</md:abstract>
+  <md:uuid>5ab11638-06bc-478c-bd5a-9c6643646952</md:uuid>
+</metadata>
+
+<content>
+        <para id="id93888">No capítulo introdutório, mencionamos
+            que o Design de Software pode ser dividido
+            em duas atividades: design de alto-nível ou
+            arquitetural e design detalhado e que ambas
+            as atividades têm um papel importante no ciclo
+            de desenvolvimento do software. Como no objeto
+            de estudo deste livro é Arquitetura de Software,
+            voltamo-nos agora para a primeira atividade
+            em questão.</para>
+        <para id="id93897">Este capítulo tem como objetivo
+            expor o leitor aos fundamentos de Arquitetura
+            de Software ou, em outras palavras, fazer com
+            que seja capaz de:</para>
+        <list id="id93906" display="block" list-type="bulleted">
+            <item id="uid1">Reconhecer, entender, e comparar
+                as diferentes definições existentes do
+                termo 
+                <emphasis effect="italics">arquitetura
+                    de software</emphasis>
+            </item>
+            <item id="uid2">Relacionar as diferentes definições
+                de arquitetura de software com o padrão
+                ISO/IEEE 1471 </item>
+            <item id="uid3">Identificar as características
+                e benefícios proporcionados por uma boa
+                arquitetura </item>
+            <item id="uid4">Avaliar os benefícios de explicitamente
+                projetar a arquitetura durante o desenvolvimento
+                do software </item>
+        </list>
+        <section id="cid1">
+            <title>Motivação para desenvolver melhores
+                sistemas</title>
+            <para id="id93976">Desenvolver software não
+                é uma tarefa fácil. É por esse motivo que
+                muitos projetos de software fracassam durante
+                seu desenvolvimento ou ao obter seus resultados.
+                Entre esses maus resultados, encontramos
+                os que custaram muito acima do orçamento,
+                os incompletos e os que não solucionam
+                os problemas 
+                <emphasis effect="italics">como</emphasis>
+                deveriam resolver.
+            </para>
+            <para id="id93989">Não é fácil alcançar um
+                bom produto de software devido à complexidade
+                envolvida em seu processo de desenvolvimento.
+                Além de lidar com a complexidade inerente
+                ao problema, devemos também nos preocupar
+                em 
+                <emphasis effect="italics">como</emphasis>
+                o software resolve esse problema. Assim,
+                o software deve, além de resolver o problema,
+                resolvê-lo da forma esperada. Ou em outras
+                palavras:
+            </para>
+            <para id="id94004">
+                <emphasis effect="italics">Espera-se que,
+                    além de função, o produto de software
+                    possua os atributos de qualidade esperados</emphasis>.
+            </para>
+            <example id="id94013e">
+                <label>Exemplo</label>
+                <para id="id94013"> Considere um programa
+                    que realize as quatro operações: soma,
+                    subtração, multiplicação e divisão.
+                    Se o tempo de resposta de suas operações
+                    for sempre maior do que o tempo que
+                    seu usuário está disposto a esperar,
+                    esse programa não terá utilidade mesmo
+                    que sempre retorne o resultado correto.
+                    </para>
+            </example>
+            <para id="id94022">Podemos observar no 
+                <link target-id="id94013e"/> que o programa
+                funciona corretamente, mas, por não exibir
+                o desempenho esperado, acaba sendo abandonado.
+                Por outro lado, consertar esse programa
+                para que seja útil é relativamente fácil.
+                Por exemplo, se o programa não multiplica
+                rápido o bastante, basta apenas reimplementar
+                a função de multiplicação para que tenha
+                um melhor desempenho.
+            </para>
+            <example id="id94035e">
+                <label>Exemplo</label>
+                <para id="id94035"> Considere agora o SASF,
+                    já apresentado no Capítulo XX. Considere
+                    também que ele se mostra incapaz de
+                    responder em menos de dois segundos
+                    às operações de aluguel de filmes.
+                    Uma vez que os usuários não estão dispostos
+                    a esperar esse tempo pela principal
+                    operação do sistema, isso resultará
+                    numa má experiência de uso, que será
+                    motivo para que seus usuários deixem
+                    de usá-lo e também deixem de pagar
+                    pelo serviço. </para>
+            </example>
+            <para id="id94047">Acontece que diminuir o
+                tempo de resposta de uma funcionalidade
+                no SASF, dado o tamanho do sistema, pode
+                não ser tão simples quanto diminuir o tempo
+                de execução de uma função matemática. O
+                alto tempo de resposta de um serviço no
+                SASF pode ser função de uma ou mais decisões
+                tomadas ao longo do desenvolvimento que
+                resultaram na sua estrutura e organização
+                interna. Essa estrutura e organização é
+                o que chamamos de arquitetura. Como o atendimento
+                aos atributos de qualidade do software
+                se deve em grande parte à sua arquitetura,
+                surge a necessidade de estudá-la. E, por
+                fim, é através do estudo das características
+                e técnicas de projeto de arquitetura que
+                poderemos projetar e desenvolver melhores
+                produtos de software.</para>
+        </section>
+        <section id="cid2">
+            <title>O que é Arquitetura de Software</title>
+            <para id="id94067">Desde sua primeira menção
+                em um relatório técnico da década de 1970
+                intitulado 
+                <emphasis effect="italics">Software Engineering
+                    Tecnhiques</emphasis>
+                <link target-id="bid0"/>, diversos autores
+                se propuseram a definir o termo arquitetura
+                de software. Por esse motivo, ao invés
+                de criarmos nossa própria definição do
+                termo, faremos uso de quatro definições
+                existentes a fim de ressaltar suas diferentes
+                características. As três primeiras que
+                usaremos são as definições de facto do
+                termo. Elas foram formuladas por autores
+                que se destacam na área desde sua introdução
+                e são usadas atualmente pela grande maioria
+                dos professores, alunos e praticantes da
+                área. Por outro lado, também mostraremos
+                a definição de jure de arquitetura de software.
+                Ela é parte do padrão ISO/IEEE 1471-2000
+                <link target-id="bid1"/> e teve sua criação
+                motivada justamente para fazer com que
+                estudantes, professores e praticantes de
+                arquitetura de software concordem sobre
+                o termo.
+            </para>
+        </section>
+        <section id="cid3">
+            <title>Definição de Arquitetura de Software
+                por Perry e Wolf</title>
+            <para id="id94107">Perry e Wolf introduziram
+                sua definição para arquitetura de software
+                em seu artigo seminal 
+                <emphasis effect="italics">Foundations
+                    for the Study of Software Architecture</emphasis>
+                <link target-id="bid2"/>. A definição que
+                eles propõem consiste na 
+                <link target-id="uid5"/> e na explicação
+                de seus termos:
+            </para>
+            <equation id="uid5">
+                <label>Fórmula</label>
+                <m:math overflow="scroll" mode="display">
+                    <m:mrow>
+                        <m:mi mathvariant="italic">Arquitetura</m:mi>
+                        <m:mo>=</m:mo>
+                        <m:mo>{</m:mo>
+                        <m:mi mathvariant="italic">Elementos</m:mi>
+                        <m:mo>,</m:mo>
+                        <m:mi mathvariant="italic">Organiza</m:mi>
+                        <m:mi>ç</m:mi>
+                        <m:mi>ã</m:mi>
+                        <m:mi mathvariant="italic">o</m:mi>
+                        <m:mo>,</m:mo>
+                        <m:mi mathvariant="italic">Decis</m:mi>
+                        <m:mi>õ</m:mi>
+                        <m:mi mathvariant="italic">es</m:mi>
+                        <m:mo>}</m:mo>
+                    </m:mrow>
+                </m:math>
+            </equation>
+            <para id="id94184">De acordo com essa definição,
+                a arquitetura de software é um conjunto
+                de elementos arquiteturais que possuem
+                alguma organização. Os elementos e sua
+                organização são definidos por decisões
+                tomadas para satisfazer objetivos e restrições.
+                São destacados três tipos de elementos
+                arquiteturais:</para>
+            <list id="id94192" display="block" list-type="labeled-item">
+                <item id="uid6">
+                    <label>
+                        <emphasis effect="italics">Elementos
+                            de processamento</emphasis>:
+                    </label>são elementos que usam ou transformam
+                    informação; 
+                </item>
+                <item id="uid7">
+                    <label>
+                        <emphasis effect="italics">Elementos
+                            de dados</emphasis>:
+                    </label>são elementos que contêm a
+                    informação a ser usada e transformada;
+                    e 
+                </item>
+                <item id="uid8">
+                    <label>
+                        <emphasis effect="italics">Elementos
+                            de conexão</emphasis>:
+                    </label>são elementos que ligam elementos
+                    de qualquer tipo entre si. 
+                </item>
+            </list>
+            <para id="id94253">Já a organização dita as
+                relações entre os elementos arquiteturais.
+                Essas relações possuem propriedades e restringem
+                como os elementos devem interagir de forma
+                a satisfazer os objetivos do sistema. Adicionalmente,
+                essas relações devem ser ponderadas de
+                modo a indicar sua importância no processo
+                de seleção de alternativas.</para>
+            <example id="id94261e">
+                <label>Exemplo</label>
+                <para id="id94265">Um elemento de dados
+                    muito presente no SASF e em sistemas
+                    de informação em geral é o banco de
+                    dados. Ele é o responsável por guardar
+                    e recuperar dados no sistema.</para>
+                <para id="id94271">No SASF, inicialmente,
+                    estão presentes três tipos de dados:</para>
+                <list id="id94275" display="block" list-type="enumerated">
+                    <item id="uid9">Informação textual:
+                        informações cadastrais dos usuários
+                        e informações textuais sobre os
+                        filmes; </item>
+                    <item id="uid10">Imagens: imagens que
+                        compõem a identidade visual do
+                        sistema, foto do usuário presente
+                        em seu perfil e imagens de divulgação
+                        dos filmes; </item>
+                    <item id="uid11">Vídeos: filmes completos,
+                        <emphasis effect="italics">trailers</emphasis>
+                        e documentários “por trás das câmeras”
+                        disponíveis para 
+                        <emphasis effect="italics">streaming</emphasis>.
+                        
+                    </item>
+                </list>
+                <para id="id94330">Por isso, consideramos
+                    um elemento de dados para cada tipo.
+                    Assim, temos o banco de dados responsável
+                    por informações textuais, o banco de
+                    dados responsável por imagens e o banco
+                    de dados responsável por vídeos. Essa
+                    separação de responsabilidades permite
+                    que a implementação de cada elemento
+                    de dados disponha de serviços diferenciados
+                    ou mesmo tire proveito da natureza
+                    de seus dados para atender a algum
+                    atributo de qualidade (desempenho,
+                    escalabilidade, etc.). Dessa maneira,
+                    o elemento responsável por texto pode
+                    ser otimizado para busca por palavras-chave,
+                    enquanto o responsável por vídeos pode
+                    ser otimizado para recuperar grandes
+                    massas de dados a cada requisição.
+                    Por outro lado, também faz sentido
+                    dividir logicamente os elementos de
+                    dados em: elemento de dados de usuários
+                    e de dados de filmes. Vale notar que
+                    essa divisão é ortogonal à divisão
+                    em elementos de texto, imagens e vídeos
+                    e, portanto, o elemento de dados de
+                    usuários pode ser composto por um elemento
+                    de dados textuais e outro elemento
+                    de dados de imagens, da mesma maneira
+                    que o elemento de dados de filmes pode
+                    conter o elemento de dados textuais,
+                    de imagens e de vídeos.</para>
+                <para id="id94351">Como exemplo de elemento
+                    de processamento, citamos a lógica
+                    de negócio do SASF. Ela contém as regras
+                    de negócio que compõem o SASF. Note
+                    que podemos ainda dividir esse elemento
+                    de processamento em elementos mais
+                    especializados: o elemento de processamento
+                    responsável por criar, editar, recuperar
+                    e remover usuários, o responsável por
+                    criar, editar, recuperar e remover
+                    informações de filmes, o responsável
+                    pelo aluguel de filmes e o responsável
+                    por controlar a sessão de 
+                    <emphasis effect="italics">streaming</emphasis>,
+                    entre outros. Essa divisão, assim como
+                    a divisão dos elementos de dados, pode
+                    ser feita em prol do atendimento aos
+                    atributos de qualidade
+                    <footnote id="uid12">Trataremos melhor
+                        desse assunto no capítulo sobre
+                        atributos de qualidade</footnote>.
+                </para>
+                <para id="id94379">No entanto, um elemento
+                    não é capaz de criar, editar, recuperar
+                    ou remover usuários sem se comunicar
+                    com os dados dos usuários. Da mesma
+                    maneira, o elemento responsável por
+                    manipular as informações dos filmes
+                    deve se comunicar com os elementos
+                    que guardam os dados dos filmes. Ou
+                    ainda, para controlar a sessão de 
+                    <emphasis effect="italics">streaming</emphasis>,
+                    o responsável deve obter o filme do
+                    elemento de dados que contém os filmes
+                    completos. Essa comunicação é feita
+                    pelos diversos elementos de conexão
+                    do SASF. Entre eles, podemos citar:
+                    o driver JDBC
+                    <footnote id="uid13">Java Database
+                        Connectivity. http://java.sun.com/javase/technologies/database/</footnote>,
+                    que permite a comunicação com o banco
+                    de dados responsável pelos usuários;
+                    o protocolo FTP, para transferência
+                    de vídeos; o protocolo HTTP, para transferências
+                    a partir do banco de imagens; ou o
+                    REST
+                    <footnote id="uid14">REpresentational
+                        State Transfer 
+                        <link target-id="bid3"/>
+                    </footnote>, que é uma especialização
+                    do HTTP e é usado para comunicação
+                    entre elementos de processamento. A
+                    <link target-id="uid15"/> ilustra alguns
+                    elementos que formam a arquitetura
+                    do SASF.
+                </para>
+                <figure id="uid15">
+                    <label>Figura</label>
+                    <media id="uid15_media" alt="">
+                        <image mime-type="image/png" src="../../media/elementos.png" id="uid15_onlineimage" width="500">
+                            <!-- NOTE: attribute width
+                            changes image size online (pixels).
+                            original width is 2880. -->
+                        </image>
+                        <image for="pdf" mime-type="application/postscript" src="../../media/elementos.eps" id="uid15_printimage" print-width="12cm">
+                            <!--NOTE: attribute width changes
+                            image size in printed PDF (if
+                            specified in .tex file)-->
+                        </image>
+                    </media>
+                    <caption>Alguns elementos de processamento,
+                        de dados e de conexão do SASF</caption>
+                </figure>
+            </example>
+        </section>
+        <section id="cid4">
+            <title>Arquitetura de Software por Garlan e
+                Shaw</title>
+            <para id="id94458">Além de terem uma visão
+                mais concreta sobre arquitetura que Perry
+                e Wolf, Garlan e Shaw são mais explícitos
+                quando mencionam o propósito de se aplicar
+                conhecimentos de arquitetura num sistema
+                de software. Para eles, arquitetura de
+                software se torna necessária quando o tamanho
+                e a complexidade dos sistemas de software
+                crescem. Assim, o problema de se construir
+                sistemas vai além da escolha dos algoritmos
+                e estruturas de dados certos. Esse problema
+                envolverá também decisões sobre as estruturas
+                que formarão o sistema, a estrutura global
+                de controle será usada, protocolos de comunicação,
+                sincronização e acesso a dados, atribuição
+                de funcionalidade a elementos do sistema,
+                ou ainda sobre distribuição física dos
+                elementos do sistema. Além disso, o problema
+                envolverá decisões que impactarão no comportamento
+                do sistema em termos de escala e desempenho,
+                entre outros atributos de qualidade 
+                <link target-id="bid4"/>.
+            </para>
+            <para id="id94481">A visão sobre arquitetura
+                de software de Garlan e Shaw se torna importante
+                por conter três aspectos. O primeiro é
+                por eles serem explícitos em quando devemos
+                aplicar conhecimentos de arquitetura de
+                software – quando lidamos com grandes sistemas.
+                O segundo é por serem claros na separação
+                de tarefas entre design detalhado e design
+                arquitetural – o primeiro se preocupa com
+                algoritmos e estruturas de dados, enquanto
+                o segundo se preocupa com os elementos
+                e organização do sistema como um todo,
+                sendo em relação à estrutura do sistema,
+                controle, comunicação, ou implantação.
+                E, por fim, é por eles citarem que o processo
+                de design da arquitetura precisa se preocupar
+                com atributos de qualidade do sistema –
+                alcançar escalabilidade ou desempenho,
+                por exemplo.</para>
+            <example id="id94498e">
+                <label>Exemplo</label>
+                <para id="id94498"> A arquitetura de um
+                    sistema operacional, para atingir atributos
+                    de desempenho e portabilidade, deve
+                    se preocupar com diversos aspectos
+                    que comporão o sistema. É claro que
+                    alguns algoritmos serão também responsáveis
+                    pelo desempenho do S.O. em questão,
+                    como o responsável pela ordenação por
+                    prioridade dos processos em execução
+                    ou o de alocação de memória para um
+                    novo processo; mas a organização do
+                    sistema em camadas de abstração (abstração
+                    de hardware, sistema de arquivos e
+                    drivers, gerência de processos, API
+                    do sistema, bibliotecas e aplicações),
+                    a comunicação entre elas (uma camada
+                    só pode se comunicar com a camada seguinte,
+                    ou aplicações e bibliotecas só podem
+                    se comunicar com a API do sistema,
+                    etc.) e a sincronização (um aplicativo
+                    sugere o arquivamento de dados, mas
+                    o sistema de arquivo decidirá quando
+                    isso será feito) também impactarão
+                    no seu desempenho. Note que essa organização
+                    também tem impacto na portabilidade:
+                    quanto menos acoplado o resto das camadas
+                    for da camada de abstração de hardware,
+                    mais fácil será de realizar mudanças
+                    para que o sistema operacional esteja
+                    disponível para uma nova plataforma
+                    de hardware – idealmente, só havendo
+                    que se reimplementar essa camada. </para>
+            </example>
+        </section>
+        <section id="cid5">
+            <title>Arquitetura de Software por Bass 
+                <emphasis effect="italics">et al</emphasis>
+            </title>
+            <para id="id94535">Como veremos a seguir, a
+                definição de Bass et al é bastante similar
+                à encontrada no padrão ISO/IEEE 1471-2000.
+                No entanto, sua especificidade sobre quais
+                propriedades dos elementos arquiteturais
+                devem ser consideradas a faz ser mencionada:</para>
+            <para id="id94542">
+                <quote id="id94542_quote" display="block">A
+                    arquitetura de um programa ou de sistemas
+                    computacionais é a estrutura ou estruturas
+                    do sistema, a qual é composta de elementos
+                    de software, as propriedades externamente
+                    visíveis desses elementos, e os relacionamentos
+                    entre eles. 
+                    <link target-id="bid5"/>
+                </quote>
+            </para>
+            <para id="id94555">Como já observado por Gorton
+                <link target-id="bid6"/>, essa definição
+                é explícita quanto ao papel da abstração
+                na arquitetura (quando fala de propriedades
+                externamente visíveis), e também quanto
+                ao papel das múltiplas visões arquiteturais
+                (estruturas do sistema). Devemos também
+                mencionar o uso do termo “elementos de
+                software” como as peças fundamentais da
+                arquitetura. Na edição anterior dessa definição
+                <link target-id="bid7"/>, seus autores
+                usavam “componentes de software” ao invés
+                de “elementos de software”. Essa mudança
+                foi feita para deixar a definição mais
+                geral, principalmente pelo termo “componente
+                de software” ter um sentido específico
+                na área de Engenharia de Software baseada
+                em Componentes.
+            </para>
+            <example id="id93814e">
+                <label>Exemplo</label>
+                <para id="id93817">Podemos observar a arquitetura
+                    do SASF através de uma visão de partes
+                    funcionais (
+                    <link target-id="uid21"/>):
+                </para>
+                <list id="id93826" display="block" list-type="enumerated">
+                    <item id="uid16">módulo responsável
+                        pelo cadastro de usuários, </item>
+                    <item id="uid17">módulo responsável
+                        pelo cadastro de filmes, </item>
+                    <item id="uid18">módulo responsável
+                        pelo aluguel de filmes, </item>
+                    <item id="uid19">módulo responsável
+                        pela transmissão de filmes, </item>
+                    <item id="uid20">módulo responsável
+                        pela sugestão de filmes, etc. </item>
+                </list>
+                <para id="id94726">Esses módulos proveem
+                    serviços e informações a outras partes
+                    do sistema: por exemplo, uma operação
+                    de aluguel ou de transmissão de filmes
+                    deve atualizar o histórico presente
+                    na conta do usuário. Isso ocorre porque
+                    o módulo de sugestão usará periodicamente
+                    esse histórico a fim de gerar listas
+                    de filmes de acordo com as preferências
+                    do usuário.</para>
+                <figure id="uid21">
+                    <label>Figura</label>
+                    <media id="uid21_media" alt="">
+                        <image mime-type="image/png" src="../../media/modulos.png" id="uid21_onlineimage" width="500">
+                            <!-- NOTE: attribute width
+                            changes image size online (pixels).
+                            original width is 2155. -->
+                        </image>
+                        <image for="pdf" mime-type="application/postscript" src="../../media/modulos.eps" id="uid21_printimage" print-width="10cm">
+                            <!--NOTE: attribute width changes
+                            image size in printed PDF (if
+                            specified in .tex file)-->
+                        </image>
+                    </media>
+                    <caption>Módulos funcionais do SASF</caption>
+                </figure>
+                <para id="id94748">Mas essa não é a única
+                    maneira de observarmos o sistema. Podemos
+                    também ver o sistema como um conjunto
+                    de processos executando e se comunicando
+                    em máquinas diferentes, como observado
+                    na 
+                    <link target-id="uid22"/>. O navegador
+                    do usuário, que pode ser considerado
+                    parte do sistema e que está executando
+                    em uma máquina, se comunica usando
+                    o protocolo HTTPS com um servidor de
+                    aplicações, que está executando em
+                    outra máquina e que contém parte da
+                    lógica do negócio (e os módulos de
+                    cadastro, autenticação, e atualização
+                    do usuário, entre outros). O servidor
+                    de aplicações, por sua vez, se comunica
+                    de forma diferente com cada um dos
+                    sistemas de armazenamento presentes.
+                    Ele usa JDBC para obter dados de usuários,
+                    FTP para obter vídeos e HTTP para obter
+                    imagens. Já o motor de sugestão é visto
+                    como outro processo executando numa
+                    máquina diferente do servidor de aplicação.
+                    Esse processo, de tempos em tempos,
+                    lê, processa e atualiza informações
+                    do banco de usuários a fim de gerar
+                    a lista de filmes sugeridos. Ele também
+                    usa JDBC para se comunicar com o banco
+                    de usuários.
+                </para>
+                <figure id="uid22">
+                    <label>Figura</label>
+                    <media id="uid22_media" alt="">
+                        <image mime-type="image/png" src="../../media/processos.png" id="uid22_onlineimage" width="500">
+                            <!-- NOTE: attribute width
+                            changes image size online (pixels).
+                            original width is 2880. -->
+                        </image>
+                        <image for="pdf" mime-type="application/postscript" src="../../media/processos.eps" id="uid22_printimage" print-width="10cm">
+                            <!--NOTE: attribute width changes
+                            image size in printed PDF (if
+                            specified in .tex file)-->
+                        </image>
+                    </media>
+                    <caption>Processos presentes no SASF</caption>
+                </figure>
+                <para id="id94788">Na visão em que dividimos
+                    o sistema em partes funcionais, podemos
+                    perceber aspectos do software como
+                    a composição entre elementos ou pontos
+                    de reuso. Já na visão em que dividimos
+                    o sistema em processos, podemos observar
+                    outros aspectos, como propriedades
+                    de comunicação e de interação entre
+                    as partes do sistema. Por exemplo,
+                    na primeira visão, os cadastros de
+                    filmes e de usuários podem compor um
+                    módulo maior responsável por todos
+                    os cadastros. Já na segunda visão,
+                    percebemos que a comunicação entre
+                    o navegador e o servidor de aplicações
+                    é síncrona, enquanto a comunicação
+                    entre o motor de sugestão e o banco
+                    de dados é assíncrona em relação às
+                    ações dos usuários.</para>
+            </example>
+        </section>
+        <section id="cid6">
+            <title>Arquitetura de Software pelo Padrão
+                ISO/IEEE 1471-2000</title>
+            <para id="id94816">O propósito da criação do
+                padrão ISO/IEEE 1471-2000 
+                <link target-id="bid1"/> foi o de ajudar
+                no consenso entre autores, estudantes e
+                profissionais sobre o que é e para que
+                serve arquitetura de software. Assim, esse
+                padrão não só define arquitetura de software,
+                mas também introduz um arcabouço conceitual
+                para descrição arquitetural. Sua definição
+                de arquitetura de software, a qual nós
+                adotaremos ao longo do livro, é a seguinte:
+            </para>
+            <para id="id94832">
+                <definition id="arquitetura">
+                    <label>Definição</label>
+                    <term>arquitetura de software</term>
+                    <meaning id="arquitetura-significado">
+                        Arquitetura é a organização fundamental
+                        de um sistema incorporada em seus
+                        componentes, seus relacionamentos
+                        com o ambiente, e os princípios
+                        que conduzem seu design e evolução.
+                        </meaning>
+                </definition>
+            </para>
+            <para id="id94844">Podemos perceber que a definição
+                acima é consistente com as anteriores por
+                também mencionar que arquitetura compreende
+                estrutura (ou elementos ou componentes),
+                relações, e decisões (ou princípios). No
+                entanto, ela vai além adicionando mais
+                uma preocupação à arquitetura: conduzir
+                a evolução do software.</para>
+            <para id="id94853">Evolução de software é o
+                fenômeno de mudança que ocorre no software
+                ao longo dos anos e das múltiplas versões,
+                desde seu início até o completo abandono
+                do sistema. Essa mudança não está só relacionada
+                com a adição e remoção de funcionalidades,
+                mas também está relacionada com a manutenção
+                do código ao longo do ciclo de vida do
+                software. Essa manutenção pode melhorar
+                ou deteriorar tanto atributos externos
+                de qualidade do software, os quais são
+                percebidos pelos usuários (e.g., desempenho,
+                tolerância a falhas, disponibilidade),
+                quanto atributos internos de qualidade
+                do software, os quais são percebidos pelos
+                envolvidos no desenvolvimento (e.g., testabilidade,
+                legibilidade, reusabilidade).</para>
+            <para id="id94869">Uma vez que um dos principais
+                objetivos de se projetar uma arquitetura
+                é o de atingir a qualidade desejada pelos
+                interessados no sistema, se torna claro
+                o papel da arquitetura em conduzir a evolução
+                do software, uma vez que ela conterá decisões
+                que contribuirão para a preservação da
+                qualidade do sistema durante seu ciclo
+                de vida.</para>
+            <para id="id94878">Antes de entrarmos em detalhes
+                sobre os diversos aspectos de arquitetura
+                de software, devemos entrar em consenso
+                sobre o termo “componente de software”.
+                Em Engenharia de Software, “componentes”
+                têm vários significados divergentes. Um
+                significado, de acordo com o 
+                <emphasis effect="italics">Standard Computer
+                    Dictionary</emphasis>
+                <link target-id="bid8"/>, é que um componente
+                é uma das partes que compõem o sistema.
+                Dessa maneira, “componente” pode ser substituído
+                por “módulo”, “unidade”, ou mesmo “elemento”
+                de software. É esse o significado de “componente”
+                usado no padrão ISO/IEEE 1471-2000 e que
+                será usado ao longo deste livro.
+            </para>
+            <para id="id94903">Por outro lado, um componente
+                também pode ter o significado como o descrito
+                por Kai Qian, em 
+                <emphasis effect="italics">Component-Oriented
+                    Programming</emphasis>
+                <link target-id="bid9"/>: “um pedaço de
+                código autocontido e autoimplantável com
+                uma funcionalidade bem definida e que pode
+                ser agregado com outros componentes através
+                de sua interface.” Esse outro significado
+                é estritamente ligado à Engenharia de Software
+                baseada em Componentes e não será usado
+                a não ser que sejamos explícitos sobre
+                ele.
+            </para>
+            <para id="id94924">O padrão ISO/IEEE 1471-2000
+                também define outros termos fundamentais
+                para o entendimento de arquitetura de software,
+                em especial visões (views). Esse termo
+                será brevemente descrito na Seção 
+                <link target-id="cid8">"Visões da Arquitetura"</link>
+                e então detalhado no Capítulo XX.
+            </para>
+        </section>
+        <section id="cid7">
+            <title>Decompondo a definição de Arquitetura
+                de Software</title>
+            <para id="id94945">A arquitetura de software
+                é mais bem entendida através de suas partes.
+                Considerando as definições expostas acima,
+                podemos ressaltar seus dois principais
+                aspectos, que serão os meios para alcançar
+                os 
+                <emphasis effect="italics">atributos de
+                    qualidade</emphasis>: 
+                <emphasis effect="italics">elementos</emphasis>
+                e 
+                <emphasis effect="italics">decisões arquiteturais</emphasis>.
+                Detalharemos cada aspecto a seguir.
+            </para>
+            <section id="uid24">
+                <title>Elementos arquiteturais</title>
+                <para id="id94977">A arquitetura de um
+                    sistema deve definir os elementos que
+                    formarão o software. Tais elementos
+                    definem como o software é particionado
+                    em pedaços menores e, assim, definem
+                    como o software é entendido. Elementos
+                    arquiteturais são divididos em dois
+                    tipos: elementos estáticos e elementos
+                    dinâmicos.</para>
+                <para id="id94985">Os elementos estáticos
+                    de um sistema de software definem as
+                    partes do sistema e qual sua organização.
+                    Esse tipo de elemento reflete o sistema
+                    durante o design e é constituído de
+                    elementos de software (e.g., módulos,
+                    classes, pacotes, procedimentos, ou
+                    ainda serviços autocontidos), elementos
+                    de dados (e.g., entidades e tabelas
+                    de bancos de dados, arquivos de dados,
+                    ou classes de dados), e elementos de
+                    hardware (e.g., computadores em que
+                    o sistema vai executar, ou outros tipos
+                    de hardware que o sistema usará: roteadores,
+                    cabos, ou impressoras).</para>
+                <para id="id94994">Elementos estáticos
+                    não consistem apenas das partes estáticas
+                    do sistema, mas também como eles se
+                    relacionam entre si. Associações, composições,
+                    e outros tipos de relações entre elementos
+                    de software, de dados, e de hardware
+                    formam o aspecto estático que compõe
+                    a arquitetura do sistema. O exemplo
+                    a seguir ilustra elementos estáticos
+                    de um sistema de software.</para>
+                <example id="id95002e">
+                    <label>Exemplo</label>
+                    <para id="id95005">Voltando ao SASF,
+                        observar sua arquitetura sob uma
+                        ótica estática expõe seus elementos
+                        estáticos. Em tempo de design,
+                        alguns elementos estáticos são
+                        cada pacote, módulo ou conjunto
+                        de classes responsáveis por cada
+                        função do sistema. Alguns desses
+                        elementos são os responsáveis por:
+                        criação, edição, remoção e recuperação
+                        de usuários e filmes, aluguel de
+                        filmes, autenticação e autorização
+                        dos usuários, entre outros.</para>
+                </example>
+                <para id="id95018">Por outro lado, elementos
+                    dinâmicos definem o comportamento do
+                    sistema. Esse tipo de elemento reflete
+                    o sistema durante a execução e nele
+                    estão incluídos processos, módulos,
+                    protocolos, ou classes que realizam
+                    comportamento. Elementos dinâmicos
+                    também descrevem como o sistema reage
+                    a estímulos internos e externos, como
+                    mostrado no exemplo a seguir.</para>
+                <example id="id95027e">
+                    <label>Exemplo</label>
+                    <para id="id95030">Ainda na arquitetura
+                        do SASF, podemos também observar
+                        o sistema sob uma ótica dinâmica.
+                        Essa exibe seus elementos dinâmicos,
+                        a exemplo dos diversos processos
+                        executando nas diversas máquinas
+                        que compõem o sistema. Esses processos
+                        pertencem aos servidores de aplicação,
+                        aos serviços de armazenamento,
+                        ou mesmo aos navegadores dos usuários.</para>
+                </example>
+                <section id="uid25">
+                    <title>Elementos Arquiteturais e Atributos
+                        do Sistema</title>
+                    <para id="id95051">Note que quando
+                        examinamos os elementos arquiteturais
+                        de um sistema, tanto os estáticos
+                        quanto os dinâmicos, devemos também
+                        prestar atenção nas relações que
+                        os ligam. Essas relações são importantes,
+                        pois especificam a comunicação
+                        e o controle da informação e do
+                        comportamento que formam o sistema.
+                        Assim, as relações definem diversos
+                        aspectos do sistema, por exemplo,
+                        quais dados do objeto da classe
+                        A são visíveis pelos objetos da
+                        classe B; ou quantas leituras concorrentes
+                        são feitas no elemento C; ou ainda
+                        como o elemento D é autorizado
+                        a escrever dados no elemento E.
+                        Dessa maneira, essas relações têm
+                        efeito sobre atributos de qualidade
+                        do sistema, sejam os percebidos
+                        pelos usuários, ou os percebidos
+                        pelos desenvolvedores. Os exemplos
+                        seguintes mostram casos de como
+                        relações entre elementos arquiteturais
+                        afetam atributos de qualidade.</para>
+                    <example id="id95070e">
+                        <label>Exemplo</label>
+                        <para id="id95073">Se dividirmos
+                            a arquitetura do SASF em três
+                            camadas (apresentação, lógica
+                            de negócio, e persistência),
+                            a camada de persistência pode
+                            ser um recurso compartilhado
+                            por diversas instâncias da
+                            lógica de negócio. Se temos
+                            diversas instâncias da lógica
+                            de negócio, mesmo que algumas
+                            saiam do ar, as restantes proverão
+                            disponibilidade ao sistema,
+                            desde que a camada de persistência
+                            (e.g., o banco de dados) não
+                            falhe. Além disso, o compartilhamento
+                            do banco de dados pode significar
+                            também o acesso concorrente
+                            ao mesmo. Assim, quando uma
+                            instância da lógica de negócio
+                            lhe faz uma requisição, essa
+                            requisição lhe será respondida
+                            mesmo que outras instâncias
+                            estejam fazendo o mesmo (obviamente,
+                            isso só ocorre se alguma instância
+                            da lógica de negócio não esteja
+                            realizando alguma requisição
+                            que precise de acesso exclusivo
+                            aos dados). </para>
+                    </example>
+                    <example id="id95092e">
+                        <label>Exemplo</label>
+                        <para id="id95095">A separação
+                            do sistema em três camadas
+                            (
+                            <link target-id="uid26"/>)
+                            pode também facilitar a manutenção.
+                            Se, além de adotar essa divisão,
+                            a camada de apresentação apenas
+                            se comunicar com a lógica de
+                            negócio, mas não com a de persistência,
+                            mudanças na camada de persistência
+                            afetarão apenas a camada de
+                            negócio. Portanto, caso seja
+                            necessário mudar o fornecedor
+                            da camada de persistência,
+                            a assinatura dos métodos disponíveis,
+                            ou mesmo o protocolo de comunicação,
+                            apenas a lógica de negócio
+                            será afetada por essas mudanças,
+                            uma vez que não existe acoplamento
+                            entre a apresentação e a persistência.
+                        </para>
+                    </example>
+                    <figure id="uid26">
+                        <label>Figura</label>
+                        <media id="uid26_media" alt="">
+                            <image mime-type="image/png" src="../../media/3-camadas.png" id="uid26_onlineimage" width="500">
+                                <!-- NOTE: attribute width
+                                changes image size online
+                                (pixels). original width
+                                is 2670. -->
+                            </image>
+                            <image for="pdf" mime-type="application/postscript" src="../../media/3-camadas.eps" id="uid26_printimage" print-width="10cm">
+                                <!--NOTE: attribute width
+                                changes image size in printed
+                                PDF (if specified in .tex
+                                file)-->
+                            </image>
+                        </media>
+                        <caption>Ilustração da divisão
+                            de uma arquitetura em três
+                            camadas.</caption>
+                    </figure>
+                </section>
+            </section>
+            <section id="uid27">
+                <title>Decisões arquiteturais</title>
+                <para id="id95136">Uma arquitetura não
+                    deve ter suas estruturas definidas
+                    aleatoriamente, uma vez que são elas
+                    que permitem o sucesso relativo aos
+                    objetivos do sistema. Dessa maneira,
+                    é trabalho do arquiteto definir essas
+                    estruturas em meio às alternativas
+                    de design arquitetural existentes.
+                    O arquiteto deve decidir entre as alternativas,
+                    particionando o sistema em elementos
+                    e relações que possibilitarão o atendimento
+                    aos atributos de qualidade. Essas decisões
+                    são chamadas 
+                    <emphasis effect="italics">decisões
+                        arquiteturais</emphasis>.
+                </para>
+                <para id="id95151">
+                    <definition id="decisao-arquitetural">
+                        <label>Definição</label>
+                        <term>decisão arquitetural</term>
+                        <meaning id="decisao-arquitetural-significado">
+                            Uma escolha entre as alternativas
+                            de design arquitetural. Essa
+                            escolha se propõe a alcançar
+                            um ou mais atributos de qualidade
+                            do sistema, por meio da(s)
+                            estrutura(s) arquiteturais
+                            que ela envolve ou define.
+                            </meaning>
+                    </definition>
+                </para>
+                <section id="uid29">
+                    <title>Características</title>
+                    <para id="id95173">As decisões arquiteturais
+                        têm, basicamente, três características
+                        que devem ser consideradas: descrição,
+                        objetivos e fundamentação.</para>
+                    <para id="id95178">A primeira característica
+                        é bem clara. É simplesmente a descrição
+                        do que foi decidido para o sistema,
+                        seja a descrição um elemento, módulo,
+                        classe, ou serviço que existirá
+                        da arquitetura, a descrição da
+                        comunicação de um elemento da arquitetura
+                        com outro, a descrição da agregação
+                        de diversos elementos diferentes
+                        da arquitetura para formar um serviço,
+                        ou a descrição de um princípio
+                        ou mais princípios que conduzirão
+                        a evolução do sistema.</para>
+                    <example id="id95187e">
+                        <label>Exemplo</label>
+                        <para id="id95190">
+                            <emphasis effect="italics">[Decisão
+                                Arquitetural 001]</emphasis>
+                            A arquitetura do SASF é dividida
+                            em três camadas lógicas: apresentação,
+                            lógica de negócio e persistência
+                            de dados. A camada de apresentação
+                            se comunica apenas com a lógica
+                            de negócio e apenas a lógica
+                            de negócio de comunica com
+                            a camada de persistência de
+                            dados.
+                        </para>
+                    </example>
+                    <para id="id95206">Toda decisão é feita
+                        com um ou vários objetivos. Assim,
+                        a segunda característica trata
+                        de explicitar qual o objetivo de
+                        dada decisão, normalmente, permitindo
+                        ou restringido um conjunto de atributos
+                        de qualidade do sistema. Vale notar
+                        que, para atender aos atributos
+                        de qualidade do sistema (que podem
+                        ser muitos), uma arquitetura poderá
+                        possuir dezenas ou mesmo centenas
+                        de decisões arquiteturais.</para>
+                    <example id="id95215e">
+                        <label>Exemplo</label>
+                        <para id="id95218">
+                            <emphasis effect="italics">(continuação
+                                da [Decisão Arquitetural
+                                001])</emphasis>
+                            <emphasis effect="italics">Objetivo</emphasis>:
+                            Essa divisão diminui o acoplamento
+                            entre os elementos internos
+                            da arquitetura, facilitando
+                            o desenvolvimento e a manutenção.
+                            <footnote id="uid30">TODO:
+                                Adicionar os 
+                                <emphasis effect="italics">drivers</emphasis>
+                                dessa decisão: o Requisito(s)
+                                Não-Funcional(is) XX presente(s)
+                                no Apêndice. Exemplo de
+                                requisito: [RNF 01] Ter
+                                mais de uma interface gráfica.
+                            </footnote>
+                        </para>
+                    </example>
+                    <para id="id95250">Por fim, uma decisão
+                        arquitetural só pode ter sido alcançada
+                        em meio a alternativas com algum
+                        embasamento ou fundamentação. Então,
+                        cabe ao arquiteto explicitar por
+                        que tal decisão foi tomada, seja
+                        por ser um padrão conhecido na
+                        indústria, seja por conhecimento
+                        prévio de como satisfazer os objetivos
+                        em questão, ou pela atual decisão
+                        ter mostrado os melhores resultados
+                        em meio a uma avaliação prévia
+                        das alternativas.</para>
+                    <example id="id95259">
+                        <label>Exemplo</label>
+                        <para id="id95262">
+                            <emphasis effect="italics">(continuação
+                                da [Decisão Arquitetural
+                                001]) </emphasis>
+                            <emphasis effect="italics">Motivação:</emphasis>
+                            Projetar os elementos internos
+                            do sistema de modo que cada
+                            um pertença a apenas uma camada
+                            lógica ajuda a aumentar a coesão
+                            e diminuir o acoplamento. A
+                            coesão aumenta, pois cada elemento
+                            será desenvolvido com o objetivo
+                            de ser parte da apresentação,
+                            da lógica ou da persistência
+                            do sistema. Dessa maneira,
+                            cada elemento terá sua responsabilidade
+                            bem definida, mesmo que em
+                            alto nível. Como a comunicação
+                            entre as camadas é pré-definida,
+                            a de seus elementos também
+                            é: elementos da camada de apresentação
+                            não se comunicarão com elementos
+                            da camada de persistência,
+                            por exemplo. Assim, o acoplamento
+                            entre elementos internos será
+                            análogo ao acoplamento entre
+                            camadas. Com o baixo acoplamento,
+                            o desenvolvimento e a manutenção
+                            dos elementos também é facilitado,
+                            seja por possibilitar o desenvolvimento
+                            independente, seja por mudanças
+                            em um elemento terem menor
+                            impacto nos outros.
+                        </para>
+                    </example>
+                </section>
+                <section id="uid31">
+                    <title>Rastreabilidade</title>
+                    <para id="id95305">Vale notar que decisões
+                        definem que elementos comporão
+                        o sistema. No exemplo anterior,
+                        podemos observar que a decisão
+                        define elementos como plug-ins,
+                        pontos de extensão, etc. Assim,
+                        por relacionarem atributos de qualidade
+                        (ou requisitos) a elementos arquiteturais,
+                        as decisões contidas numa arquitetura
+                        facilitam o chamado 
+                        <emphasis effect="italics">rastreamento
+                            de requisitos</emphasis>.
+                    </para>
+                    <para id="id95319">
+                        <definition id="rastreamento">
+                            <label>Definição</label>
+                            <term>rastreamento de requisitos</term>
+                            <meaning id="rastreamento-significado">
+                                É o processo/capacidade
+                                de ligar requisitos do
+                                sistema a estruturas arquiteturais.
+                                </meaning>
+                        </definition>
+                    </para>
+                    <para id="id95329">A possibilidade
+                        de se rastrear requisitos na arquitetura
+                        é uma característica importante
+                        porque facilita o entendimento
+                        e a manutenção do sistema representado
+                        pela arquitetura. O entendimento
+                        do sistema é facilitado porque
+                        uma arquitetura permite que um
+                        interessado qualquer navegue pelos
+                        elementos que compõem o sistema
+                        em dois sentidos: tanto do nível
+                        mais abstrato do sistema para seus
+                        níveis mais concretos, ou seja,
+                        dos requisitos para os elementos
+                        arquiteturais, como módulos, bibliotecas,
+                        serviços, ou classes; quanto dos
+                        níveis concretos da arquitetura
+                        para os níveis mais abstratos,
+                        ou seja, dos elementos arquiteturais
+                        para os requisitos do sistema.</para>
+                    <para id="id95339">O entendimento do
+                        sistema é facilitado porque uma
+                        arquitetura permite que um interessado
+                        qualquer navegue pelos elementos
+                        que compõem o sistema em dois sentidos:
+                        tanto do nível mais abstrato do
+                        sistema para seus elementos mais
+                        concretos, ou seja, dos requisitos
+                        para as estruturas arquiteturais,
+                        como módulos, bibliotecas, serviços,
+                        ou classes, quanto dos elementos
+                        concretos da arquitetura para os
+                        níveis mais abstratos, ou seja,
+                        das estruturas arquiteturais para
+                        os requisitos do sistema.</para>
+                    <example id="id95348e">
+                        <label>Exemplo</label>
+                        <para id="id95351">Se observarmos
+                            a arquitetura do SASF e procurarmos
+                            pelas decisões responsáveis
+                            por facilitar a manutenção
+                            do sistema, encontraremos entre
+                            elas a decisão do 
+                            <link target-id="id95259"/>.
+                            Essa decisão sugere uma divisão
+                            do sistema em camadas lógicas,
+                            mas também influencia na divisão
+                            em pacotes, serviços ou mesmo
+                            processos. Assim, a satisfação
+                            do requisito de manutenibilidade
+                            está diretamente ligada à correta
+                            divisão das partes do sistema
+                            em apresentação, lógica de
+                            negócio e persistência.
+                        </para>
+                        <para id="id95367">Da mesma maneira,
+                            se partirmos das partes que
+                            formam as camadas de apresentação,
+                            lógica de negócio e persistência,
+                            observaremos que elas estão
+                            ligadas à divisão do sistema
+                            (e à decisão arquitetural)
+                            que se propõe a atender a requisitos
+                            de manutenibilidade.</para>
+                    </example>
+                    <para id="id95378">Além de permitir
+                        a navegação, um aspecto que merece
+                        ser ressaltado é que se os requisitos
+                        do sistema forem eventualmente
+                        ordenados por importância para
+                        o sucesso do sistema, os elementos
+                        arquiteturais também possuirão
+                        diferentes níveis de importância.
+                        Essa ordenação, então, significará
+                        diferentes níveis de investimento,
+                        seja em tempo ou dinheiro, na construção
+                        dos elementos arquiteturais para
+                        o sucesso do sistema.</para>
+                    <para id="id95386">Adicionalmente,
+                        a manutenção do sistema é facilitada
+                        de uma forma análoga ao seu entendimento.
+                        Se algum requisito é atendido insatisfatoriamente,
+                        por meio da arquitetura é possível
+                        descobrir quais elementos do sistema
+                        estão envolvidos na insatisfação
+                        desses requisitos. Da mesma maneira,
+                        a arquitetura possibilita descobrir
+                        quais requisitos serão afetados
+                        por um dado elemento arquitetural
+                        caso esse sofra uma mudança ou
+                        manutenção.</para>
+                    <example id="id95395e">
+                        <label>Exemplo</label>
+                        <para id="id95398">Se uma modificação
+                            na camada de apresentação só
+                            pode ser feita se a camada
+                            de persistência também for
+                            modificada, isso pode significar
+                            que a decisão arquitetural
+                            do 
+                            <link target-id="id95259"/>
+                            não está sendo seguida corretamente.
+                            Portanto, o requisito de manutenibilidade
+                            também não está sendo atendido
+                            corretamente e essa divergência
+                            da arquitetura deve ser corrigida
+                            o quanto antes.
+                        </para>
+                    </example>
+                </section>
+                <section id="uid33">
+                    <title>Evolução</title>
+                    <para id="id95425">Devido às suas características,
+                        se torna fácil perceber que o registro
+                        das decisões arquiteturais na forma
+                        de um documento – o documento arquitetural
+                        – agrega valor ao ciclo de vida
+                        do software, uma vez que facilita
+                        o processo de rastreamento de requisitos.
+                        Adicionalmente, se algum tipo de
+                        registro histórico das decisões
+                        arquiteturais existir, o processo
+                        de rastreamento pode também ser
+                        realizado para as diversas versões
+                        do sistema, facilitando assim o
+                        entendimento da evolução do mesmo.</para>
+                    <para id="id95433">Além de descreverem
+                        estruturas arquiteturais, as decisões
+                        também descrevem princípios que
+                        conduzirão a evolução do sistema.
+                        Isso significa que uma decisão
+                        não necessariamente descreverá
+                        módulos, classes, ou serviços,
+                        mas também poderá descrever regras
+                        que deverão ser seguidas ao longo
+                        do desenvolvimento do sistema.
+                        A seguir, citamos e exemplificamos
+                        alguns tipos de regras a serem
+                        descritas pelas decisões arquiteturais.</para>
+                    <list id="id95442" display="block" list-type="bulleted">
+                        <item id="uid34">Regras para adição
+                            de funcionalidade ao sistema.
+                            <example id="blablabla1">
+                                <label>Exemplo</label>
+                                <para id="blablabla11">
+                                Uma nova funcionalidade
+                                do SASF não poderá adicionar
+                                uma carga maior que 
+                                <emphasis effect="italics">mil</emphasis>
+                                requisições por segundo
+                                ao banco de dados de usuários,
+                                considerando a média atual
+                                de dez mil usuários simultâneos
+                                no sistema. 
+                                </para>
+                            </example>
+                            <example id="bleblabla1">
+                                <label>Exemplo</label>
+                                <para id="blbeble11"> Uma
+                                nova funcionalidade de
+                                um editor de imagens só
+                                será adicionada implementando
+                                o ponto de extensão 
+                                <emphasis effect="italics">ProcessImagePlugin</emphasis>.
+                                Esse ponto de extensão
+                                permite obter a imagem
+                                que está aberta no workspace
+                                do usuário e seus atributos,
+                                além de permitir a exibição
+                                de uma caixa de diálogo
+                                que permitirá ao usuário
+                                entrar com parâmetros que
+                                servirão para a execução
+                                do 
+                                <emphasis effect="italics">plug-in</emphasis>.
+                                O retorno dessa nova funcionalidade
+                                sempre será uma imagem
+                                (processada ou não). A
+                                nova funcionalidade, para
+                                ser adicionada, deve conter
+                                um arquivo de configuração
+                                em texto sem formatação
+                                que conterá o atributo
+                                <emphasis effect="italics">extension-class</emphasis>
+                                que indicará o caminho
+                                para a classe da nova funcionalidade
+                                que implementa 
+                                <emphasis effect="italics">ProcessImagePlugin</emphasis>.
+                                
+                                </para>
+                            </example>
+                            <example id="asd123123">
+                                <label>Exemplo</label>
+                                <para id="laasdf1212">
+                                Uma nova funcionalidade
+                                do sistema de edição de
+                                texto não poderá modificar
+                                a 
+                                <emphasis effect="italics">GUI</emphasis>
+                                de forma que adicione mais
+                                do que um botão na área
+                                de trabalho em sua configuração
+                                padrão. 
+                                </para>
+                            </example>
+                        </item>
+                        <item id="uid35">Regras para remoção
+                            ou desativação de funcionalidades,
+                            seja durante o desenvolvimento,
+                            implantação, ou execução do
+                            sistema. 
+                            <example id="a2223333">
+                                <label>Exemplo</label>
+                                <para id="b12222"> No SASF,
+                                a remoção de um serviço
+                                do módulo responsável pelo
+                                <emphasis effect="italics">streaming</emphasis>
+                                para outros dispositivos
+                                será feita em duas etapas.
+                                Na primeira etapa, o serviço
+                                será marcado como 
+                                <emphasis effect="italics">deprecated</emphasis>,
+                                retornando assim, além
+                                da resposta padrão, uma
+                                <emphasis effect="italics">flag</emphasis>
+                                avisando que na próxima
+                                versão ele será descontinuado.
+                                Será ainda disponibilizada
+                                uma solução que contorne
+                                a ausência desse serviço
+                                (serviços alternativos,
+                                por exemplo). Na segunda
+                                etapa, que deverá acontecer
+                                no mínimo 1 mês depois
+                                da primeira etapa, o serviço
+                                será desativado, retornando
+                                uma mensagem padrão de
+                                erro avisando que o serviço
+                                deixou de existir. 
+                                </para>
+                            </example>
+                            <example id="bbbb111111">
+                                <label>Exemplo</label>
+                                <para id="tetetete"> Caso
+                                o consumo de recursos computacionais
+                                do SASF ultrapasse 80%
+                                do total, alguns de seus
+                                serviços podem ser completamente
+                                ou parcialmente desativados.
+                                Um serviço que pode ser
+                                desativado temporariamente
+                                sem que os usuários percebam
+                                é o motor de sugestão de
+                                filmes. Como cada usuário
+                                está acostumado a ter sua
+                                lista de sugestões atualizada
+                                apenas “de tempos em tempos”,
+                                mas não tem certeza qual
+                                é o real intervalo entre
+                                cada atualização, se dada
+                                atualização demorar alguns
+                                minutos ou horas a mais
+                                para acontecer, dificilmente
+                                o atraso será notado. Em
+                                casos extremos, devido
+                                ao seu grande consumo de
+                                recursos, o serviço de
+                                <emphasis effect="italics">streaming</emphasis>
+                                de vídeo também pode ser
+                                desativado. No entanto,
+                                essa decisão deve também
+                                levar em conta o alto grau
+                                de insatisfação de usuários
+                                que causará e que, fatalmente,
+                                poderá ser convertida em
+                                perda de faturamento. Uma
+                                alternativa é desativar
+                                a transmissão de vídeo
+                                para apenas algumas opções
+                                de resolução. Assim, o
+                                grau de insatisfação será
+                                menor, uma vez que apenas
+                                uma parte dos usuários
+                                não será atendida pelo
+                                serviço de 
+                                <emphasis effect="italics">streaming</emphasis>.
+                                
+                                </para>
+                            </example>
+                        </item>
+                        <item id="uid36">Regras para modificação
+                            ou manutenção de funcionalidades.
+                            <example id="u88888">
+                                <label>Exemplo</label>
+                                <para id="bbb00000"> Não
+                                haverá modificação do 
+                                <emphasis effect="italics">Web
+                                Service</emphasis> que
+                                realiza busca e aluguel
+                                de filmes no SASF que é
+                                disponibilizado para uso
+                                por serviços externos.
+                                Se for realmente necessária
+                                a modificação, dois 
+                                <emphasis effect="italics">Web
+                                Services</emphasis> ficarão
+                                disponíveis: o antigo,
+                                completamente suportado,
+                                e o novo, que passará a
+                                ser adotado por novos sistemas
+                                a partir da data de seu
+                                lançamento. O antigo só
+                                será desativado depois
+                                da adoção do novo serviço
+                                ser feita por 
+                                <emphasis effect="italics">todos</emphasis>
+                                os serviços externos. 
+                                </para>
+                            </example>
+                        </item>
+                        <item id="uid37">Regras de atendimento
+                            a atributos de qualidade. 
+                            <example id="yy66666">
+                                <label>Exemplo</label>
+                                <para id="yyy66663">No
+                                <link target-id="bbbb111111"/>,
+                                a disponibilidade de parte
+                                das funcionalidades, i.e.,
+                                construção da lista de
+                                sugestões de filmes ou
+                                transmissão de vídeos,
+                                é mais importante do que
+                                a indisponibilidade de
+                                todas as funções: caso
+                                o uso dos recursos computacionais
+                                alcance 100%, usuários
+                                começarão a não ser atendidos
+                                de forma descontrolada.
+                                Assim, prefere-se que uma
+                                menor parte dos usuários
+                                não seja atendida, apenas
+                                os que desejam assistir
+                                a filmes em alta definição,
+                                do que a maior parte, que
+                                são os que desejam alugar
+                                filmes ou assisti-los em
+                                definição padrão. 
+                                </para>
+                            </example>
+                            <example id="iii88888">
+                                <label>Exemplo</label>
+                                <para id="vfff3f776447">
+                                A disponibilização de uma
+                                nova funcionalidade no
+                                SASF será feita em etapas
+                                para 10%, 25%, 50%, 100%
+                                desses usuários. Dessa
+                                maneira, será possível
+                                avaliar o comportamento
+                                da nova função no sistema
+                                sob carga real. Além disso,
+                                a desativação da funcionalidade
+                                poderá ser feita através
+                                de uma 
+                                <emphasis effect="italics">flag</emphasis>
+                                de controle, permitindo
+                                o retorno às funcionalidades
+                                anteriores do sistema em
+                                caso de sobrecarga dos
+                                recursos por parte da nova
+                                funcionalidade. 
+                                </para>
+                            </example>
+                            <example id="ggg3333">
+                                <label>Exemplo</label>
+                                <para id="cccc3333"> Antes
+                                da implantação de uma nova
+                                versão de um serviço de
+                                infraestrutura, digamos,
+                                um novo banco de dados,
+                                a carga gerada pelos usuários
+                                da versão antiga será espelhada
+                                para a nova versão. Assim,
+                                será possível avaliar seu
+                                comportamento com uma carga
+                                real e, portanto, saber
+                                o que esperar quando o
+                                novo banco de dados substituir
+                                a versão em produção. </para>
+                            </example>
+                        </item>
+                    </list>
+                    <para id="id95694">No Capítulo XX,
+                        Documentação da Arquitetura, voltaremos
+                        às decisões arquiteturais, onde
+                        aprenderemos a categorizá-las e
+                        documentá-las.</para>
+                </section>
+            </section>
+            <section id="uid38">
+                <title>Atributos de qualidade</title>
+                <para id="id95709">Uma das principais preocupações
+                    da arquitetura é o atendimento aos
+                    atributos de qualidade do sistema.
+                    Atributos de qualidade, como já introduzidos
+                    no capítulo anterior, são a maneira
+                    <emphasis effect="italics">como</emphasis>
+                    o sistema executará suas funcionalidades.
+                    Esses atributos são impostos pelos
+                    diversos interessados no sistema e
+                    podem ser classificados em três tipos:
+                    atributos do produto, atributos organizacionais,
+                    e atributos externos.
+                </para>
+                <para id="id95725">Atributos de qualidade
+                    do produto são aqueles que ditam como
+                    o sistema vai se comportar. Exemplos
+                    clássicos desse tipo de atributo de
+                    qualidade são escalabilidade, desempenho,
+                    disponibilidade, nível de entendimento
+                    ou mesmo portabilidade. Podemos observar
+                    requisitos de escalabilidade no 
+                    <link target-id="id95742e"/> e requisitos
+                    de portabilidade no 
+                    <link target-id="id95758e"/>.
+                </para>
+                <example id="id95742e">
+                    <label>Exemplo</label>
+                    <para id="id95742"> Sistemas de redes
+                        sociais costumam ter uma grande
+                        massa de usuários. Como, a partir
+                        do lançamento de um sistema desse
+                        tipo, sua massa de usuários cresce
+                        bastante, é desejável que o crescimento
+                        do consumo de recursos em relação
+                        ao crescimento do número de usuários
+                        não seja muito acentuado – de forma
+                        que a escala seja viável para a
+                        gerência do sistema. Para atender
+                        esse requisito, a arquitetura deve
+                        ser muito bem pensada em termos
+                        de consumo de recursos por usuário,
+                        tirando proveito de diversas técnicas
+                        como 
+                        <emphasis effect="italics">caching</emphasis>,
+                        processamento assíncrono, replicação,
+                        entre outras. 
+                    </para>
+                </example>
+                <example id="id95758e">
+                    <label>Exemplo</label>
+                    <para id="id95758"> Um requisito desejável
+                        em um jogo de videogame é que ele
+                        esteja disponível para diversas
+                        plataformas de entretenimento.
+                        Como diferentes plataformas têm
+                        diferentes especificações ou ainda
+                        usam diferentes tipos de 
+                        <emphasis effect="italics">hardware</emphasis>,
+                        atingir a portabilidade pode não
+                        ser trivial. Entre as técnicas
+                        de portabilidade, a mais usada
+                        acaba sendo a abstração dos aspectos
+                        específicos à plataforma – principalmente
+                        o 
+                        <emphasis effect="italics">hardware</emphasis>,
+                        mais especificamente primitivas
+                        de desenho em tela ou armazenamento
+                        em disco – da lógica do jogo. Assim,
+                        toda ou boa parte da camada lógica
+                        é reusada, enquanto as camadas
+                        de níveis mais baixos de abstração
+                        são portadas para as diferentes
+                        plataformas. 
+                    </para>
+                </example>
+                <para id="id95783">Já atributos de qualidade
+                    organizacionais, por outro lado, são
+                    consequência de políticas ou procedimentos
+                    organizacionais. Em outras palavras,
+                    o sistema deve respeitar padrões ou
+                    regras impostas por uma ou mais organizações
+                    envolvidas para atender a esses requisitos.</para>
+                <example id="id95791e">
+                    <label>Exemplo</label>
+                    <para id="id95791"> Se um sistema que
+                        servirá de infraestrutura será
+                        produzido para uma organização
+                        ou empresa que já possui diversos
+                        sistemas que implementam o padrão
+                        <emphasis effect="italics">Web
+                            Service Distributed Management</emphasis>
+                        (Gerência Distribuída de 
+                        <emphasis effect="italics">Web
+                            Services</emphasis>), a adoção
+                        desse padrão na arquitetura do
+                        novo sistema é um requisito a ser
+                        atendido, por ser imposto pela
+                        organização em questão. A adoção
+                        desse padrão implica na disponibilização
+                        via 
+                        <emphasis effect="italics">Web
+                            Service</emphasis> de serviços
+                        de ativação, consulta e desativação
+                        do sistema ou parte dele, que terá
+                        impacto na arquitetura do sistema
+                        como um todo. 
+                    </para>
+                </example>
+                <para id="id95820">Por fim, restam os chamados
+                    atributos de qualidade externos, que
+                    não são impostos pelo processo de desenvolvimento
+                    nem pelo projeto do sistema. Neles
+                    se encaixam leis impostas sobre software
+                    ou requisitos de interoperabilidade
+                    entre sistemas.</para>
+                <example id="id95827e">
+                    <label>Exemplo</label>
+                    <para id="id95830">Para o SASF atrair
+                        usuários de outros sistemas (p.
+                        ex., redes sociais), percebeu-se
+                        que ele deve ser capaz de agregar
+                        o perfil do usuário existente nos
+                        outros sistemas. Esse tipo de agregação
+                        (que permitiria não só a visualização
+                        dos perfis compartilhados entre
+                        os diversos serviços, mas também
+                        sua edição), impactará profundamente
+                        na arquitetura do sistema, uma
+                        vez que será necessário organizar
+                        dados locais e dados compartilhados
+                        por terceiros, além de manter todos
+                        os dados sincronizados ao longo
+                        do tempo e das eventuais modificações.</para>
+                </example>
+                <section id="uid39">
+                    <title>Medindo atributos de qualidade</title>
+                    <para id="id95851">É importante notar
+                        que para se definir o sucesso do
+                        software em relação aos atributos
+                        de qualidade, precisamos medir
+                        o quanto o sistema satisfaz esses
+                        atributos. Em primeiro momento,
+                        essa medição de sucesso parece
+                        simples: “basta considerar o valor
+                        esperado do atributo de qualidade,
+                        digamos, `o sistema deve estar
+                        disponível 99,999% do tempo'; medir
+                        se ele atinge os valores esperados,
+                        `num período de 1 ano, o sistema
+                        esteve parado por 1 hora'; e, por
+                        fim, atestar seu sucesso ou fracasso:
+                        `1 hora equivale a 0,0114% e, portanto,
+                        o sistema não atendeu ao requisito
+                        de disponibilidade.”' No entanto,
+                        não é fácil estabelecer métricas
+                        quantitativas para atributos de
+                        qualidade como testabilidade, usabilidade,
+                        ou manutenibilidade são bem mais
+                        difíceis de estabelecer métricas
+                        quantitativas e, portanto, não
+                        é fácil atestar o sucesso em relação
+                        a esses atributos.</para>
+                </section>
+                <section id="uid40">
+                    <title>Relacionando atributos de qualidade</title>
+                    <para id="id95873">Além de serem difíceis
+                        de medir, atributos de qualidade
+                        se relacionam entre si de forma
+                        que um pode permitir, ajudar ou
+                        mesmo dificultar o atendimento
+                        de outros. Essas relações entre
+                        atributos acontecem mesmo que eles
+                        sejam de tipos diferentes.</para>
+                    <para id="id95881">No 
+                        <link target-id="id95890e"/>, notamos
+                        que o atributo de qualidade desempenho
+                        está afetando os níveis de testabilidade
+                        e entendimento do sistema.
+                    </para>
+                    <example id="id95890e">
+                        <label>Exemplo</label>
+                        <para id="id95893">Uma forma de
+                            aumentar o desempenho do sistema
+                            é diminuir os níveis de indireção
+                            usados na comunicação entre
+                            dois elementos quaisquer no
+                            SASF. Um caso simples seria
+                            fazer com que algumas chamadas
+                            presentes na camada de apresentação
+                            usassem diretamente a camada
+                            de persistência, sem usar a
+                            lógica de negócio. Essa medida
+                            tornaria as chamadas da apresentação
+                            mais rápidas, uma vez que menos
+                            chamadas remotas seriam executadas.
+                            No entanto, quando diminuímos
+                            as camadas de abstração entre
+                            dois elementos inicialmente
+                            distintos, aumentamos o acoplamento
+                            entre eles e, portanto, dificultamos
+                            seu entendimento ou mesmo sua
+                            testabilidade.</para>
+                    </example>
+                    <para id="id95906">Já no exemplo a
+                        seguir, o atributo de segurança
+                        afeta dois atributos distintos:
+                        o desempenho e a usabilidade do
+                        sistema.</para>
+                    <example id="id95911e">
+                        <label>Exemplo</label>
+                        <para id="id95911"> Uma forma de
+                            aumentar a segurança de um
+                            sistema operacional é requerer
+                            autorização do usuário para
+                            a realização de certas operações.
+                            No entanto, o processo de verificação
+                            do usuário (além de todos os
+                            elementos e abstrações do sistema
+                            relacionados à segurança: unidade
+                            certificadora, unidade verificadora,
+                            listas de controle de acesso,
+                            entre outros.) deteriorará
+                            o desempenho da aplicação,
+                            dado que consumirá recursos
+                            que poderiam ser destinados
+                            à operação em si - não a um
+                            aspecto dito não-funcional
+                            dela. Além disso, o sistema
+                            vai ficar menos usável, uma
+                            vez que pedirá uma verificação,
+                            seja senha, impressão digital,
+                            ou certificado, para cada operação
+                            sensível a ser executada. </para>
+                    </example>
+                    <para id="id95927">O principal motivo
+                        que faz com que atributos de qualidade
+                        conflitem é por eles serem impostos
+                        por mais de um interessado no software.
+                        Assim, como preocupações de diferentes
+                        interessados podem conflitar, os
+                        atributos de qualidade também conflitarão.
+                        Assim, cabe à arquitetura resolver,
+                        ponderar, ou ao menos mediar esses
+                        conflitos, considerando assim os
+                        diversos 
+                        <emphasis effect="italics">trade-offs</emphasis>
+                        envolvidos para se alcançar os
+                        objetivos do software. O exemplo
+                        seguinte mostra atributos de desempenho
+                        e portabilidade conflitando.
+                    </para>
+                    <example id="id95944e">
+                        <label>Exemplo</label>
+                        <para id="id95944"> Um cliente
+                            de um jogo para celular requisitou
+                            que o jogo tivesse um bom desempenho
+                            nos diversos aparelhos disponíveis
+                            no mercado. No entanto, o gerente
+                            de projeto sugere que o tempo
+                            gasto para portar o software
+                            de um aparelho para outro seja
+                            mínimo, uma vez que o prazo
+                            do projeto em questão é curto.
+                            Podemos então observar dois
+                            requisitos conflitantes: desempenho
+                            e portabilidade.</para>
+                        <para id="id95954">Esse conflito
+                            ocorre porque as técnicas para
+                            alcançar ambos os requisitos
+                            são divergentes. Para alcançar
+                            portabilidade, normalmente
+                            é necessário o uso de diversas
+                            camadas de abstração, principalmente
+                            de 
+                            <emphasis effect="italics">hardware</emphasis>.
+                            No entanto, a adição dessas
+                            camadas de abstração significa
+                            uma perda em desempenho, uma
+                            vez que aumentará o número
+                            de chamadas necessárias para
+                            se realizar qualquer operação.
+                            E isso se torna ainda mais
+                            significativo no caso dos aparelhos
+                            celulares, que podem ser limitados
+                            em termos de recursos computacionais
+                            como processador ou memória.
+                        </para>
+                        <para id="id95972">Assim, a arquitetura
+                            do sistema terá que ponderar
+                            entre as técnicas disponíveis
+                            de modo que atenda em parte
+                            cada requisito e, assim, ambos
+                            os interessados fiquem satisfeitos.
+                            </para>
+                    </example>
+                    <para id="id95978">Dois outros atributos
+                        de qualidade que normalmente conflitam
+                        são os atributos usabilidade e
+                        segurança, como veremos no exemplo
+                        a seguir. Nesse caso, ambos os
+                        atributos foram requisitados pelo
+                        mesmo interessado, o usuário, e,
+                        mesmo assim, se tornaram conflitantes.</para>
+                    <example id="id95986e">
+                        <label>Exemplo</label>
+                        <para id="id95989">Quando usando
+                            um sistema operacional, um
+                            mesmo usuário procura atributos
+                            de segurança e usabilidade
+                            para suas operações. Para segurança,
+                            ele deseja que suas operações
+                            no sistema ou seus resultados
+                            não sejam afetados por ações
+                            de outros usuários. Esse atributo,
+                            que na arquitetura implicará
+                            em soluções de autenticação,
+                            verificação, listas de permissões,
+                            etc., imporá que as tarefas
+                            realizadas por qualquer usuário
+                            eventualmente terão sua autenticidade
+                            e permissão verificadas. Essa
+                            interrupção para realizar as
+                            devidas autorizações deteriora
+                            o atendimento do atributo de
+                            usabilidade, uma vez que o
+                            usuário terá suas atividades
+                            interrompidas por algo que
+                            não gera resultado para ele.</para>
+                    </example>
+                    <para id="id96009">Veremos mais sobre
+                        atributos de qualidade de software,
+                        suas relações, como alcançá-los,
+                        e seus interessados no Capítulo
+                        Y.</para>
+                </section>
+            </section>
+        </section>
+        <section id="cid8">
+            <title>Visões da Arquitetura</title>
+            <para id="id96024">Como consequência da existência
+                dos diversos interessados nos objetivos
+                alcançados pelo software, a arquitetura
+                também possuirá diversos interessados.
+                No entanto, uma vez que os interessados
+                no sistema têm diferentes preocupações
+                e níveis de conhecimento, a arquitetura
+                não deve ser exposta da mesma maneira para
+                interessados diferentes. Para resolver
+                esse problema, surge o conceito de 
+                <emphasis effect="italics">visões arquiteturais</emphasis>.
+            </para>
+            <example id="id96038e">
+                <label>Exemplo</label>
+                <para id="id96038"> Considerando a arquitetura
+                    do SASF, vejamos as preocupações de
+                    dois interessados diferentes: o implementador
+                    e o responsável pela disponibilidade
+                    do sistema em produção. O implementador
+                    está preocupado com módulos, classes
+                    e algoritmos que ele e seu time terão
+                    que construir, como e com quais subsistemas
+                    esses módulos irão se comunicar ou
+                    ainda quais restrições de comunicação
+                    foram impostas em seu design. Já o
+                    responsável pela disponibilidade está
+                    preocupado em como o SASF está distribuído
+                    entre as máquinas, que funcionalidades
+                    serão afetadas caso um conjunto específico
+                    de máquinas deixe de funcionar, ou
+                    como será possível realizar a troca
+                    de um servidor sem afetar o tempo de
+                    início de uma transmissão de vídeo.
+                    </para>
+            </example>
+            <para id="id96056">Podemos observar que há
+                preocupações bem diferentes entre os dois
+                interessados e assim perceber que dimensões
+                bem diferentes da arquitetura são necessárias
+                para satisfazê-los. Para o primeiro, a
+                arquitetura deve mostrar que módulos lógicos
+                (pacotes, classes, bibliotecas) compõem
+                o sistema, além das relações de comunicação
+                e restrição entre eles. Já para o segundo,
+                a arquitetura deve mostrar como o sistema
+                está dividido fisicamente, quais partes
+                do sistema estão executando em quais computadores,
+                quais os links físicos entre esses computadores,
+                etc.</para>
+            <para id="id96064">Uma visão arquitetural é
+                uma representação da informação (ou parte
+                dela) contida na arquitetura de forma que
+                se adéque às necessidades de um ou mais
+                interessados. Ela facilita o entendimento
+                da arquitetura por parte do interessado,
+                uma vez que vai filtrar e formatar a informação
+                de acordo com as necessidades e preocupações
+                do interessado em questão.</para>
+            <para id="id96073">
+                <definition id="visao-arquitetural">
+                    <label>Definição</label>
+                    <term>visão arquitetural</term>
+                    <meaning id="visao-arquitetural-significado">
+                        É a representação do sistema ou
+                        de parte dele da perspectiva de
+                        um conjunto de interesses relacionados.
+                        </meaning>
+                </definition>
+            </para>
+            <para id="id96084">Não podemos esquecer que
+                o próprio arquiteto também pode tirar proveito
+                desse conceito durante o processo de design
+                da arquitetura. Quando um arquiteto faz
+                design, ele usa o conceito de visões arquiteturais
+                para assim endereçar as diferentes preocupações
+                do sistema por vez. Dessa maneira, ele
+                divide o problema de design em problemas
+                menores e, consequentemente, menos complexos:
+                ele endereça cada atributo de qualidade
+                – cada aspecto do sistema – que serão alcançados
+                por essa arquitetura. Atacando uma visão
+                por vez, o arquiteto pode, por exemplo:
+                primeiro definir as partições lógicas,
+                ou seja, os módulos funcionais que comporão
+                o sistema – e assim considerar uma visão
+                lógica do sistema; definir as partições
+                dinâmicas do sistema, ou seja, quais processos,
+                <emphasis effect="italics">threads</emphasis>
+                e protocolos estarão presentes no sistema
+                – considerar uma visão de dinâmica; definir
+                as partições do ponto de vista de implementação,
+                ou seja, que classes, pacotes e bibliotecas
+                comporão o sistema – considerar uma visão
+                de desenvolvimento; e, por fim, definir
+                onde as partes dinâmicas executarão, ou
+                seja, onde e em quais máquinas os diversos
+                “executáveis” do software estarão implantados,
+                além de como eles vão se comunicar – considerar
+                uma visão de implantação do sistema.
+            </para>
+        </section>
+        <section id="cid9">
+            <title>O Documento de Arquitetura</title>
+            <para id="id96122">Considerando o que mencionamos
+                até agora sobre arquitetura de software,
+                percebemos que ela provê diversos benefícios:
+                proporciona atendimento de atributos de
+                qualidade, ajuda na comunicação entre os
+                interessados no sistema e guia a evolução
+                do sistema. No entanto, até agora, só falamos
+                da arquitetura como algo abstrato. Ou seja,
+                apenas falamos dela como uma propriedade
+                imposta ou emergente de um sistema, mas
+                não falamos em como documentá-la, nem fomos
+                específicos quanto aos benefícios proporcionados
+                por sua documentação.</para>
+            <section id="uid42">
+                <title>Benefícios</title>
+                <para id="id96140">Um documento de arquitetura
+                    não é nada mais que um documento que
+                    descreve a arquitetura do sistema e,
+                    portanto, descreve elementos, relações,
+                    e decisões arquiteturais do sistema
+                    em questão. Assim, os benefícios de
+                    se documentar a arquitetura se tornam
+                    análogos aos benefícios proporcionados
+                    pela própria arquitetura. No entanto,
+                    pelo documento de arquitetura ser um
+                    artefato concreto, ele poderá ser reproduzido,
+                    reusado, comunicado e analisado contra
+                    o código gerado a partir da arquitetura
+                    em questão.</para>
+                <para id="id96148">Em resumo, a documentação
+                    da arquitetura proporcionará os seguintes
+                    benefícios:</para>
+                <list id="id96153" display="block" list-type="bulleted">
+                    <item id="uid43">Ajudará na introdução
+                        de novos membros ao time de desenvolvimento
+                        do sistema, uma vez que é um documento
+                        que abstrai o sistema a diferentes
+                        visões que representam diferentes
+                        preocupações; 
+                        <example id="fgfgfgfg1">
+                            <label>Exemplo</label>
+                            <para id="fgfgfgfgfg1"> Um
+                                novo desenvolvedor acabou
+                                de ser contratado e passou
+                                a integrar o time de desenvolvimento
+                                de um sistema que já soma
+                                250 mil linhas de código.
+                                Para esse desenvolvedor
+                                se familiarizar com o sistema,
+                                não é uma boa idéia para
+                                ele mergulhar no código
+                                de cabeça, mas entender
+                                por partes como as coisas
+                                funcionam. Esses diversos
+                                níveis de abstração até
+                                chegar ao código propriamente
+                                dito devem estar disponíveis
+                                na arquitetura do sistema,
+                                que se mostrará um bom
+                                ponto de partida para o
+                                entendimento do sistema.</para>
+                        </example>
+                    </item>
+                    <item id="uid44">Servirá de ponte para
+                        a comunicação entre os diversos
+                        interessados do sistema. Uma vez
+                        que a arquitetura é projetada para
+                        satisfazer diversos interessados,
+                        sua documentação também o será.
+                        O documento de arquitetura servirá
+                        de arcabouço conceitual para comunicação
+                        entre diferentes interessados no
+                        sistema, uma vez que define seus
+                        elementos e relações que o compõem.
+                        <example id="gfgfgfgf1">
+                            <label>Exemplo</label>
+                            <para id="fhfhfhfhf1"> Usando
+                                a arquitetura para mapear
+                                custos às funcionalidades
+                                que o sistema proverá,
+                                o gerente pode justificar
+                                ao financiador do projeto
+                                a necessidade de se adquirir
+                                uma licença para um banco
+                                de dados específico. Ou
+                                ainda citar quais as consequências
+                                caso essa licença não seja
+                                adquirida: a funcionalidade
+                                provida pelo banco deverá
+                                ser então implementada
+                                pelo time de desenvolvimento,
+                                que precisará de dois meses
+                                para tanto. Essa possibilidade
+                                de “navegar” pelo sistema
+                                e pelas diversas visões,
+                                seja a de gerente, seja
+                                a de financiador, ou de
+                                desenvolvedor, é facilitada
+                                pelo documento de arquitetura.
+                                </para>
+                        </example>
+                    </item>
+                    <item id="uid45">Servirá como modelo
+                        do sistema para a análise. Uma
+                        vez que é uma representação manipulável
+                        do sistema, a documentação poderá
+                        ser analisada, desde que contenha
+                        informação suficiente para tanto.
+                        <example id="jkjkjkjk2">
+                            <label>Exemplo</label>
+                            <para id="lklklklk2"> A arquitetura
+                                do SASF, dividido em três
+                                camadas (apresentação,
+                                lógica de negócio e persistência),
+                                descreve que cada camada
+                                estará executando em máquinas
+                                diferentes. É certo que
+                                a descrição de cada camada
+                                possui informações de quantas
+                                máquinas serão necessárias
+                                para determinada carga
+                                de usuários, como máquinas
+                                da mesma camada se comunicarão
+                                e também como elas se comunicarão
+                                com máquinas de diferentes
+                                camadas. Assim, com essas
+                                informações, é possível
+                                algum tipo de análise e
+                                estimativa do custo do
+                                sistema em produção (e.g.,
+                                número de CPUs por hora,
+                                banda passante entre as
+                                máquinas, ou banda passante
+                                disponível para os usuários),
+                                inclusive com base no crescimento
+                                do número de usuários,
+                                mesmo que o sistema ainda
+                                não tenha sido construído.
+                                </para>
+                        </example>
+                    </item>
+                    <item id="uid46">Dificultará uma especificação
+                        imprecisa. Quando o arquiteto projeta
+                        a arquitetura, mas não a materializa
+                        em um documento, pode haver pontos
+                        de discordância que eventualmente
+                        não serão avaliados por, simplesmente,
+                        não estarem explícitos. 
+                        <example id="yuyuyuy1">
+                            <label>Exemplo</label>
+                            <para id="tytytyty2"> Num sistema
+                                de controle de vôo, onde
+                                vidas estão em risco, o
+                                documento da arquitetura
+                                é também um contrato. Ele
+                                é avaliado por cada interessado
+                                em questão, que deve consentir
+                                com a forma de como serão
+                                realizadas as funções do
+                                sistema e como serão medidos
+                                seus atributos de qualidade
+                                de forma a garantir o sucesso
+                                do sistema antes mesmo
+                                que esse seja construído.
+                                </para>
+                        </example>
+                    </item>
+                </list>
+            </section>
+            <section id="uid47">
+                <title>Dificuldades</title>
+                <para id="id96270">No entanto, documentar
+                    a arquitetura é tão ou mais difícil
+                    que criá-la. Os principais motivos
+                    são três: o documento reflete a complexidade
+                    da arquitetura, que geralmente é alta;
+                    o documento reflete o tamanho da arquitetura,
+                    que o torna custoso para construir
+                    e ser lido; e o documento, por seu
+                    tamanho e complexidade, é difícil de
+                    manter consistente com o sistema que
+                    ele descreve.</para>
+                <para id="id96279">A complexidade do documento
+                    surge principalmente da necessidade
+                    de mostrar de diferentes maneiras os
+                    diferentes aspectos da arquitetura,
+                    ou seja, da necessidade de mostrar
+                    as diferentes visões da arquitetura.
+                    Cada visão possui uma forma de melhor
+                    ser representada e também deve estar
+                    consistente com as outras visões.</para>
+                <example id="id96288e">
+                    <label>Exemplo</label>
+                    <para id="id96292">Na documentação
+                        da arquitetura do SASF podemos
+                        observar, entre outras, duas visões
+                        diferentes: uma visão que mostra
+                        aspectos dinâmicos e outra que
+                        mostra o sistema estaticamente.</para>
+                    <para id="id96298">A visão estática
+                        mostra os principais módulos funcionais
+                        do software e, na 
+                        <link target-id="uid48"/>, foi
+                        representada por um diagrama de
+                        classes em Unified Modeling Language
+                        (UML) contendo os módulos funcionais
+                        e sua descrição. Entre esses módulos
+                        funcionais, podemos encontrar o
+                        responsável pelo cadastro de usuários,
+                        o responsável pelo cadastro de
+                        filmes, o responsável por sugerir
+                        novos filmes a usuários, e o responsável
+                        pelo 
+                        <emphasis effect="italics">streaming</emphasis>
+                        de filmes.
+                    </para>
+                    <figure id="uid48">
+                        <label>Figura</label>
+                        <media id="uid48_media" alt="">
+                            <image mime-type="image/png" src="../../media/visaoestatica.png" id="uid48_onlineimage" width="500">
+                                <!-- NOTE: attribute width
+                                changes image size online
+                                (pixels). original width
+                                is 1459. -->
+                            </image>
+                            <image for="pdf" mime-type="application/postscript" src="../../media/visaoestatica.eps" id="uid48_printimage" print-width="11cm">
+                                <!--NOTE: attribute width
+                                changes image size in printed
+                                PDF (if specified in .tex
+                                file)-->
+                            </image>
+                        </media>
+                        <caption>Uma visão estática da
+                            arquitetura do SASF</caption>
+                    </figure>
+                    <para id="id96334">Já a visão dinâmica
+                        da arquitetura se preocupa em mostrar
+                        os módulos que possuem comportamento
+                        dinâmico no sistema. Aqui, eles
+                        foram representados por um diagrama
+                        de sequência, também em UML, que
+                        mostra seu comportamento e suas
+                        interações com outros módulos (
+                        <link target-id="uid49"/>). Obviamente,
+                        os módulos usados nessa visão devem
+                        ter correspondentes na visão estática.
+                    </para>
+                    <figure id="uid49">
+                        <label>Figura</label>
+                        <media id="uid49_media" alt="">
+                            <image mime-type="image/png" src="../../media/visaodinamica.png" id="uid49_onlineimage" width="700">
+                                <!-- NOTE: attribute width
+                                changes image size online
+                                (pixels). original width
+                                is 1301. -->
+                            </image>
+                            <image for="pdf" mime-type="application/postscript" src="../../media/visaodinamica.eps" id="uid49_printimage" print-width="11cm">
+                                <!--NOTE: attribute width
+                                changes image size in printed
+                                PDF (if specified in .tex
+                                file)-->
+                            </image>
+                        </media>
+                        <caption>Uma visão dinâmica da
+                            arquitetura do SASF, mostrando
+                            o comportamento de alguns módulos
+                            durante o processo de transmissão
+                            de um filme.</caption>
+                    </figure>
+                </example>
+                <para id="id96368">Documentos grandes levam
+                    tempo para serem construídos. Além
+                    disso, documentos grandes, na prática,
+                    não são usados a não ser que proporcionem
+                    para o desenvolvimento um benefício
+                    maior que o custo de lê-lo. Essa realidade
+                    pode ser traduzida em duas fases. Na
+                    primeira, é feito um grande esforço
+                    para se construir o documento de arquitetura.
+                    Ainda nessa fase, o documento é completo
+                    e consistente com o sistema, além de
+                    ter o potencial para prover os benefícios
+                    de uma arquitetura bem documentada.
+                    No entanto, a segunda fase consiste
+                    no processo de desatualização do conteúdo
+                    do documento, que ocorre por falha
+                    no processo ou pelo alto custo de se
+                    manter o documento consistente, e que
+                    tem por consequência a inutilização
+                    do documento de arquitetura e o possível
+                    aumento da entropia no sistema.</para>
+                <para id="id96386">O problema da inconsistência
+                    da arquitetura com o código acontece
+                    porque, em muitos processos de desenvolvimento,
+                    arquitetura evolui ao longo do tempo,
+                    seja uma evolução planejada ou não.
+                    Uma evolução não-planejada pode acontecer
+                    da forma descrita no exemplo a seguir.</para>
+                <example id="id96394e">
+                    <label>Exemplo</label>
+                    <para id="id96397">Lembrando da arquitetura
+                        do SASF, que foi dividida em três
+                        camadas: apresentação, lógica de
+                        negócio e persistência, uma das
+                        decisões impostas dita que a camada
+                        de apresentação só pode se comunicar
+                        com a lógica de negócio. No entanto,
+                        um desenvolvedor, medindo que a
+                        exibição da interface está demorando
+                        porque o carregamento das imagens
+                        necessárias está lento, resolve
+                        modificar a interface para que
+                        proceda da seguinte maneira. O
+                        pedido das imagens é feito diretamente
+                        à camada de persistência, contornando
+                        assim o 
+                        <emphasis effect="italics">overhead</emphasis>
+                        da camada lógica para tanto. Uma
+                        vez que ele nota que o desempenho
+                        da exibição da interface com o
+                        usuário agora está satisfatório,
+                        ele adiciona essa mudança ao código.
+                    </para>
+                    <para id="id96415">Acontece que, com
+                        isso, ele adicionou uma mudança
+                        também na arquitetura do sistema.
+                        A partir daí, há comunicação entre
+                        o módulo de interface e de persistência,
+                        fazendo assim que a documentação
+                        da arquitetura esteja inconsistente
+                        em relação ao código do sistema.
+                        </para>
+                </example>
+            </section>
+        </section>
+        <section id="cid10">
+            <title>Por que documentar a arquitetura de
+                software?</title>
+            <para id="id96433">Como já foi mencionado no
+                padrão ISO/IEEE 1471-2000, a arquitetura
+                de um sistema existe independentemente
+                dela ter sido documentada ou planejada.
+                No entanto, em pequenos sistemas, pensar,
+                planejar, documentar e manter a arquitetura
+                pode não ser necessário: um conjunto de
+                classes e pacotes ou de módulos com suas
+                relações e evolução minimamente pensados
+                (ou uma Big Ball of Mud) pode atender aos
+                requisitos funcionais e os atributos de
+                qualidade do sistema. Normalmente, isso
+                acontece quando os requisitos não são difíceis
+                de serem atendidos. Assim, todos os interessados
+                ficam satisfeitos – que podem não ser muitos
+                ou conflitantes – e o sistema atinge o
+                sucesso esperado.</para>
+            <example id="id96448e">
+                <label>Exemplo</label>
+                <para id="id96448"> Pensemos num pequeno
+                    sistema que servirá para a organização
+                    de uma modesta locadora de filmes.
+                    Ele será capaz de cadastrar, recuperar,
+                    atualizar e remover filmes, cadastrar,
+                    recuperar, atualizar e remover DVDs
+                    de filmes, cadastrar, recuperar, atualizar
+                    e remover clientes, realizar locações,
+                    devoluções e reservas.</para>
+                <para id="id96457">Se a execução desse
+                    sistema estiver restrita apenas a uma
+                    única loja física, seus requisitos
+                    serão simples o suficiente para nem
+                    precisarmos de uma documentação abrangente
+                    (ou mesmo precisar de qualquer documentação!):
+                    ele será desktop, terá apenas um usuário
+                    atuando sobre o sistema, sua carga,
+                    por ter apenas um usuário, será baixíssima,
+                    além dos dados armazenados no sistema,
+                    que por maior que seja a loja, não
+                    chegará a limites intratáveis por um
+                    sistema simples. Podemos observar que
+                    um sistema com esses requisitos pode
+                    ser desenvolvido e mantido até por
+                    um programador menos experiente. </para>
+            </example>
+            <para id="id96471">Em casos assim, realmente,
+                os custos de planejar, documentar e manter
+                a arquitetura seriam maiores que os benefícios
+                proporcionados por ela.</para>
+            <para id="id96477">No entanto, quando os sistemas
+                crescem, pensar em arquitetura – nos atributos
+                de qualidade e nas múltiplas visões e interessados
+                envolvidos –, e documentá-la se tornam
+                necessários. Observaremos essa necessidade
+                nos dois exemplos seguintes: apesar de
+                serem exemplos de sistemas funcionalmente
+                semelhantes ao do exemplo anterior, eles
+                têm requisitos não-funcionais que impõem
+                a necessidade de uma arquitetura bem pensada
+                e documentada.</para>
+            <example id="id96486e">
+                <label>Exemplo</label>
+                <para id="id96486"> O sistema de locadora
+                    agora tem que servir para mais duas
+                    filiais. Assim, o sistema deve estar
+                    rodando nas três lojas e deve existir
+                    um cadastro único de novos filmes,
+                    novos DVDs e novos clientes, e tanto
+                    a locação quanto a devolução podem
+                    ser feitas em qualquer loja da rede
+                    de locadoras. O sistema se torna multiusuário,
+                    por agora mais de um balconista usá-lo
+                    ao mesmo tempo, e distribuído, por
+                    ter que manter seu estado consistente
+                    entre as diversas lojas físicas existentes.
+                    Surgem agora preocupações de desempenho,
+                    tolerância a falhas e backup e consistência
+                    de dados. Outras dúvidas também surgem:
+                    Será um banco de dados central para
+                    as três lojas? Será um banco distribuído?
+                    Se for central, o que fazer caso não
+                    seja possível se comunicar com ele?
+                    Se for distribuído, como manter a consistência
+                    entre os dados? Um balconista de uma
+                    loja pode acessar o sistema de outra
+                    loja? O que um balconista de uma loja
+                    tem permissão para fazer na instância
+                    do sistema executando em outra loja?
+                    A reserva de um filme está restrita
+                    a uma loja física, ou será válida para
+                    todas? E assim por diante.</para>
+                <para id="id96509">Assim, podemos perceber
+                    que uma simples visão de decomposição
+                    de classes deixa de ser o único artefato
+                    necessário para entender o sistema.
+                    Precisamos agora de um artefato que
+                    represente os estados do sistema durante
+                    a execução, seja em condições normais
+                    de operação (e.g., como funciona o
+                    procedimento de reserva de filmes entre
+                    as lojas da rede de locadoras) , ou
+                    seja quando surgem problemas (e.g.,
+                    o link de comunicação entre as lojas
+                    caiu), apenas para exemplificar algumas
+                    poucas preocupações. </para>
+            </example>
+            <para id="id96518">Podemos notar que todas
+                essas perguntas afetarão como o sistema
+                estará organizado internamente, mas não
+                afetarão suas funcionalidades, que continuarão
+                sendo as do exemplo anterior. Inferimos
+                também que a arquitetura desse sistema
+                e sua documentação serão mais complexas
+                que a do 
+                <link target-id="id96448e"/>.
+            </para>
+            <para id="id96530">No entanto, no caso do SASF,
+                percebemos que a arquitetura pode se complicar
+                ainda mais, mesmo considerando quase as
+                mesmas funcionalidades. Uma arquitetura
+                ainda mais complexa necessita de uma documentação
+                ainda mais completa para ajudar no desenvolvimento
+                e manutenção desse sistema de software.</para>
+            <example id="id96538w">
+                <label>Exemplo</label>
+                <para id="id96542">A organização interna
+                    do SASF mudará ainda mais em relação
+                    aos 
+                    <link target-id="id96448e"/> e 
+                    <link target-id="id96486e"/>. As decisões
+                    que antes permitiam que o sistema rodasse
+                    para as três lojas numa mesma cidade
+                    não serão mais válidas quando falamos
+                    de diversos pontos de distribuição
+                    espalhados pelo país.
+                </para>
+                <para id="id96558">Dessa maneira, observamos
+                    que as decisões de desempenho, disponibilidade
+                    dos dados, e políticas de acesso mudam
+                    e, como aumentam também em quantidade,
+                    se torna mais evidente a necessidade
+                    do registro dessas decisões em algum
+                    tipo de documento para consulta, resolução
+                    de discussões e verificação de conformidade.</para>
+                <para id="id96567">Adicionalmente, num
+                    sistema como o SASF, o número de interessados
+                    aumenta: desde o usuário que deve entender
+                    quais tipos de locação e reserva estão
+                    disponíveis, passando pelos responsáveis
+                    pelo suporte ao usuário, os responsáveis
+                    pela disponibilidade dos diversos subsistemas
+                    (aluguel, 
+                    <emphasis effect="italics">streaming</emphasis>,
+                    dados, 
+                    <emphasis effect="italics">backup</emphasis>,
+                    etc.), gerente de marketing, time de
+                    desenvolvimento, gerente de projeto,
+                    gerente da empresa. Aumentando assim
+                    a responsabilidade de se obter um sistema
+                    capaz de satisfazer a todos eles.
+                </para>
+                <para id="id96587">Cada um terá um conjunto
+                    diferente de preocupações sobre o sistema.
+                    Seja o responsável por manter o sistema
+                    no ar, que precisa saber quantos recursos
+                    estão sendo consumidos a cada momento;
+                    seja o time de implementação, que precisa
+                    descobrir como adicionar uma nova funcionalidade
+                    sem quebrar as anteriores; seja o gerente
+                    do projeto, que deve decidir por contratar
+                    mais desenvolvedores para implementação
+                    ou comprar soluções prontas.</para>
+                <para id="id96596">Cada um desses estará
+                    preocupado também com qualidades diferentes
+                    do sistema: o responsável pela disponibilidade
+                    do sistema quer saber como o sistema
+                    escala se a base de usuários duplicar;
+                    já o time de implementação está preocupado
+                    em deixar o sistema mais testável para
+                    que a implementação da nova funcionalidade
+                    seja mais fácil; e, por outro lado,
+                    o gerente quer saber o desenvolvimento
+                    do sistema é possível com um time de
+                    desenvolvedores menor que o atual.</para>
+                <para id="id96604">Essas preocupações serão
+                    endereçadas pelo documento de arquitetura
+                    do SASF, que contém diversas visões
+                    direcionadas às diversas preocupações
+                    dos interessados. Uma visão de implementação
+                    interessará ao responsável pela disponibilidade,
+                    assim como uma visão de decomposição
+                    interessará ao time de desenvolvimento,
+                    assim como uma visão de implementação
+                    interessará ao gerente do projeto,
+                    fazendo então que o documento de arquitetura
+                    possua diversas visões e se torne um
+                    documento complexo. </para>
+            </example>
+            <para id="id96613">O mais importante a se observar
+                nesse exemplo (e no estudo do SASF) é que
+                o design e a documentação da arquitetura
+                não são atividades fáceis nem baratas.
+                O arquiteto escolhido para resolver esse
+                problema deve (1) conhecer os interessados,
+                (2) conhecer os atributos de qualidade
+                impostos ao sistema por esses interessados,
+                (3) conhecer as relações e trade-offs entre
+                interessados e atributos de qualidade,
+                (4) conhecer técnicas, padrões e ferramentas
+                que permitam o atendimento aos atributos,
+                e (5) documentar a solução do problema,
+                de forma que os interessados entendam e
+                tirem proveito do documento gerado.</para>
+        </section>
+        <section id="id96623">
+            <title>Resumo</title>
+            <para id="id96630">O objetivo deste livro é
+                fazer com que o leitor seja capaz de endereçar
+                todos os aspectos da arquitetura citados
+                anteriormente, podendo realizar algumas
+                das diversas funções realizadas por um
+                arquiteto de software. Dessa maneira, o
+                objetivo deste capítulo foi dar uma visão
+                geral do conhecimento necessário para tanto,
+                fundamentando-o com alguns exemplos e definições.
+                Assim, esperamos que o leitor, a partir
+                de agora:</para>
+            <list id="id96638" display="block" list-type="bulleted">
+                <item id="uid50">entenda e exemplifique
+                    os principais conceitos relacionados
+                    à arquitetura de software; e </item>
+                <item id="uid51">entenda e exemplifique
+                    as principais características e benefícios
+                    proporcionados pela arquitetura de
+                    software no processo de desenvolvimento.
+                    </item>
+            </list>
+            <para id="id96669">Já no próximo capítulo,
+                conheceremos os principais interessados
+                que devem ser contemplados pela arquitetura,
+                além de suas características e relações.
+                No capítulo seguinte, entenderemos melhor
+                os atributos de qualidade impostos por
+                esses interessados, além de apresentarmos
+                algumas técnicas para atender esses atributos.
+                Em seguida, teremos um capítulo focado
+                em padrões arquiteturais, uma vez que o
+                uso de padrões no design da arquitetura
+                é uma técnica essencial ao arquiteto. Por
+                fim, no último capítulo, aprenderemos a
+                documentar a solução que atenderá aos interessados
+                e atributos do sistema.</para>
+        </section>
+        <section id="id96684">
+            <title>Referências</title>
+            <section id="id96690">
+                <title>Histórico da área</title>
+                <para id="id96696">Apesar da ênfase em
+                    Arquitetura de Software como disciplina
+                    ter acontecido apenas durante a década
+                    de 1990 com autores a exemplo de Perry
+                    e Wolf 
+                    <link target-id="bid2"/> e Garlan e
+                    Shaw 
+                    <link target-id="bid10"/>, podemos
+                    encontrar trabalhos das décadas de
+                    1960 e 1970 que já citam algumas técnicas
+                    e benefícios da área. Entre eles, encontramos
+                    Dijkstra 
+                    <link target-id="bid11"/>, Parnas 
+                    <link target-id="bid12"/> e outros.
+                    Mais informações sobre o histórico
+                    da disciplina podem ser vistas em 
+                    <emphasis effect="italics">The Past,
+                        Present, and Future for Software
+                        Architecture</emphasis>, de Kruchten,
+                    Obbink e Stafford 
+                    <link target-id="bid13"/>.
+                </para>
+            </section>
+            <section id="id96740">
+                <title>Evolução de software</title>
+                <para id="id96748">A evolução de Software
+                    é bem estudada no livro editado por
+                    Mens e Demeyer, 
+                    <emphasis effect="italics">Software
+                        Evolution</emphasis>
+                    <link target-id="bid14"/> e nos trabalhos
+                    de Parnas 
+                    <link target-id="bid15"/>, van Gurp
+                    e Bosch 
+                    <link target-id="bid16"/> e Eick 
+                    <emphasis effect="italics">et al</emphasis>
+                    <link target-id="bid17"/>. Mais informações
+                    sobre a 
+                    <emphasis effect="italics">Big Ball
+                        of Mud</emphasis> podem ser encontradas
+                    em Foote e Yoder 
+                    <link target-id="bid18"/>.
+                </para>
+            </section>
+            <section id="id96799">
+                <title>Elementos de uma arquitetura</title>
+                <para id="id96805">A divisão dos elementos
+                    arquiteturais em estáticos e dinâmicos
+                    é feita originalmente por Rozanski
+                    e Woods em 
+                    <emphasis effect="italics">Software
+                        Systems Architecture: Working With
+                        Stakeholders Using Viewpoints and
+                        Perspectives</emphasis>
+                    <link target-id="bid19"/>. Já a discussão
+                    sobre classificação dos atributos de
+                    qualidade pode ser encontrada no livro
+                    <emphasis effect="italics">Software
+                        Engineering</emphasis>, de Sommerville
+                    <link target-id="bid20"/>. Por fim,
+                    podemos citar algumas referências importantes
+                    sobre visões arquiteturais: 
+                    <emphasis effect="italics">The 4+1
+                        View Model of Architecture</emphasis>
+                    de Kruchten 
+                    <link target-id="bid21"/>, 
+                    <emphasis effect="italics">Documenting
+                        Software Architectures: Views and
+                        Beyond Clements</emphasis> de Clements
+                    <emphasis effect="italics">et al</emphasis>
+                    <link target-id="bid22"/> e o padrão
+                    ISO/IEEE 1471-2000 
+                    <link target-id="bid1"/>.
+                </para>
+            </section>
+        </section>
+    </content>
+    <bib:file>
+        <bib:entry id="bid9">
+            <bib:book>
+                <!--required fields-->
+                <bib:author>Andy, and Qian, Kai</bib:author>
+                <bib:title>Component-Oriented Programming</bib:title>
+                <bib:publisher>Wiley-Interscience</bib:publisher>
+                <bib:year>2005</bib:year>
+                <!--optional fields-->
+                <bib:volume/>
+                <bib:series/>
+                <bib:address/>
+                <bib:edition/>
+                <bib:month>March</bib:month>
+                <bib:note/>
+            </bib:book>
+        </bib:entry>
+        <bib:entry id="bid5">
+            <bib:book>
+                <!--required fields-->
+                <bib:author>Bass, Len and Clements, Paul
+                    and Kazman, Rick</bib:author>
+                <bib:title>Software Architecture in Practice,
+                    Second Edition</bib:title>
+                <bib:publisher>Addison-Wesley Professional</bib:publisher>
+                <bib:year>2003</bib:year>
+                <!--optional fields-->
+                <bib:volume/>
+                <bib:series/>
+                <bib:address/>
+                <bib:edition/>
+                <bib:month>April</bib:month>
+                <bib:note/>
+            </bib:book>
+        </bib:entry>
+        <bib:entry id="bid7">
+            <bib:book>
+                <!--required fields-->
+                <bib:author>Bass, Len and Clements, Paul
+                    and Kazman, Rick</bib:author>
+                <bib:title>Software Architecture in Practice</bib:title>
+                <bib:publisher>Addison-Wesley Longman Publishing
+                    Co., Inc.</bib:publisher>
+                <bib:year>1998</bib:year>
+                <!--optional fields-->
+                <bib:volume/>
+                <bib:series/>
+                <bib:address>Boston, MA, USA</bib:address>
+                <bib:edition/>
+                <bib:month/>
+                <bib:note/>
+            </bib:book>
+        </bib:entry>
+        <bib:entry id="bid0">
+            <bib:techreport>
+                <!--required fields-->
+                <bib:author>Buxton, J. N. and Randell,
+                    B.</bib:author>
+                <bib:title>Software Engineering Techniques</bib:title>
+                <bib:institution>NATO Science Committee</bib:institution>
+                <bib:year>1970</bib:year>
+                <!--optional fields-->
+                <bib:type>Technical report</bib:type>
+                <bib:number/>
+                <bib:address>Rome, Italy</bib:address>
+                <bib:month>April</bib:month>
+                <bib:note/>
+            </bib:techreport>
+        </bib:entry>
+        <bib:entry id="bid22">
+            <bib:book>
+                <!--required fields-->
+                <bib:author>Clements, Paul and Bachmann,
+                    Felix and Bass, Len and Garlan, David
+                    and Ivers, James and Little, Reed and
+                    Nord, Robert and Stafford, Judith</bib:author>
+                <bib:title>Documenting Software Architectures:
+                    Views and Beyond</bib:title>
+                <bib:publisher>Addison-Wesley Professional</bib:publisher>
+                <bib:year>2002</bib:year>
+                <!--optional fields-->
+                <bib:volume/>
+                <bib:series/>
+                <bib:address/>
+                <bib:edition/>
+                <bib:month>September</bib:month>
+                <bib:note/>
+            </bib:book>
+        </bib:entry>
+        <bib:entry id="bid11">
+            <bib:article>
+                <!--required fields-->
+                <bib:author>Dijkstra, Edsger W.</bib:author>
+                <bib:title>The structure of the THE-multiprogramming
+                    system</bib:title>
+                <bib:journal>Commun. ACM</bib:journal>
+                <bib:year>1968</bib:year>
+                <!--optional fields-->
+                <bib:volume>11</bib:volume>
+                <bib:number>5</bib:number>
+                <bib:pages>341–346</bib:pages>
+                <bib:month/>
+                <bib:note/>
+            </bib:article>
+        </bib:entry>
+        <bib:entry id="bid17">
+            <bib:article>
+                <!--required fields-->
+                <bib:author>Eick, S. G. and Graves, T.
+                    L. and Karr, A. F. and Marron, J. S.
+                    and Mockus, A.</bib:author>
+                <bib:title>Does code decay? Assessing the
+                    evidence from change management data</bib:title>
+                <bib:journal>Software Engineering, IEEE
+                    Transactions on</bib:journal>
+                <bib:year>2001</bib:year>
+                <!--optional fields-->
+                <bib:volume>27</bib:volume>
+                <bib:number>1</bib:number>
+                <bib:pages>1–12</bib:pages>
+                <bib:month/>
+                <bib:note/>
+            </bib:article>
+        </bib:entry>
+        <bib:entry id="bid3">
+            <bib:phdthesis>
+                <!--required fields-->
+                <bib:author>Fielding, Roy T.</bib:author>
+                <bib:title>Architectural Styles and the
+                    Design of Network-based Software Architectures</bib:title>
+                <bib:school>University of California, Irvine</bib:school>
+                <bib:year>2000</bib:year>
+                <!--optional fields-->
+                <bib:type>Ph. D. Thesis</bib:type>
+                <bib:address/>
+                <bib:month/>
+                <bib:note/>
+            </bib:phdthesis>
+        </bib:entry>
+        <bib:entry id="bid18">
+            <bib:incollection>
+                <!--required fields-->
+                <bib:author>Foote, Brian and Yoder, Joseph
+                    W.</bib:author>
+                <bib:title>Big Ball of Mud</bib:title>
+                <bib:booktitle>Pattern Languages of Program
+                    Design</bib:booktitle>
+                <bib:publisher>Addison Wesley</bib:publisher>
+                <bib:year>2000</bib:year>
+                <!--optional fields-->
+                <bib:editor/>
+                <bib:volume>4</bib:volume>
+                <bib:series/>
+                <bib:type/>
+                <bib:chapter/>
+                <bib:pages>654–692</bib:pages>
+                <bib:address/>
+                <bib:edition/>
+                <bib:month/>
+                <bib:note/>
+            </bib:incollection>
+        </bib:entry>
+        <bib:entry id="bid6">
+            <bib:book>
+                <!--required fields-->
+                <bib:author>Gorton, Ian</bib:author>
+                <bib:title>Essential Software Architecture</bib:title>
+                <bib:publisher>Springer</bib:publisher>
+                <bib:year>2006</bib:year>
+                <!--optional fields-->
+                <bib:volume/>
+                <bib:series/>
+                <bib:address/>
+                <bib:edition/>
+                <bib:month>June</bib:month>
+                <bib:note/>
+            </bib:book>
+        </bib:entry>
+        <bib:entry id="bid4">
+            <bib:techreport>
+                <!--required fields-->
+                <bib:author>Garlan, David and Shaw, Mary</bib:author>
+                <bib:title>An Introduction to Software
+                    Architecture</bib:title>
+                <bib:institution/>
+                <bib:year>1994</bib:year>
+                <!--optional fields-->
+                <bib:type>Technical report</bib:type>
+                <bib:number/>
+                <bib:address>Pittsburgh, PA, USA</bib:address>
+                <bib:month/>
+                <bib:note/>
+            </bib:techreport>
+        </bib:entry>
+        <bib:entry id="bid10">
+            <bib:techreport>
+                <!--required fields-->
+                <bib:author>Garlan, David and Shaw, Mary</bib:author>
+                <bib:title>An Introduction to Software
+                    Architecture</bib:title>
+                <bib:institution>Carnegie Mellon University</bib:institution>
+                <bib:year>1994</bib:year>
+                <!--optional fields-->
+                <bib:type>Technical report</bib:type>
+                <bib:number>CMU-CS-94-166</bib:number>
+                <bib:address>Pittsburgh, PA 15213-3890</bib:address>
+                <bib:month>January</bib:month>
+                <bib:note/>
+            </bib:techreport>
+        </bib:entry>
+        <bib:entry id="bid1">
+            <bib:article>
+                <!--required fields-->
+                <bib:author>IEEE, and ISO/IEC, </bib:author>
+                <bib:title>Systems and Software Engineering
+                    - Recommended Practice for Architectural
+                    Description of Software-Intensive Systems</bib:title>
+                <bib:journal>ISO/IEC 42010 IEEE Std 1471-2000
+                    First edition 2007-07-15</bib:journal>
+                <bib:year>2007</bib:year>
+                <!--optional fields-->
+                <bib:volume/>
+                <bib:number/>
+                <bib:pages>c1–24</bib:pages>
+                <bib:month>July</bib:month>
+                <bib:note/>
+            </bib:article>
+        </bib:entry>
+        <bib:entry id="bid8">
+            <bib:book>
+                <!--required fields-->
+                <bib:editor/>
+                <bib:title>IEEE Standard Computer Dictionary:
+                    Compilation of IEEE Standard Computer
+                    Glossaries</bib:title>
+                <bib:publisher>Institute of Electrical
+                    and Electronics Engineers Inc., The</bib:publisher>
+                <bib:year>1991</bib:year>
+                <!--optional fields-->
+                <bib:volume/>
+                <bib:series/>
+                <bib:address/>
+                <bib:edition/>
+                <bib:month/>
+                <bib:note/>
+            </bib:book>
+        </bib:entry>
+        <bib:entry id="bid13">
+            <bib:article>
+                <!--required fields-->
+                <bib:author>Kruchten, P. and Obbink, H.
+                    and Stafford, J.</bib:author>
+                <bib:title>The Past, Present, and Future
+                    for Software Architecture</bib:title>
+                <bib:journal>Software, IEEE</bib:journal>
+                <bib:year>2006</bib:year>
+                <!--optional fields-->
+                <bib:volume>23</bib:volume>
+                <bib:number>2</bib:number>
+                <bib:pages>22–30</bib:pages>
+                <bib:month/>
+                <bib:note/>
+            </bib:article>
+        </bib:entry>
+        <bib:entry id="bid21">
+            <bib:article>
+                <!--required fields-->
+                <bib:author>Kruchten, P. B.</bib:author>
+                <bib:title>The 4+1 View Model of architecture</bib:title>
+                <bib:journal>Software, IEEE</bib:journal>
+                <bib:year>1995</bib:year>
+                <!--optional fields-->
+                <bib:volume>12</bib:volume>
+                <bib:number>6</bib:number>
+                <bib:pages>42–50</bib:pages>
+                <bib:month/>
+                <bib:note/>
+            </bib:article>
+        </bib:entry>
+        <bib:entry id="bid14">
+            <bib:book>
+                <!--required fields-->
+                <bib:editor/>
+                <bib:title>Software Evolution</bib:title>
+                <bib:publisher>Springer</bib:publisher>
+                <bib:year>2008</bib:year>
+                <!--optional fields-->
+                <bib:volume/>
+                <bib:series/>
+                <bib:address/>
+                <bib:edition/>
+                <bib:month>March</bib:month>
+                <bib:note/>
+            </bib:book>
+        </bib:entry>
+        <bib:entry id="bid12">
+            <bib:article>
+                <!--required fields-->
+                <bib:author>Parnas, D. L.</bib:author>
+                <bib:title>On the criteria to be used in
+                    decomposing systems into modules</bib:title>
+                <bib:journal>Classics in Software Engineering</bib:journal>
+                <bib:year>1979</bib:year>
+                <!--optional fields-->
+                <bib:volume/>
+                <bib:number/>
+                <bib:pages>139–150</bib:pages>
+                <bib:month/>
+                <bib:note/>
+            </bib:article>
+        </bib:entry>
+        <bib:entry id="bid15">
+            <bib:inproceedings>
+                <!--required fields-->
+                <bib:author>Parnas, David L.</bib:author>
+                <bib:title>Software aging</bib:title>
+                <bib:booktitle>ICSE '94: Proceedings of
+                    the 16th international conference on
+                    Software engineering</bib:booktitle>
+                <bib:year>1994</bib:year>
+                <!--optional fields-->
+                <bib:editor/>
+                <bib:number/>
+                <bib:series/>
+                <bib:pages>279–287</bib:pages>
+                <bib:address>Los Alamitos, CA, USA</bib:address>
+                <bib:month/>
+                <bib:organization/>
+                <bib:publisher>IEEE Computer Society Press</bib:publisher>
+                <bib:note/>
+            </bib:inproceedings>
+        </bib:entry>
+        <bib:entry id="bid2">
+            <bib:article>
+                <!--required fields-->
+                <bib:author>Perry, Dewayne E. and Wolf,
+                    Alexander L.</bib:author>
+                <bib:title>Foundations for The Study of
+                    Software Architecture</bib:title>
+                <bib:journal>SIGSOFT Software Engineering
+                    Notes</bib:journal>
+                <bib:year>1992</bib:year>
+                <!--optional fields-->
+                <bib:volume>17</bib:volume>
+                <bib:number>4</bib:number>
+                <bib:pages>40–52</bib:pages>
+                <bib:month>October</bib:month>
+                <bib:note/>
+            </bib:article>
+        </bib:entry>
+        <bib:entry id="bid19">
+            <bib:book>
+                <!--required fields-->
+                <bib:author>Rozanski, Nick and Woods, Eóin</bib:author>
+                <bib:title>Software Systems Architecture:
+                    Working With Stakeholders Using Viewpoints
+                    and Perspectives</bib:title>
+                <bib:publisher>Addison-Wesley Professional</bib:publisher>
+                <bib:year>2005</bib:year>
+                <!--optional fields-->
+                <bib:volume/>
+                <bib:series/>
+                <bib:address/>
+                <bib:edition/>
+                <bib:month>April</bib:month>
+                <bib:note/>
+            </bib:book>
+        </bib:entry>
+        <bib:entry id="bid20">
+            <bib:book>
+                <!--required fields-->
+                <bib:author>Sommerville, Ian</bib:author>
+                <bib:title>Software Engineering (7th Edition)
+                    (International Computer Science Series)</bib:title>
+                <bib:publisher>Addison Wesley</bib:publisher>
+                <bib:year>2004</bib:year>
+                <!--optional fields-->
+                <bib:volume/>
+                <bib:series/>
+                <bib:address/>
+                <bib:edition/>
+                <bib:month>May</bib:month>
+                <bib:note/>
+            </bib:book>
+        </bib:entry>
+        <bib:entry id="bid16">
+            <bib:article>
+                <!--required fields-->
+                <bib:author>van Gurp, Jilles and Bosch,
+                    Jan</bib:author>
+                <bib:title>Design erosion: problems and
+                    causes</bib:title>
+                <bib:journal>Journal of Systems and Software</bib:journal>
+                <bib:year>2002</bib:year>
+                <!--optional fields-->
+                <bib:volume>61</bib:volume>
+                <bib:number>2</bib:number>
+                <bib:pages>105–119</bib:pages>
+                <bib:month>March</bib:month>
+                <bib:note/>
+            </bib:article>
+        </bib:entry>
+    </bib:file>
+</document>

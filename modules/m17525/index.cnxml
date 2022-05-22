@@ -1,0 +1,3019 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:md="http://cnx.rice.edu/mdml" xmlns:bib="http://bibtexml.sf.net/">
+    <title>Documentação da Arquitetura</title>
+    <metadata>
+  <md:content-id>m17525</md:content-id><md:title>Documentação da Arquitetura</md:title>
+  <md:abstract>Neste capítulo, apresentamos conceitos sobre documentação da arquitetura de software.</md:abstract>
+  <md:uuid>869c329a-041b-48d9-973d-dfbcb2e1ab27</md:uuid>
+</metadata>
+
+<content>
+        <para id="id174989">Após entendermos os conceitos
+            e a importância e termos noções de design de
+            arquitetura de software, precisamos saber como
+            capturar a informação do projeto e documentá-lo.
+            Para isso, introduzimos os conceitos de visões
+            e de pontos de vista arquiteturais, que facilitam
+            a documentação por mostrar diferentes dimensões
+            que uma arquitetura apresenta. Este capítulo
+            não dita uma única linguagem ou modelo de documentação
+            de arquitetura, mas apresenta exemplos de como
+            fazê-lo.</para>
+        <para id="id174998">Este capítulo tem como objetivo
+            fazer com que o leitor seja capaz de entender
+            que:</para>
+        <list id="id175006" display="block" list-type="bulleted">
+            <item id="uid1">O documento de arquitetura
+                auxilia no processo de design, é uma ferramenta
+                de comunicação entre stakeholders e pode
+                servir de modelo de análise do software;
+                </item>
+            <item id="uid2">Toda informação presente numa
+                arquitetura é uma decisão arquitetural;
+                </item>
+            <item id="uid3">Decisões arquiteturais podem
+                ser existenciais, descritivas ou executivas;
+                </item>
+            <item id="uid4">Decisões arquiteturais se relacionam,
+                podendo restringir, impedir, facilitar,
+                compor, conflitar, ignorar, depender ou
+                ser alternativa a outras decisões arquiteturais;
+                e </item>
+            <item id="uid5">Um único diagrama não é suficiente
+                para conter a quantidade de informação
+                que deve ser mostrada por um arquiteto.
+                Por isso, a necessidade de múltiplas visões
+                arquiteturais; </item>
+        </list>
+        <section id="cid1">
+            <title>Arquitetura e Documento da Arquitetura</title>
+            <para id="id175087">A arquitetura de um software
+                existe independente dela ser projetada
+                ou documentada. No entanto, ao deixarmos
+                a arquitetura simplesmente “emergir” a
+                partir do software, ou seja, evoluir ao
+                longo do processo de desenvolvimento sem
+                projeto ou documentação, corremos o risco
+                de não tirar proveito dos benefícios que
+                ela proporciona.</para>
+            <para id="id175096">Por outro lado, apenas
+                realizar o design arquitetural e não documentá-lo
+                (ou documentá-lo de forma precária), pode
+                minimizar as vantagens a serem obtidas
+                pela arquitetura. Isto pode ocorrer porque
+                documentar a arquitetura, além de auxiliar
+                o próprio processo de design, também proporciona:</para>
+            <list id="id175104" display="block" list-type="bulleted">
+                <item id="uid6">uma ferramenta de comunicação
+                    entre os stakeholders; </item>
+                <item id="uid7">a integridade conceitual
+                    ao sistema e ao processo de desenvolvimento;
+                    </item>
+                <item id="uid8">um modelo para análise
+                    antecipada do sistema; e </item>
+                <item id="uid9">uma ferramenta de rastreabilidade
+                    entre os requisitos e os elementos
+                    do sistema. </item>
+            </list>
+            <section id="uid10">
+                <title>Auxílio ao Processo de Design</title>
+                <para id="id175165">Apesar de dividirmos
+                    conceitualmente o processo de design
+                    do processo de documentação, é comum
+                    que ambos aconteçam em paralelo na
+                    prática. Quando isto ocorre, a documentação
+                    ajuda no design, principalmente no
+                    sentido de separação de preocupações.</para>
+                <para id="id175173">Ao documentarmos visões
+                    arquiteturais diferentes separadamente,
+                    preocupamo-nos separadamente com o
+                    design de diferentes aspectos do software.
+                    Entre os diversos aspectos de um software,
+                    podemos citar os aspectos funcionais,
+                    de dados, de concorrência, de desenvolvimento,
+                    de implantação e operacionais. Esta
+                    separação se torna benéfica porque
+                    há diferentes linguagens, que podem
+                    ser gráficas ou textuais, que melhor
+                    se encaixam à descrição de cada aspecto,
+                    ajudando não só numa melhor representação,
+                    como também numa melhor modelagem e
+                    avaliação em relação aos objetivos.</para>
+                <para id="id175181">A seguir, vemos dois
+                    exemplos que ilustram a documentação
+                    de algumas decisões arquiteturais relacionadas
+                    a aspectos diferentes do SASF. No 
+                    <link target-id="eip-id1170495446925"/>,
+                    podemos observar como o SASF está dividido
+                    em grandes módulos funcionais e, assim,
+                    podemos inferir quais são suas principais
+                    funcionalidades e algumas de suas relações
+                    entre si. Podemos dizer que as decisões
+                    arquiteturais do exemplo são apresentadas
+                    sob o ponto de vista funcional do sistema,
+                    constituindo uma visão funcional do
+                    software. Note também que esta não
+                    é a melhor forma de representar, por
+                    exemplo, que o desenvolvimento do cadastro
+                    dos usuários será terceirizado ou ainda
+                    que o serviço de transmissão de vídeos
+                    deve executar em 7 servidores durante
+                    dias úteis e em 15 servidores nos finais
+                    de semana e feriados, quando demanda
+                    aumenta.
+                </para>
+                <example id="eip-225">
+                    <label>Exemplo</label>
+                    <para id="eip-id1170495446925"> [Decisão
+                        Arquitetural 001] O SASF é dividido
+                        em cinco grandes módulos funcionais.
+                        Cada módulo é responsável por prover
+                        um conjunto de funcionalidades
+                        relacionadas entre si. Os grandes
+                        módulos do SASF são: </para>
+                    <list id="eip-id7497923" display="block">
+                        <item id="uid3411">Locadora de
+                            Filmes; </item>
+                        <item id="uid234212">Transmissor
+                            de Filmes; </item>
+                        <item id="ui234d13">Motor de Sugestões;
+                            </item>
+                        <item id="uid123424">Cadastro de
+                            Usuários; </item>
+                        <item id="ui2342d15">Cadastro de
+                            Filmes. </item>
+                    </list>
+                    <para id="eip-id1170495419529"> As
+                        principais funcionalidades providas
+                        por cada módulo e suas relações
+                        de uso estão descritas no diagrama
+                        representado na 
+                        <link target-id="uid1236"/>. 
+                    </para>
+                    <figure id="uid1236">
+                        <label>Figura</label>
+                        <media id="uid1236_media" alt="">
+                            <image mime-type="image/png" src="../../media/modulosfuncionais.png" id="uid1236_onlineimage" width="800">
+                                <!-- NOTE: attribute width
+                                changes image size online
+                                (pixels). original width
+                                is 1298. -->
+                            </image>
+                            <image for="pdf" mime-type="application/postscript" src="../../media/modulosfuncionais.eps" id="uid1556_printimage" print-width="12cm">
+                                <!--NOTE: attribute width
+                                changes image size in printed
+                                PDF (if specified in .tex
+                                file)-->
+                            </image>
+                        </media>
+                        <caption>Módulos funcionais do
+                            SASF. O estereótipo 
+                            <emphasis effect="italics">&lt;&lt;Módulo&gt;&gt;</emphasis>
+                            do diagrama indica os módulos
+                            funcionais que compõem o sistema.
+                            Já o estereótipo 
+                            <emphasis effect="italics">&lt;&lt;usa&gt;&gt;</emphasis>
+                            indica relações de uso entre
+                            os módulos para que possam
+                            implementar suas funções. Por
+                            fim, o estereótipo 
+                            <emphasis effect="italics">&lt;&lt;especialização&gt;&gt;</emphasis>
+                            indica uma relação de especialização
+                            dos dados guardados no elemento
+                            responsável pelo cadastro.
+                        </caption>
+                    </figure>
+                    <para id="eip-id5745272">
+                        <emphasis effect="italics">Objetivos</emphasis>:
+                        A divisão em módulos funcionais
+                        possibilita a divisão da implementação
+                        entre os times de desenvolvimento
+                        de acordo com a especialidade de
+                        cada time. 
+                    </para>
+                    <para id="eip-id1170497471876">
+                        <emphasis effect="italics">Motivação</emphasis>:
+                        As diversas funções a serem providas
+                        pelo SASF foram agrupadas em preocupações
+                        comuns (cadastro de dados, locação
+                        e transmissão de filmes, e sugestões
+                        ao usuário). O cadastro deve ser
+                        especializado em dois tipos para
+                        dividir o esforço de desenvolvimento:
+                        cadastro de filmes e de usuários.
+                        O motor de sugestões deve ser alimentado
+                        com dados de histórico de locações
+                        do usuário e informações sobre
+                        a base de filmes no sistema.
+                    </para>
+                </example>
+                <para id="id175336">No 
+                    <link target-id="eip-391"/>, mostramos
+                    o SASF sob um ponto de vista de implantação.
+                    Neste exemplo, podemos observar informações
+                    de configuração para implantação de
+                    serviços para executar o SASF – informações
+                    que estavam ausentes no exemplo anterior.
+                </para>
+                <example id="eip-391">
+                    <label>Exemplo</label>
+                    <para id="eip-id1171257165029">[Decisão
+                        Arquitetural 002] A implantação
+                        do módulo que implementa as funcionalidades
+                        do serviço de transmissão de filmes
+                        deve depender apenas de um parâmetro:
+                        </para>
+                    <list id="eip-id1171257165034" display="block">
+                        <item id="uid12227">
+                            <emphasis effect="italics">endereços.servidores.configuração</emphasis>:
+                            lista de endereços IP dos servidores
+                            que constituem o serviço de
+                            configuração do SASF. 
+                        </item>
+                    </list>
+                    <para id="eip-id1171257165050"> Os
+                        outros parâmetros de configuração
+                        devem ser obtidos a partir da comunicação
+                        com o serviço de configuração.
+                        </para>
+                    <para id="eip-id1171257165055">
+                        <emphasis effect="italics">Objetivos</emphasis>:
+                        Facilitar a operabilidade do sistema.
+                    </para>
+                    <para id="eip-id1171257165063">
+                        <emphasis effect="italics">Motivação</emphasis>:
+                        O serviço de configuração do SASF,
+                        que é descrito em detalhes na [Decisão
+                        Arquitetural 011], é um centralizador
+                        da configuração do sistema. Nele,
+                        o operador do sistema insere endereços
+                        de serviços para que estejam disponíveis
+                        para a configuração de uma nova
+                        instância. Quando a instância do
+                        serviço de transmissão de filmes
+                        é iniciada, ela faz requisições
+                        ao serviço de configuração pelos
+                        endereços dos serviços de cadastro
+                        e dos serviços de armazenamento
+                        de filmes, por exemplo.
+                    </para>
+                </example>
+                <example id="eip-115">
+                    <label>Exemplo</label>
+                    <para id="eip-id8709797">[Decisão Arquitetural
+                        002] A implantação do módulo que
+                        implementa as funcionalidades do
+                        serviço de transmissão de filmes
+                        deve depender apenas de um parâmetro:
+                        </para>
+                    <list id="eip-id1164323917993" display="block">
+                        <item id="uid23417">
+                            <emphasis effect="italics">endereços.servidores.configuração</emphasis>:
+                            lista de endereços IP dos servidores
+                            que constituem o serviço de
+                            configuração do SASF. 
+                        </item>
+                    </list>
+                    <para id="eip-id1164328697306"> Os
+                        outros parâmetros de configuração
+                        devem ser obtidos a partir da comunicação
+                        com o serviço de configuração.
+                        </para>
+                    <para id="eip-id1164331627845">
+                        <emphasis effect="italics">Objetivos</emphasis>:
+                        Facilitar a operabilidade do sistema.
+                    </para>
+                    <para id="eip-id1164328695359">
+                        <emphasis effect="italics">Motivação</emphasis>:
+                        O serviço de configuração do SASF,
+                        que é descrito em detalhes na [Decisão
+                        Arquitetural 011], é um centralizador
+                        da configuração do sistema. Nele,
+                        o operador do sistema insere endereços
+                        de serviços para que estejam disponíveis
+                        para a configuração de uma nova
+                        instância. Quando a instância do
+                        serviço de transmissão de filmes
+                        é iniciada, ela faz requisições
+                        ao serviço de configuração pelos
+                        endereços dos serviços de cadastro
+                        e dos serviços de armazenamento
+                        de filmes, por exemplo.
+                    </para>
+                </example>
+            </section>
+            <section id="uid18">
+                <title>Ferramenta de Comunicação</title>
+                <para id="id175415">Já sabemos que diferentes
+                    stakeholders demonstram diferentes
+                    preocupações sobre diferentes aspectos
+                    do sistema. Como a documentação da
+                    arquitetura versa sobre as muitas preocupações
+                    dos stakeholders, ela serve de ferramenta
+                    para comunicação, uma vez que provê
+                    um vocabulário comum sobre o sistema,
+                    além de registrar as relações entre
+                    as preocupações e de que forma os eventuais
+                    conflitos foram ou devem ser resolvidos.</para>
+                <para id="id175423">Note que para servir
+                    de ferramenta de comunicação, o documento
+                    arquitetural deve ser construído de
+                    forma que respeite o conhecimento e
+                    as necessidades dos stakeholders. Para
+                    que isto seja possível, deve-se conhecer
+                    para quem o documento está sendo escrito.
+                    Portanto, devemos escrever a arquitetura
+                    de forma que possua partes que interessem
+                    aos usuários, aos clientes, aos desenvolvedores,
+                    aos testadores, ao gerente de projeto
+                    ou a outros stakeholders envolvidos
+                    no processo.</para>
+                <para id="id175432">Por exemplo, os usuários
+                    buscam pelas funcionalidades, capacidades
+                    e comportamento do sistema, não como
+                    ele foi dividido em módulos, como os
+                    módulos se comunicam entre si ou se
+                    eles foram desenvolvidos do zero ou
+                    tiveram partes reutilizadas de outros
+                    sistemas. Clientes e gerentes têm alguns
+                    interesses semelhantes, como custos
+                    de desenvolvimento ou cronograma de
+                    lançamento. No entanto, os clientes
+                    também se preocupam com o alinhamento
+                    do software ao seu negócio, enquanto
+                    o gerente procura como minimizar os
+                    custos para se adequar ao orçamento,
+                    ou como as tarefas de implementação
+                    serão divididas entre seu time de desenvolvimento.
+                    Finalmente, desenvolvedores e testadores
+                    estão interessados em aspectos técnicos
+                    do design, por exemplo, qual a divisão
+                    em módulos do sistema, quais as alternativas
+                    de design disponíveis ou como os atributos
+                    de qualidade (desempenho, escalabilidade,
+                    tolerância a faltas, etc.) devem ser
+                    implementados, cada um motivado pelo
+                    seu papel no processo de desenvolvimento.</para>
+            </section>
+            <section id="uid19">
+                <title>Integridade Conceitual</title>
+                <para id="id175460">Por outro lado, o documento
+                    precisa demonstrar consistência entre
+                    os diversos aspectos do design da arquitetura
+                    para que haja comunicação e integridade
+                    conceitual. A consistência é necessária
+                    porque, apesar da separação de preocupações
+                    ser uma ferramenta poderosa de design,
+                    as soluções para as diferentes preocupações
+                    trabalham interligadas durante a implementação,
+                    ou seja, quando resolvem o problema.
+                    Assim, precisamos de integridade em
+                    dois níveis: entre os stakeholders
+                    e entre os diversos aspectos do documento
+                    de arquitetura.</para>
+                <para id="id175470">A integridade conceitual
+                    entre stakeholders é a defendida por
+                    Brooks, em 
+                    <emphasis effect="italics">The Mythical
+                        Man-Month</emphasis>, porque facilita
+                    o sucesso no desenvolvimento de sistemas
+                    de software. Se os stakeholders – e
+                    principalmente os desenvolvedores –
+                    não têm em mente o mesmo design que
+                    se transformará em produto, são poucas
+                    as garantias de que o produto implementado
+                    será o projetado. Por isso, no processo,
+                    o documento de arquitetura serve para
+                    restringir eventuais “deslizes conceituais”
+                    em relação ao design arquitetural e
+                    prevenir futuras discordâncias entre
+                    stakeholders, inclusive de interesses
+                    similares. O 
+                    <link target-id="eip-819"/> ilustra
+                    um caso de restrição aos desenvolvedores,
+                    mas que é benéfica por proporcionar
+                    a integridade conceitual entre times
+                    de desenvolvimento. Este caso é a definição
+                    das interfaces entre dois serviços
+                    presentes no sistema.
+                </para>
+                <example id="eip-819">
+                    <label>Exemplo</label>
+                    <para id="eip-138"> No SASF, se dividirmos
+                        os desenvolvedores em mais vários
+                        times, é comum que haja uma maior
+                        interação entre os membros de um
+                        mesmo time do que entre times diferentes.
+                        Vamos considerar que delegamos
+                        a um time a implementação do serviço
+                        responsável pelas funcionalidades
+                        do módulo 
+                        <emphasis effect="italics">Cadastro
+                            de Filmes</emphasis>, já apresentado
+                        no 
+                        <link target-id="eip-225"/>, e
+                        a outro time o módulo 
+                        <emphasis effect="italics">Transmissor
+                            de Filmes</emphasis>. Para
+                        que a implementação dos dois módulos
+                        possa ser paralelizada e para que
+                        sejam evitadas suposições errôneas
+                        ou desnecessárias por parte de
+                        cada time sobre outros módulos
+                        (e, portanto, seja menos custosa
+                        a integração), devemos definir
+                        cuidadosamente as interfaces dos
+                        módulos, sejam os métodos disponíveis,
+                        a forma de comunicação e os tipos
+                        de dados usados como parâmetros
+                        ou retorno. 
+                    </para>
+                </example>
+                <para id="id175530">A integridade conceitual
+                    também se mostra necessária durante
+                    a inclusão de novos membros à equipe
+                    de desenvolvimento e ao longo da evolução
+                    e manutenção do software. Novos membros
+                    precisam de uma descrição da arquitetura
+                    porque normalmente são inseridos ao
+                    time sem qualquer conhecimento prévio
+                    do design. Já ao longo da evolução
+                    e manutenção do software, o conhecimento
+                    das regras de design a serem seguidas
+                    se faz necessário para que os requisitos
+                    de qualidade permaneçam implementados,
+                    mesmo durante mudanças. O exemplo a
+                    seguir ilustra uma regra de design
+                    para que um software de manipulação
+                    de imagens continue exercendo alta
+                    portabilidade.</para>
+                <example id="eip-243">
+                    <label>Exemplo</label>
+                    <para id="eip-id6756085">O software
+                        de manipulação de imagens 
+                        <emphasis effect="italics">ImageJ</emphasis><footnote id="uid2440">
+                            <emphasis effect="italics">ImageJ
+                                - Image Processing and
+                                Analysis in Java</emphasis>:
+                            <link url="http://rsbweb.nih.gov/ij/">http://rsbweb.nih.gov/ij/</link>
+                        </footnote> desempenha bem dois
+                        atributos de qualidade: a extensibilidade
+                        e a portabilidade. Sua extensibilidade
+                        é garantida por ter sua arquitetura
+                        ser baseada no uso de 
+                        <emphasis effect="italics">plugins</emphasis>.
+                        Com isso, ele é composto de um
+                        núcleo de funcionalidades básicas
+                        e provê meios para que novas funcionalidades
+                        sejam adicionadas em tempo de execução.
+                        Já sua portabilidade é garantida
+                        por ele ter seu núcleo e 
+                        <emphasis effect="italics">plugins</emphasis>
+                        implementados usando a linguagem
+                        de programação Java, permitindo
+                        sua execução em qualquer ambiente
+                        que disponha da máquina virtual
+                        Java. 
+                    </para>
+                    <para id="eip-id6794041"> Como o código-fonte
+                        do 
+                        <emphasis effect="italics">ImageJ</emphasis>
+                        é de domínio público, qualquer
+                        programador pode baixá-lo, usá-lo
+                        e escrever novos 
+                        <emphasis effect="italics">plugins</emphasis>
+                        para ele. Inclusive, é possível
+                        usar o mecanismo 
+                        <emphasis effect="italics">Java
+                            Native Interface</emphasis>
+                        (JNI) para realizar chamadas a
+                        bibliotecas escritas em outras
+                        linguagens. No entanto, se o programador
+                        deseja manter o alto grau de portabilidade
+                        do 
+                        <emphasis effect="italics">ImageJ</emphasis>,
+                        ele deve respeitar a regra de design
+                        do software que é de nunca realizar
+                        chamadas nativas durante a implementação
+                        de novas funcionalidades. 
+                    </para>
+                </example>
+                <para id="id175618">Existe também a integridade
+                    entre os diversos aspectos da arquitetura
+                    no documento ou, em outras palavras,
+                    a integridade entre as visões da arquitetura.
+                    Este tipo de integridade deve ser mantido
+                    para que as partes do design funcionem
+                    em conjunto e que, portanto, o design
+                    seja passível de implementação. A consistência
+                    entre visões se faz necessária por
+                    que, apesar da separação de preocupações
+                    e de elementos arquiteturais facilitar
+                    o design, é em conjunto que eles são
+                    construídos e executados. Portanto,
+                    se há no documento mais de uma visão
+                    sobre os mesmos elementos do sistema,
+                    é essencial que na documentação dessas
+                    visões exista um mapeamento entre as
+                    diferentes representações desses elementos.</para>
+                <para id="id175633">O 
+                    <link target-id="eip-91"/> ilustra
+                    a consistência entre visões sobre o
+                    armazenamento no SASF. Nele, podemos
+                    observar (1) os serviços providos pelo
+                    sistema de armazenamento do SASF por
+                    meio da visão funcional; (2) que boa
+                    parte dos serviços de armazenamento
+                    não serão implementados do zero, uma
+                    vez que serão obtidos pelo Sistema
+                    de Gerência de Banco de Dados adotado,
+                    por meio da visão de desenvolvimento;
+                    e (3) que o sistema de armazenamento
+                    estará executando, no mínimo, em três
+                    servidores, por meio da visão de implantação.
+                    Note que, se alguma das visões for
+                    inconsistente com as outras, podem
+                    surgir dúvidas sobre: (1) quais serviços
+                    estão disponíveis para quem usa armazenamento,
+                    (2) o que será implementado e o que
+                    será aproveitado durante a implementação
+                    da solução de armazenamento do SASF
+                    e, por fim, (3) que tipo de hardware
+                    será necessário para executar a solução
+                    de armazenamento.
+                </para>
+                <example id="eip-91">
+                    <label>Exemplo</label>
+                    <para id="eip-id1172234747415">Na [Decisão
+                        Arquitetural 001], descrita no
+                        <link target-id="eip-225"/>, apresentamos
+                        três módulos que devem lidar diretamente
+                        com armazenamento: 
+                        <emphasis effect="italics">Cadastro
+                            de Usuários</emphasis>, 
+                        <emphasis effect="italics">Cadastro
+                            de Filmes</emphasis> e 
+                        <emphasis effect="italics">Transmissor
+                            de Filmes</emphasis>. No entanto,
+                        apenas as funções que eles devem
+                        implementar foram descritas, não
+                        como devem implementar. As decisões
+                        a seguir mostram alguns aspectos
+                        de como essas funções devem ser
+                        implementadas. 
+                    </para>
+                    <para id="eip-id1172234753664">
+                        <emphasis effect="italics">(Decisão
+                            Arquitetural 002)</emphasis>.
+                        O armazenamento das informações
+                        dos módulos 
+                        <emphasis effect="italics">Cadastro
+                            de Usuários</emphasis> e 
+                        <emphasis effect="italics">Cadastro
+                            de Filmes</emphasis> será realizado
+                        usando um Sistema Gerenciador de
+                        Banco de Dados Relacional (SGBDR)
+                        de modo a permitir criação, edição,
+                        obtenção e remoção das entradas.
+                    </para>
+                    <para id="eip-id8702701">As informações
+                        guardadas no SGBDR são os atributos
+                        dos Usuários e Filmes e são essencialmente
+                        textuais ou metainformações para
+                        localização de arquivos de mídia
+                        (fotos ou vídeos). O armazenamento
+                        de arquivos de mídia é tratado
+                        na [Decisão Arquitetural 003].
+                        Já o armazenamento de arquivos
+                        textuais que não são atributos
+                        dos Usuários ou Filmes, por exemplo,
+                        mensagens para usuários ou comentários
+                        sobre filmes é tratado em outra
+                        decisão arquitetural que não é
+                        descrita aqui.</para>
+                    <para id="eip-id1172235015409">
+                        <emphasis effect="italics">Objetivo</emphasis>:
+                        Permitir a persistência dos atributos
+                        dos Usuários e Filmes, facilitando
+                        o desenvolvimento.
+                    </para>
+                    <para id="eip-id1172235024466">
+                        <emphasis effect="italics">Motivação</emphasis>:
+                        Os atributos de Usuários e Filmes
+                        são essencialmente relacionais,
+                        se encaixando perfeitamente ao
+                        paradigma usado para armazenamento.
+                        Além de ser um paradigma bem conhecido
+                        pelo time de desenvolvimento.
+                    </para>
+                    <para id="eip-id1172234085082">
+                        <emphasis effect="italics">(Decisão
+                            Arquitetural 003)</emphasis>.
+                        O armazenamento de arquivos de
+                        mídia (fotos de Usuários, fotos
+                        de Filmes e arquivos de vídeo)
+                        serão armazenados usando uma Rede
+                        de Fornecimento de Conteúdo (
+                        <emphasis effect="italics">Content
+                            Delivery Network</emphasis>
+                        ou CDN).
+                    </para>
+                    <para id="eip-id1172235382701">
+                        <emphasis effect="italics">Objetivo</emphasis>:
+                        Permitir a persistência de arquivos
+                        de mídia, facilitando a implementação
+                        e permitindo desempenho e controle
+                        de carga.
+                    </para>
+                    <para id="eip-id1172234830571">
+                        <emphasis effect="italics">Motivação</emphasis>:
+                        Os arquivos de mídia presentes
+                        no SASF são conteúdo estático,
+                        que pode ser distribuído por uma
+                        CDN e, assim, tirar proveito de
+                        replicação, distribuição geográfica
+                        e 
+                        <emphasis effect="italics">caching</emphasis>,
+                        sem ter que implementar estas técnicas.
+                    </para>
+                    <para id="eip-id1172235015615">Já as
+                        decisões da visão de implantação,
+                        devem descrever os servidores que
+                        executaram os SGBDR e o serviço
+                        que se comunica com a CDN para
+                        o envio de arquivos.</para>
+                </example>
+            </section>
+            <section id="uid21">
+                <title>Modelo para Análise</title>
+                <para id="id175798">A arquitetura é um
+                    modelo do sistema, uma vez que descreve
+                    suas características. Ao documentar
+                    a arquitetura, obtemos um modelo manipulável
+                    do sistema que tem utilidade não só
+                    ao arquiteto, mas também a outros stakeholders.
+                    Com o modelo manipulável, é possível
+                    avaliar as decisões arquiteturais registradas
+                    e validá-las em relação aos requisitos
+                    que o software deve satisfazer. Além
+                    disso, o documento pode ainda servir
+                    de ferramenta que permita a verificação
+                    de se implementação está de acordo
+                    com o design, podendo prevenir eventuais
+                    deslizes arquiteturais.</para>
+                <para id="id174904">Podemos citar três
+                    categorias<footnote id="uid22">Esta divisão foi
+                        feita originalmente por Taylor
+                        <emphasis effect="italics">et al</emphasis>
+                        em 
+                        <emphasis effect="italics">Software
+                            Architecture: Foundations,
+                            Theory, and Practice</emphasis>
+                        <link target-id="bid0"/>.
+                    </footnote> de validação da arquitetura
+                    em relação aos requisitos: análise
+                    baseada em inspeções, análise baseada
+                    em modelos e análise baseada em simulações.
+                    No entanto, a possibilidade de aplicação
+                    de uma técnica de uma dada categoria
+                    de validação está diretamente ligada
+                    à representação usada no documento
+                    de arquitetura.
+                </para>
+                <section id="uid23">
+                    <title>Análise baseada em inspeções</title>
+                    <para id="id174949">Análises baseadas
+                        em inspeções são conduzidas por
+                        bancas de revisão compostas por
+                        vários stakeholders. Entre os stakeholders,
+                        podemos encontrar, além do arquiteto
+                        e dos desenvolvedores, interessados
+                        menos técnicos, como o gerente
+                        de projeto e, em alguns casos,
+                        o cliente. Durante o processo de
+                        inspeção, os stakeholders definem
+                        os objetivos da análise e estudam
+                        as representações da arquitetura
+                        de forma a avaliá-la de acordo
+                        com seus objetivos.</para>
+                    <para id="id174957">Esta categoria
+                        de inspeção serve para verificar
+                        um conjunto amplo de propriedades
+                        da arquitetura e faz uso de múltiplas
+                        representações do design, tanto
+                        em linguagens formais, quanto informais.
+                        Por ser um processo essencialmente
+                        manual, é um tipo de análise mais
+                        caro do que os de outros, mas que
+                        possibilita também a inspeção em
+                        busca de qualidades menos formais
+                        do software, a exemplo de escalabilidade,
+                        manutenibilidade ou operabilidade.
+                        Outra vantagem deste tipo de análise
+                        é a de permitir o uso de representações
+                        informais ou parciais do design
+                        da arquitetura, além de possibilitar
+                        a análise considerando múltiplos
+                        objetivos de múltiplos stakeholders.</para>
+                    <para id="id175943">Como exemplos de
+                        análises baseadas em inspeções,
+                        podemos citar alguns métodos de
+                        avaliação de arquitetura criados
+                        pelo 
+                        <emphasis effect="italics">Software
+                            Engineering Institute</emphasis>,
+                        da 
+                        <emphasis effect="italics">Carnegie
+                            Melon University</emphasis>:
+                        o 
+                        <emphasis effect="italics">Software
+                            Architecture Analysis Method</emphasis>
+                        (SAAM), o 
+                        <emphasis effect="italics">Architectural
+                            Trade-Off Analysis Method</emphasis>
+                        (ATAM) e o método 
+                        <emphasis effect="italics">Active
+                            Reviews for Intermediate Designs</emphasis>
+                        (ARID).<footnote id="uid24">Podemos encontrar
+                            a descrição desses métodos
+                            no livro 
+                            <emphasis effect="italics">Evaluating
+                                Software Architectures</emphasis>,
+                            de Paul Clements 
+                            <emphasis effect="italics">et
+                                al</emphasis>
+                            <link target-id="bid1"/>.
+                        </footnote>
+                    </para>
+                </section>
+                <section id="uid25">
+                    <title>Análise baseada em modelos</title>
+                    <para id="id176009">Análises baseadas
+                        em modelos são menos custosas do
+                        que as baseadas em inspeções, uma
+                        vez que demonstram maior nível
+                        de automação. Este tipo de análise
+                        utiliza ferramentas que manipulam
+                        representações da arquitetura com
+                        o objetivo de encontrar algumas
+                        de suas propriedades. Para possibilitar
+                        a manipulação, as representações
+                        devem ser escritas em linguagens
+                        formais ou semiformais como ADLs
+                        (
+                        <emphasis effect="italics">architecture
+                            description languages</emphasis>
+                        ou linguagens de descrição de arquitetura),
+                        como por exemplo, ACME, SADL e
+                        Rapide, máquinas de estado finito
+                        ou UML.
+                    </para>
+                    <para id="id176025">Esta categoria
+                        de inspeção é utilizada na busca
+                        de propriedades formais da arquitetura,
+                        como corretude sintática ou ausência
+                        de 
+                        <emphasis effect="italics">deadlocks</emphasis>
+                        e, apesar de seu alto grau de automação,
+                        pode necessitar que o arquiteto
+                        guie a ferramenta de inspeção utilizada
+                        considerando os resultados parciais.
+                        Uma desvantagem desta categoria
+                        é seu desempenho na análise de
+                        grandes sistemas. Uma vez que as
+                        representações da arquitetura podem
+                        levar à explosão de estados, a
+                        análise de todo o espaço de estados
+                        do sistema pode ser inviável. Portanto,
+                        é comum que apenas partes da arquitetura
+                        sejam analisadas – de preferência
+                        partes mais críticas.
+                    </para>
+                    <para id="id176042">Como exemplos de
+                        análises baseadas em modelos, podemos
+                        citar o uso da linguagem Wright
+                        para a verificação de ausência
+                        de 
+                        <emphasis effect="italics">deadlocks</emphasis><footnote id="uid26">Técnica apresentada
+                            por Allen e Garlan no artigo
+                            <emphasis effect="italics">A
+                                Formal Basis for Architectural
+                                Connection</emphasis>
+                            <link target-id="bid2"/>
+                        </footnote> e o uso da linguagem
+                        de modelagem 
+                        <emphasis effect="italics">MetaH</emphasis>
+                        para análise de propriedades confiabilidade
+                        e segurança (
+                        <emphasis effect="italics">safety</emphasis>)<footnote id="uid27">Mais informações
+                            sobre a linguagem 
+                            <emphasis effect="italics">MetaH</emphasis>
+                            podem ser encontradas no site:
+                            <link url="http://www.htc.honeywell.com/metah/index.html">http://www.htc.honeywell.com/metah/index.html</link>
+                        </footnote>.
+                    </para>
+                </section>
+                <section id="uid28">
+                    <title>Análise baseada em simulações</title>
+                    <para id="id176109">Análises baseadas
+                        em simulações se utilizam de modelos
+                        executáveis da arquitetura para
+                        extrair características do software
+                        ou de partes dele. Assim como a
+                        análise baseada em modelos, esse
+                        tipo de análise também se utiliza
+                        de ferramentas que automatizam
+                        o processo, deixando-o mais barato.
+                        No entanto, este tipo de análise
+                        produz resultados restritos às
+                        propriedades dinâmicas do software
+                        e estão sujeitas às imprecisões
+                        dos modelos de execução.</para>
+                    <para id="id176117">Para possibilitar
+                        a execução, as representações utilizadas
+                        devem ser formais, o que diminui
+                        sua aplicação na indústria, mas
+                        que proporciona resultados mais
+                        precisos em relação às qualidades
+                        estruturais, comportamentais e
+                        de interação entre as partes do
+                        software, como por exemplo qualidades
+                        de desempenho e confiabilidade.</para>
+                    <para id="id176126">Como exemplos de
+                        análises baseadas em simulações,
+                        podemos citar o uso de simulação
+                        de eventos discretos para análise
+                        de desempenho ou o uso da ferramenta
+                        <emphasis effect="italics">XTEAM</emphasis><footnote id="uid29">A ferramenta
+                            <emphasis effect="italics">eXtensible
+                                Tool-chain for Evaluation
+                                of Architectural Models</emphasis>
+                            (XTEAM) é descrita por Edwards
+                            <emphasis effect="italics">et
+                                al</emphasis> no artigo
+                            <emphasis effect="italics">Scenario-Driven
+                                Dynamic Analysis of Distributed
+                                Architectures</emphasis>
+                            <link target-id="bid3"/>.
+                        </footnote>, que utiliza ADLs e
+                        processos de estado finito para
+                        diferentes tipos de análises arquiteturais.
+                    </para>
+                </section>
+            </section>
+            <section id="uid30">
+                <title>Ferramenta de Rastreabilidade</title>
+                <para id="id176179">Por fim, a documentação
+                    permite rastreabilidade entre os requisitos
+                    e os elementos da arquitetura e implementação
+                    que satisfazem esses requisitos. Ao
+                    documentar as decisões arquiteturais,
+                    registramos (1) seus objetivos, que
+                    normalmente são qualidades a serem
+                    alcançadas pelo software, e (2) como
+                    esses objetivos são alcançados, por
+                    meio da descrição dos elementos que
+                    compõem o sistema e suas relações e
+                    regras de design que devem ser respeitadas
+                    durante a implementação. Este registro
+                    serve de ponte entre dois extremos
+                    do processo de desenvolvimento: os
+                    requisitos e a implementação, e assim
+                    permite a navegação entre pontos relacionados,
+                    sejam eles requisitos, decisões de
+                    design ou partes da implementação.</para>
+                <para id="id176195">A rastreabilidade nos
+                    permite analisar qual o impacto de
+                    uma decisão de design, tanto em termos
+                    de quais requisitos ela afeta, quanto
+                    quais elementos de software ela dita
+                    a existência ou, em caso de manutenção,
+                    quais elementos são ou devem ser afetados
+                    por mudanças nos requisitos ou nas
+                    decisões. O exemplo a seguir mostra
+                    aspectos de rastreabilidade na documentação
+                    da arquitetura do SASF.</para>
+                <example id="eip-616">
+                    <label>Exemplo</label>
+                    <para id="eip-id1172233131471">Se observarmos
+                        a arquitetura do SASF e procurarmos
+                        pelas decisões responsáveis por
+                        facilitar a manutenção do sistema,
+                        encontraremos entre elas a decisão
+                        de divisão do sistema em camadas.
+                        Essa decisão sugere uma divisão
+                        do sistema em camadas lógicas,
+                        mas também influencia na divisão
+                        em pacotes, serviços ou mesmo processos.
+                        Assim, a satisfação do requisito
+                        de manutenibilidade está diretamente
+                        ligada à correta divisão das partes
+                        do sistema em apresentação, lógica
+                        de negócio e persistência.</para>
+                    <para id="eip-id1172232956307">Da mesma
+                        maneira, se partirmos das partes
+                        que formam as camadas de apresentação,
+                        lógica de negócio e persistência,
+                        observaremos que elas estão ligadas
+                        à divisão do sistema (e à decisão
+                        arquitetural) que se propõe a atender
+                        a requisitos de manutenibilidade.</para>
+                </example>
+            </section>
+        </section>
+        <section id="cid2">
+            <title>Decisões Arquiteturais</title>
+            <para id="id176238">Em capítulos anteriores,
+                definimos arquitetura de software usando
+                o padrão ISO/IEEE 1471-2000, que diz que
+                ela 
+                <emphasis effect="italics">é a organização
+                    fundamental de um sistema, representada
+                    por seus componentes, seus relacionamentos
+                    com o ambiente, e pelos princípios
+                    que conduzem seu design e evolução</emphasis>.
+                Após a definição, mencionamos também que
+                a arquitetura é composta de diversas decisões
+                de design (no caso, design de alto-nível
+                ou arquitetural) e que cada decisão contém,
+                ao menos em nível conceitual, uma descrição,
+                objetivos e algum argumento ou motivação.
+                Como a arquitetura é formada por decisões
+                arquiteturais, devemos conhecer os tipos
+                de decisões arquiteturais para então sermos
+                capazes de documentar a arquitetura.
+            </para>
+            <para id="id176255">Uma decisão arquitetural,
+                como também já definido anteriormente,
+                <emphasis effect="italics">é uma escolha
+                    entre as alternativas de design arquitetural,
+                    que se propõe a alcançar um ou mais
+                    atributos de qualidade do sistema,
+                    por meio de estruturas ou regras que
+                    ela envolve ou define</emphasis>. Em
+                outras palavras, podemos dizer que uma
+                decisão arquitetural descreve parte do
+                design, onde essa descrição pode: (1) ditar
+                a existência ou inexistência de partes
+                do sistema, (2) especificar propriedades
+                que, durante a construção, partes do sistema
+                devem satisfazer, ou (3) citar técnicas
+                que devem ser seguidas durante a construção
+                de partes do sistema. Podemos então dividir
+                as decisões arquiteturais em:
+            </para>
+            <list id="id176272" display="block" list-type="bulleted">
+                <item id="uid31">Decisões arquiteturais
+                    existenciais (e não-existenciais);
+                    </item>
+                <item id="uid32">Decisões arquiteturais
+                    de propriedades; e </item>
+                <item id="uid33">Decisões arquiteturais
+                    executivas. </item>
+            </list>
+            <section id="uid34">
+                <title>Decisões existenciais</title>
+                <para id="id176322">Uma decisão existencial
+                    é aquela que indica a presença de um
+                    ou vários elementos arquiteturais no
+                    design e na implementação.</para>
+                <para id="id176327">Os elementos arquiteturais
+                    já foram apresentados anteriormente,
+                    mas vamos relembrá-los aqui. Estes
+                    elementos são as partes em que o software
+                    é dividido e podem ser classificados
+                    em dois tipos: elementos arquiteturais
+                    estáticos e elementos arquiteturais
+                    dinâmicos. Os elementos estáticos descrevem
+                    a estrutura do sistema em tempo de
+                    design e são constituídos de elementos
+                    de software (por exemplo, classes,
+                    pacotes, procedimentos, serviços remotos),
+                    elementos de dados (por exemplo, entidades
+                    e tabelas de bancos de dados, arquivos
+                    ou classes de dados), e elementos de
+                    hardware (por exemplo, servidores em
+                    que o sistema vai executar ou armazenar
+                    dados). Por sua vez, os elementos dinâmicos
+                    descrevem o comportamento do sistema
+                    em tempo de execução e entre eles podemos
+                    incluir processos, módulos, protocolos,
+                    ou classes que realizam comportamento.
+                    Note que as relações entre os elementos
+                    arquiteturais, tanto estáticos quanto
+                    dinâmicos, são representadas também
+                    como elementos arquiteturais. Estes
+                    elementos são chamados de conectores
+                    e podem ser associações, composições,
+                    generalizações, entre outros.</para>
+                <para id="id176347">No 
+                    <link target-id="eip-225"/>, observamos
+                    uma decisão arquitetural que divide
+                    o SASF em diversos módulos menores,
+                    constituindo assim uma decisão existencial
+                    que define diversos elementos e as
+                    relações entre si.
+                </para>
+                <para id="id176357">Já no 
+                    <link target-id="eip-73"/>, observamos
+                    uma decisão arquitetural que também
+                    dita a presença de elementos na arquitetura
+                    do SASF. No entanto, ao contrário do
+                    exemplo citado anteriormente que dita
+                    elementos estruturais do software,
+                    o 
+                    <link target-id="eip-73"/> dita elementos
+                    comportamentais esperados nele. Assim,
+                    podemos encontrar decisões existenciais
+                    que sejam decisões estruturais ou comportamentais.
+                    As decisões comportamentais são mais
+                    relacionadas à implementação dos requisitos
+                    de qualidade.
+                </para>
+                <example id="eip-73">
+                    <label>Exemplo</label>
+                    <para id="eip-id7418954">[Decisão Arquitetural
+                        005] Os dados do 
+                        <emphasis effect="italics">Cadastro
+                            de Usuários</emphasis> e do
+                        <emphasis effect="italics">Cadastro
+                            de Filmes</emphasis> devem
+                        ser particionados horizontalmente.
+                    </para>
+                    <para id="eip-id8536179">
+                        <emphasis effect="italics">Objetivo</emphasis>:
+                        Distribuir carga, melhorar o desempenho
+                        e aumentar o número de pontos de
+                        falhas.
+                    </para>
+                    <para id="eip-id1170497465295">
+                        <emphasis effect="italics">Motivação</emphasis>:
+                        Ao particionar horizontalmente
+                        os dados, permite-se a distribuição
+                        da carga de requisições entre vários
+                        servidores de armazenamento, que
+                        estarão executando instâncias do
+                        SGBDR. Com menor carga, o desempenho
+                        pode ser melhorado. Além disso,
+                        caso uma partição fique inacessível
+                        (por falha, por exemplo), parte
+                        dos dados ainda estarão acessíveis,
+                        não inviabilizando o sistema por
+                        completo.
+                    </para>
+                </example>
+                <para id="id176418">Na prática, é importante
+                    observarmos que a divisão entre decisões
+                    estruturais e comportamentais não é
+                    absoluta. Podemos encontrar decisões
+                    que, para descrever um comportamento,
+                    necessitem de novas estruturas arquiteturais.
+                    Assim, por conveniência, é melhor descrever
+                    estas novas estruturas na própria decisão
+                    comportamental do que documentar uma
+                    nova decisão estrutural. Podemos observar
+                    este caso no exemplo anterior, onde
+                    descrevemos as partições do conjunto
+                    de dados para então descrever o comportamento
+                    de particionamento dos dados e assim
+                    conseguir algum nível de escalabilidade
+                    horizontal.</para>
+                <para id="id176426">Por outro lado, há
+                    decisões que proíbem a existência de
+                    elementos arquiteturais. Essas decisões
+                    são chamadas de decisões não-existenciais
+                    e elas servem para restringir as alternativas
+                    de design de baixo nível. Alguns padrões
+                    arquiteturais, como o 3-
+                    <emphasis effect="italics">tier</emphasis>
+                    ou mesmo o padrão Camadas, proíbem
+                    a comunicação entre alguns dos elementos
+                    que eles descrevem, constituindo decisões
+                    não-existenciais.
+                </para>
+            </section>
+            <section id="uid35">
+                <title>Decisões de propriedades</title>
+                <para id="id176452">Decisões de propriedades
+                    não determinam a existência de partes
+                    do software, mas apresentam alguma
+                    qualidade ou característica que uma
+                    ou mais partes devem exibir. O papel
+                    deste tipo de decisão é o de guiar
+                    tanto o design de baixo nível, quanto
+                    a implementação, uma vez que descreve
+                    os princípios e regras ou restrições
+                    de design que devem ser respeitadas
+                    ao longo do desenvolvimento.</para>
+                <para id="id176460">Os exemplos mais comuns
+                    de decisões de propriedades são as
+                    decisões sobre preocupações transversais
+                    ao software, como por exemplo, decisões
+                    de 
+                    <emphasis effect="italics">logging</emphasis>,
+                    decisões de tolerância a faltas ou
+                    mesmo decisões sobre a precisão na
+                    obtenção dos resultados. Podemos observar
+                    uma ilustração mais completa deste
+                    tipo de decisão nos exemplos a seguir
+                    (<link target-id="eip-634"/> e 
+                    <link target-id="eip-844"/>). Note
+                    que, em ambos os exemplos, as decisões
+                    não descrevem a existência de elementos
+                    que devem estar na arquitetura, mas
+                    descrevem as propriedades de elementos
+                    arquiteturais que foram descritos em
+                    outras decisões.
+                </para>
+                <example id="eip-634">
+                    <label>Exemplo</label>
+                    <para id="eip-id8019756"> [Decisão
+                        Arquitetural 008] Os métodos públicos
+                        de cada serviço que implementa
+                        os módulos descritos na [Decisão
+                        Arquitetural 001] devem seguir
+                        as seguintes regras de 
+                        <emphasis effect="italics">logging</emphasis>:
+                        
+                    </para>
+                    <list id="eip-id1170497552860" display="block">
+                        <item id="uid32226">Deve-se registrar
+                            todos os parâmetros das chamadas
+                            em nível de 
+                            <emphasis effect="italics">DEBUG</emphasis>.
+                            Este modo deve poder ser ligado
+                            ou desligado em tempo de execução.
+                            
+                        </item>
+                        <item id="uid222237">Todas as exceções
+                            lançadas devem ser logadas
+                            em nível de 
+                            <emphasis effect="italics">ERROR</emphasis>
+                            e registrar os parâmetros usados
+                            durante a execução. 
+                        </item>
+                        <item id="uid222238">Os tempos
+                            de execução de cada chamada
+                            ao método devem ser registrados,
+                            para possibilitar a monitoração
+                            de desempenho do sistema. O
+                            canal de 
+                            <emphasis effect="italics">logging</emphasis>
+                            utilizado neste caso deve ser
+                            especializado para coleta de
+                            métricas de desempenho. 
+                        </item>
+                    </list>
+                    <para id="eip-id1170501642199">
+                        <emphasis effect="italics">Objetivo</emphasis>:
+                        Estas regras facilitam a operabilidade
+                        do sistema.
+                    </para>
+                    <para id="eip-id1170489941133">
+                        <emphasis effect="italics">Motivação</emphasis>:
+                        O registro dos acontecimentos inesperados
+                        no sistema facilita o diagnóstico
+                        dos problemas e a possibilidade
+                        de aumentar o nível de detalhe
+                        dos registros em tempo de execução
+                        permite que esse diagnóstico seja
+                        mais rápido. Por outro lado, o
+                        registro de métricas de desempenho
+                        do sistema permite análise de capacidade,
+                        podendo indicar se o sistema está
+                        precisando de mais recursos computacionais.
+                    </para>
+                </example>
+                <example id="eip-844">
+                    <label>Exemplo</label>
+                    <para id="eip-id1172235883444">[Decisão
+                        Arquitetural 010] Os serviços que
+                        implementam os módulos descritos
+                        na [Decisão Arquitetural 001] devem
+                        ser replicados, evitando assim
+                        pontos únicos de falha. Para facilitar
+                        a replicação, os módulos não devem
+                        manter estado, delegando esta responsabilidade
+                        aos serviços de armazenamento.</para>
+                    <para id="eip-id1172235864194">
+                        <emphasis effect="italics">Objetivo</emphasis>:
+                        Replicando instâncias de serviços,
+                        elimina-se os pontos únicos de
+                        falha, aumentando a confiabilidade
+                        do sistema e a tolerância a faltas.
+                    </para>
+                    <para id="eip-id1172235982709">
+                        <emphasis effect="italics">Motivação</emphasis>:
+                        Implementando serviços 
+                        <emphasis effect="italics">stateless</emphasis>,
+                        a replicação fica trivial, uma
+                        vez que a requisição pode usar
+                        qualquer uma das réplicas ativas.
+                        Note que é sempre necessário o
+                        registro no balanceador de carga
+                        da uma nova réplica em execução.
+                        Serviços de armazenamento não podem
+                        utilizar esta técnica sem adaptações,
+                        uma vez que dados são fundamentalmente
+                        <emphasis effect="italics">stateful</emphasis>.
+                    </para>
+                </example>
+            </section>
+            <section id="uid39">
+                <title>Decisões executivas</title>
+                <para id="id176640">A última classe de
+                    decisões arquiteturais que apresentamos
+                    é a executiva. Este tipo de decisão
+                    está mais relacionado ao processo de
+                    desenvolvimento do que aos elementos
+                    de design. Entre as decisões executivas,
+                    podemos encontrar decisões que descrevem:
+                    a metodologia utilizada durante desenvolvimento,
+                    como o time está dividido durante a
+                    implementação do sistema, como o treinamento
+                    de novos membros deve ocorrer, ou quais
+                    tecnologias e ferramentas devem ser
+                    adotadas para auxiliar o processo.
+                    Os exemplos a seguir mostram algumas
+                    decisões executivas.</para>
+                <example id="eip-637">
+                    <label>Exemplo</label>
+                    <para id="eip-id1165306575820">Neste
+                        exemplo, apresentamos uma decisão
+                        hipotética do software 
+                        <emphasis effect="italics">Vuze</emphasis><footnote id="uid23240">
+                            <emphasis effect="italics">Vuze</emphasis>:
+                            <link url="http://www.vuze.com/">http://www.vuze.com/</link>
+                        </footnote>.
+                    </para>
+                    <para id="eip-id1165305798916">
+                        <emphasis effect="italics">(Decisão
+                            Arquitetural 001)</emphasis>.
+                        O software será escrito usando
+                        a linguagem de programação Java.
+                    </para>
+                    <para id="eip-id1165304547946">
+                        <emphasis effect="italics">Objetivo</emphasis>:
+                        Permitir a portabilidade para vários
+                        sistemas operacionais.
+                    </para>
+                    <para id="eip-id1165300150458">
+                        <emphasis effect="italics">Motivação</emphasis>:
+                        Como um dos objetivos do 
+                        <emphasis effect="italics">Vuze</emphasis>
+                        é alcançar o maior número de usuários
+                        possível, não queremos impor a
+                        barreira de instalação em um ou
+                        outro sistema operacional específico.
+                        Uma vez que programas escritos
+                        em Java podem executar em qualquer
+                        sistema operacional que seja capaz
+                        de executar a Máquina Virtual Java
+                        (JVM) e que a maioria dos sistemas
+                        para usuários finais já dispõem
+                        da JVM, esta linguagem deve ser
+                        usada para poupar o trabalho de
+                        portar o Vuze para diferentes sistemas.
+                    </para>
+                </example>
+                <example id="eip-473">
+                    <label>Exemplo</label>
+                    <para id="eip-id8090542">[Decisão Arquitetural
+                        011] O time de desenvolvimento
+                        será dividido em equipes menores
+                        e cada equipe será responsável
+                        pela implementação do serviço responsável
+                        pelas funcionalidades de módulo
+                        descrito na [Decisão Arquitetural
+                        001].</para>
+                    <para id="eip-id7415731">
+                        <emphasis effect="italics">Objetivo</emphasis>:
+                        Minimizar o tempo de desenvolvimento.
+                    </para>
+                    <para id="eip-id3297566">
+                        <emphasis effect="italics">Motivação</emphasis>:
+                        A possibilidade de paralelizar
+                        o desenvolvimento pode diminuir
+                        o tempo total de construção do
+                        software. No entanto, deve-se respeitar
+                        as decisões arquiteturais que definem
+                        as interfaces entre os módulos,
+                        para que sua integração seja facilitada.
+                        endexample
+                    </para>
+                </example>
+            </section>
+            <section id="uid41">
+                <title>Atributos das decisões arquiteturais</title>
+                <para id="id176750">No capítulo de fundamentos
+                    de arquitetura, mostramos que as decisões
+                    arquiteturais devem possuir uma descrição,
+                    objetivos e alguma fundamentação. Estes
+                    atributos se tornam essenciais ao processo
+                    de design das decisões, pois representam,
+                    respectivamente, 
+                    <emphasis effect="italics">o que deve
+                        ser feito</emphasis>, 
+                    <emphasis effect="italics">para que
+                        deve ser feito</emphasis> e a 
+                    <emphasis effect="italics">justificativa
+                        da solução</emphasis>. No entanto,
+                    há outros atributos que são especialmente
+                    úteis quando precisamos documentar
+                    as decisões arquiteturais. São eles
+                    o escopo, o histórico, o estado atual
+                    e as categorias da decisão arquitetural.
+                </para>
+                <para id="id176778">Entre as vantagens
+                    que eles proporcionam, podemos dizer
+                    que esses atributos facilitam a manutenção
+                    de um registro histórico das decisões
+                    e a rastreabilidade entre requisitos
+                    e elementos do software. A seguir,
+                    mostramos cada atributo de uma decisão
+                    arquitetural separadamente:</para>
+                <section id="uid42">
+                    <title>Descrição</title>
+                    <para id="id176795">O atributo de descrição,
+                        como já mencionamos no capítulo
+                        de fundamentos, é simplesmente
+                        a descrição da decisão, que mostra
+                        o que foi decidido na arquitetura.
+                        Na descrição, podemos encontrar
+                        (1) quais elementos arquiteturais
+                        devem estar presentes, caso seja
+                        uma decisão existencial; (2) quais
+                        propriedades devem se manifestar
+                        nos elementos ou quais regras ou
+                        princípios de design devem ser
+                        seguidos, caso seja uma decisão
+                        de propriedade; ou (3) qual metodologia
+                        deve ser seguida, como o time deve
+                        ser dividido para a implementação
+                        dos módulos ou qual ferramenta
+                        deve ser utilizada para integração,
+                        caso seja uma decisão executiva.</para>
+                    <para id="id176806">A descrição pode
+                        ser representada usando diversas
+                        linguagens, podendo ser textuais
+                        ou gráficas e formais ou informais.
+                        A escolha da linguagem que será
+                        utilizada na descrição depende
+                        dos objetivos da decisão e dos
+                        stakeholders interessados. Se,
+                        entre os seus objetivos, queremos
+                        que a decisão permita também geração
+                        automática de parte da implementação,
+                        análise baseada em modelos ou simulações,
+                        ou verificação de conformidade,
+                        a descrição deve utilizar linguagens
+                        formais ou semiformais que facilitam
+                        estas atividades. Por outro lado,
+                        se esperamos que a decisão apenas
+                        informe que elementos devem estar
+                        na arquitetura e suas características,
+                        mas não esperamos geração, análise
+                        ou verificação automáticas, linguagens
+                        semiformais ou mesmo informais
+                        podem ser utilizadas, como a língua
+                        Portuguesa ou diagramas “caixas
+                        e setas”, desde que a ambiguidade
+                        seja evitada por meio de legendas
+                        ou explicações mais detalhadas.</para>
+                    <para id="id176825">Vale observar que
+                        tanto a utilização de linguagens
+                        formais, quanto a utilização de
+                        linguagens informais na descrição
+                        proporcionam vantagens e desvantagens
+                        que devem ser consideradas durante
+                        o processo de documentação. Ao
+                        utilizarmos linguagens formais,
+                        permitimos a automatização de processos,
+                        que podem poupar bastante trabalho
+                        durante o desenvolvimento. Por
+                        outro lado, não são todos os stakeholders
+                        que as entendem perfeitamente,
+                        podendo restringir assim o entendimento
+                        da decisão.</para>
+                    <para id="id176834">As linguagens informais,
+                        por sua vez, têm como vantagem
+                        a maior facilidade de entendimento
+                        por parte dos stakeholders (inclusive
+                        não-técnicos, como gerentes, clientes
+                        e até usuários). No entanto, o
+                        entendimento só é facilitado se
+                        a descrição evitar ambiguidades,
+                        que são comuns em linguagens informais.</para>
+                    <para id="id176843">Uma forma de se
+                        conseguir mais vantagens nas decisões
+                        seria utilizar tanto linguagens
+                        formais quanto informais nas descrições
+                        das decisões. Nada impede que isso
+                        seja feito, obtendo assim precisão
+                        na descrição, possibilidade de
+                        atividades automatizadas, e entendimento
+                        por parte dos stakeholders técnicos
+                        e não-técnicos. O problema reside
+                        apenas na grande quantidade trabalho
+                        empregado ao descrever cada decisão
+                        com duas ou mais linguagens e,
+                        ainda por cima, ter que manter
+                        a consistência da descrição entre
+                        elas.</para>
+                    <para id="id176852">A seguir, mostramos
+                        a descrição da decisão arquitetural
+                        já apresentada no 
+                        <link document="m17524" target-id="id95187e">Exemplo
+                            10 do capítulo de fundamentos</link>
+                        usando diferentes linguagens diferentes.
+                        O primeiro exemplo mostra a decisão
+                        escrita em Português.
+                    </para>
+                    <para id="id176861">
+                        <example id="eip-id18653510">
+                            <label>Exemplo</label>
+                            <para id="eip-id18653512">
+                                [Decisão Arquitetural 001]
+                                A arquitetura do SASF é
+                                dividida em três camadas
+                                lógicas: apresentação,
+                                lógica de negócio e persistência
+                                de dados. A camada de apresentação
+                                se comunica apenas com
+                                a lógica de negócio e apenas
+                                a lógica de negócio de
+                                comunica com a camada de
+                                persistência de dados.
+                                </para>
+                        </example>
+                    </para>
+                    <para id="id176869">Já o exemplo a
+                        seguir mostra a descrição usando
+                        também um código que pode ser interpretado
+                        pela ferramenta 
+                        <emphasis effect="italics">DesignWizard</emphasis><footnote id="uid43">O artigo 
+                            <emphasis effect="italics">Design
+                                tests: An approach to programmatically
+                                check your code against
+                                design rules</emphasis>
+                            <link target-id="bid4"/>, de
+                            Brunet 
+                            <emphasis effect="italics">et
+                                al</emphasis> contém mais
+                            informações sobre o 
+                            <emphasis effect="italics">DesignWizard</emphasis>.
+                        </footnote> e que permite a verificação
+                        automática de conformidade do código
+                        implementado com a arquitetura.
+                    </para>
+                    <example id="eip-962">
+                        <label>Exemplo</label>
+                        <para id="eip-720">[Decisão Arquitetural
+                            001] A arquitetura do SASF
+                            é dividida em três camadas
+                            lógicas: apresentação, lógica
+                            de negócio e persistência de
+                            dados, que serão mapeadas respectivamente
+                            para os pacotes: 
+                            <emphasis effect="italics">com.sasf.webui</emphasis>,
+                            <emphasis effect="italics">com.sasf.service</emphasis>,
+                            <emphasis effect="italics">com.sasf.storage</emphasis>.
+                            Os testes presentes na 
+                            <link target-id="eip-446">listagem
+                                a seguir</link>, que podem
+                            ser executados usando o 
+                            <emphasis effect="italics">DesignWizard</emphasis>,
+                            descrevem as regras de comunicação
+                            entre as camadas. 
+                        </para>
+                        <code id="eip-446" display="block">public class ThreeTierDesignTest extends TestCase {
+  public void test_communication_web_ui_and_services() {
+    String sasfClassesDir =
+        System.getProperties("sasf.classes.directory");
+    DesignWizard dw = new DesignWizard(sasfClassesDir);
+    PackageNode services =
+        dw.getPackage("com.sasf.service");
+    PackageNode webUI = dw.getPackage("com.sasf.webui");
+    Set&lt;PackageNode&gt; callers =
+        services.getCallerPackages();
+    for (PackageNode caller : callers) {
+      assertTrue(caller.equals(webUI));
+    }
+  }
+
+  public void test_communication_services_and_storage() {
+    String sasfClassesDir =
+        System.getProperties("sasf.classes.directory");
+    DesignWizard dw = new DesignWizard(sasfClassesDir);
+    PackageNode services =
+        dw.getPackage("com.sasf.service");
+    PackageNode storage =
+        dw.getPackage("com.sasf.storage");
+    Set&lt;PackageNode&gt; callers =
+        storage.getCallerPackages();
+    for (PackageNode caller : callers) {
+      assertTrue(caller.equals(services));
+    }
+  }
+
+}<caption>Testes para comunicação entre tiers.</caption></code>
+                    </example>
+                </section>
+                <section id="uid44">
+                    <title>Objetivo</title>
+                    <para id="id177276">O objetivo da decisão
+                        serve para registrarmos o motivo
+                        da decisão estar sendo tomada.
+                        Como decisões de design são conduzidas
+                        por requisitos, sejam eles funcionais
+                        ou de qualidade, a identificação
+                        dos requisitos deve estar presente
+                        neste atributo. Os objetivos das
+                        decisões arquiteturais ajudam na
+                        rastreabilidade da arquitetura.</para>
+                    <para id="id177284">No 
+                        <link target-id="eip-16"/>, percebemos
+                        duas formas de menção aos requisitos
+                        implementados pela decisão. A primeira
+                        forma é presença o identificador
+                        do requisito de qualidade, RNF-01.
+                        Já a outra forma é uma breve descrição
+                        do requisito alcançado.
+                    </para>
+                    <example id="eip-16">
+                        <label>Exemplo</label>
+                        <para id="eip-id13127497">(continuação
+                            da [Decisão Arquitetural 001])
+                            </para>
+                        <para id="eip-id8038554">
+                            <emphasis effect="italics">Objetivo</emphasis>:
+                            Atendimento ao requisito não-funcional:
+                            RNF-01. Esta divisão diminui
+                            o acoplamento entre os elementos
+                            internos da arquitetura, facilitando
+                            o desenvolvimento e a manutenção.
+                            
+                        </para>
+                    </example>
+                </section>
+                <section id="uid45">
+                    <title>Fundamentação</title>
+                    <para id="id177321">Uma decisão arquitetural
+                        deve ser tomada com alguma fundamentação,
+                        seja ela uma análise das alternativas
+                        de design, baseada na experiência
+                        prévia do arquiteto, ou baseada
+                        em padrões de design. Esta fundamentação
+                        resulta no julgamento das vantagens
+                        e desvantagens das alternativas
+                        e servem para justificar a solução
+                        proposta.</para>
+                    <para id="id177329">No atributo fundamentação,
+                        registramos a justificativa da
+                        decisão para que haja um registro
+                        histórico das motivações e considerações
+                        feitas pelo arquiteto para chegar
+                        à solução de design. Este registro
+                        é essencial para que este tipo
+                        de informação não seja esquecido
+                        ao longo do ciclo de vida do software,
+                        pois é importante para o seu processo
+                        de evolução.</para>
+                    <para id="id177338">Por exemplo, durante
+                        uma atividade de refatoração do
+                        código, um novo desenvolvedor pode
+                        se interessar pelo motivo de um
+                        módulo ter sido criado aparentemente
+                        de forma desnecessária. Se não
+                        existir algum tipo de registro
+                        do motivo para existência do módulo
+                        em questão, o novo desenvolvedor
+                        pode, simplesmente, modificá-lo
+                        ou mesmo removê-lo ignorante dos
+                        efeitos que pode causar no design.</para>
+                    <para id="id177347">A fundamentação
+                        é normalmente feita por meio de
+                        uma descrição textual, mas deve
+                        possuir referências a outros documentos
+                        e a outras decisões arquiteturais
+                        relacionadas. O exemplo a seguir
+                        ilustra a fundamentação de uma
+                        decisão arquitetural.</para>
+                    <example id="eip-321">
+                        <label>Exemplo</label>
+                        <para id="eip-id1170495194813">
+                            (continuação da [Decisão Arquitetural
+                            001]) </para>
+                        <para id="eip-id7424203">
+                            <emphasis effect="italics">Motivação:</emphasis>
+                            Projetar os elementos internos
+                            do sistema de modo que cada
+                            um pertença a apenas uma camada
+                            lógica ajuda a aumentar a coesão
+                            e diminuir o acoplamento. A
+                            coesão aumenta, pois cada elemento
+                            será desenvolvido com o objetivo
+                            de ser parte da apresentação,
+                            da lógica ou da persistência
+                            do sistema. Dessa maneira,
+                            cada elemento terá sua responsabilidade
+                            bem definida, mesmo que em
+                            alto nível. Como a comunicação
+                            entre as camadas é pré-definida,
+                            a de seus elementos também
+                            é: elementos da camada de apresentação
+                            não se comunicarão com elementos
+                            da camada de persistência,
+                            por exemplo. Assim, o acoplamento
+                            entre elementos internos será
+                            análogo ao acoplamento entre
+                            camadas. Com o baixo acoplamento,
+                            o desenvolvimento e a manutenção
+                            dos elementos também é facilitado,
+                            seja por possibilitar o desenvolvimento
+                            independente, seja por mudanças
+                            em um elemento terem menor
+                            impacto nos outros. 
+                        </para>
+                    </example>
+                    <para id="id177383">É importante observar
+                        que uma decisão arquitetural pode
+                        estar relacionada a mais de um
+                        atributo de qualidade e, como veremos
+                        a seguir, a mais de uma categoria.
+                        Isso ocorre porque decisões arquiteturais
+                        se interrelacionam da mesma forma
+                        que os atributos de qualidade e
+                        os requisitos impostos pelos stakeholders.
+                        Portanto, é na fundamentação que
+                        devemos também descrever as relações
+                        entre as decisões arquiteturais,
+                        ou seja, se uma decisão restringe,
+                        proíbe, possibilita, conflita,
+                        sobrepõe, compõe ou é composta
+                        de, depende de, ou é uma alternativa
+                        a outras decisões.</para>
+                </section>
+                <section id="uid46">
+                    <title>Escopo</title>
+                    <para id="id177406">Nem todas as decisões
+                        arquiteturais são válidas durante
+                        todo o ciclo de vida do software
+                        ou válidas em todos os módulos
+                        que o compõem. Por isso, surge
+                        a necessidade de registrar o escopo
+                        da decisão. Este registro tipo
+                        de registro se torna importante
+                        em decisões de propriedades, uma
+                        vez que normalmente tratam de preocupações
+                        transversais e abrangem grandes
+                        partes do sistema, e em decisões
+                        executivas, que devem, por exemplo,
+                        especificar quais etapas do processo
+                        de desenvolvimento devem usar tais
+                        metodologias.</para>
+                    <para id="id177415">O 
+                        <link target-id="eip-26"/>, a seguir,
+                        descreve o escopo da Decisão Arquitetural
+                        001, que é bem abrangente. Já no
+                        <link target-id="eip-484"/>, podemos
+                        observar que o escopo da decisão
+                        de usar JMX<footnote id="uid47">
+                            <emphasis effect="italics">Java
+                                Management Extensions</emphasis>
+                            (JMX): <link url="http://java.sun.com/products/JavaManagement/">http://java.sun.com/products/JavaManagement/</link>
+                        </footnote> como tecnologia de
+                        monitoração é mais limitado.
+                    </para>
+                    <example id="eip-26">
+                        <label>Exemplo</label>
+                        <para id="eip-837"> (continuação
+                            da [Decisão Arquitetural 001])
+                            </para>
+                        <para id="eip-id9498673">
+                            <emphasis effect="italics">Escopo</emphasis>:
+                            Esta decisão é válida para
+                            todos os serviços que implementam
+                            lógica e que têm interface
+                            com o usuário.
+                        </para>
+                    </example>
+                    <example id="eip-484">
+                        <label>Exemplo</label>
+                        <para id="eip-850">
+                            <emphasis effect="italics">Escopo</emphasis>:
+                            A decisão de usar JMX para
+                            exposição das métricas de desempenho
+                            só é válida para os casos definidos
+                            na [Decisão Arquitetural 008].
+                            
+                        </para>
+                    </example>
+                </section>
+                <section id="uid48">
+                    <title>Histórico</title>
+                    <para id="id177659">A documentação
+                        da arquitetura, assim como o que
+                        ela representa, evolui ao longo
+                        do tempo. Decisões são tomadas,
+                        avaliadas, modificadas ou mesmo
+                        contestadas ao longo do ciclo de
+                        vida da arquitetura. Portanto,
+                        é de se esperar que exista um registro
+                        histórico da evolução de cada decisão
+                        arquitetural. Por isso consideramos
+                        o atributo histórico.</para>
+                    <para id="id177667">O atributo histórico
+                        deve conter, para cada modificação
+                        da decisão, uma marca de tempo,
+                        o autor da modificação e um resumo
+                        da modificação. Se o documento
+                        estiver armazenado em um wiki ou
+                        outra forma eletrônica, o histórico
+                        pode conter links para as versões
+                        anteriores da decisão.</para>
+                    <para id="id177676">O 
+                        <link target-id="eip-550"/> ilustra
+                        o registro histórico da Decisão
+                        Arquitetural 001.
+                    </para>
+                    <example id="eip-550">
+                        <label>Exemplo</label>
+                        <para id="eip-570"> (continuação
+                            da [Decisão Arquitetural 001])
+                            </para>
+                        <para id="eip-id1164067780606">
+                            <emphasis effect="italics">Histórico</emphasis>:
+                            <emphasis effect="italics">sugerida</emphasis>
+                            (G. Germoglio, 2009/07/15);
+                            <emphasis effect="italics">revisada</emphasis>,
+                            “Escopo modificado.” (G. Germoglio,
+                            2009/07/17); 
+                            <emphasis effect="italics">aprovada</emphasis>
+                            (J. Sauvé, 2009/07/18).
+                        </para>
+                    </example>
+                </section>
+                <section id="uid49">
+                    <title>Estado Atual</title>
+                    <para id="id177725">O atributo estado
+                        atual de uma decisão serve para
+                        permitir mais uma dimensão de organização
+                        das decisões. Da mesma forma que
+                        as decisões evoluem ao longo do
+                        tempo, elas podem ter diversos
+                        estados que merecem ser registrados.
+                        Como o conjunto de estados que
+                        podem ser atribuídos a uma decisão
+                        arquitetural depende do processo
+                        de desenvolvimento adotado, citamos
+                        apenas alguns estados mais comuns:</para>
+                    <list id="id177734" display="block" list-type="bulleted">
+                        <item id="uid50">Sugerida: decisão
+                            que ainda não foi avaliada;
+                            </item>
+                        <item id="uid51">Revisada: decisão
+                            sugerida e revisada pelo arquiteto
+                            ou time arquitetural; </item>
+                        <item id="uid52">Aprovada: decisão
+                            sugerida, revisada e aprovada;
+                            </item>
+                        <item id="uid53">Rejeitada: decisão
+                            sugerida, revisada e rejeitada.
+                            Ela deve se manter na documentação
+                            para referências futuras. </item>
+                    </list>
+                </section>
+                <section id="uid54">
+                    <title>Categoria</title>
+                    <para id="id177800">Assim como o estado
+                        atual, o atributo categoria serve
+                        para possibilitar a organização
+                        das decisões arquiteturais em grupos
+                        relacionados. Normalmente, esse
+                        atributo é composto por uma lista
+                        de palavras-chave associadas às
+                        decisões.</para>
+                    <para id="id177807">Esse atributo permite,
+                        por exemplo, que os stakeholders
+                        selecionem decisões relacionadas
+                        a um atributo de qualidade específico.
+                        Portanto, se um membro do grupo
+                        de garantia de qualidade do software
+                        (
+                        <emphasis effect="italics">Software
+                            Quality Assurance</emphasis>
+                        ou SQA) precisa das decisões arquiteturais
+                        necessárias para realizar uma análise
+                        de desempenho do projeto do software,
+                        ele deve procurar pelas decisões
+                        da categoria “desempenho”.
+                    </para>
+                </section>
+            </section>
+        </section>
+        <section id="cid3">
+            <title>Visões arquiteturais</title>
+            <para id="id177832">Como consequência da existência
+                dos diversos interessados na arquitetura
+                e que esses interessados têm diferentes
+                preocupações e diferentes níveis de conhecimento,
+                as decisões arquiteturais não são documentadas
+                da mesma maneira para interessados diferentes.
+                Para resolver este problema, fazemos uso
+                do conceito de múltiplas visões arquiteturais.</para>
+            <para id="id177841">Visões arquiteturais são
+                <emphasis effect="italics">representações
+                    do sistema ou de parte dele da perspectiva
+                    de um conjunto de interesses relacionados</emphasis>.
+                A visões arquiteturais proporcionam vantagens
+                tanto para o processo de design, quanto
+                para a documentação da arquitetura.
+            </para>
+            <para id="id177854">Durante o design, o arquiteto
+                pode se focar em diferentes visões separadamente,
+                podendo abstrair os detalhes desnecessários
+                e só se ater às preocupações da visão corrente.
+                Por exemplo, inicialmente, o arquiteto
+                se pode utilizar de uma visão funcional
+                para projetar os serviços primitivos do
+                sistema que constituirão serviços mais
+                complexos e que, por sua vez, servirão
+                de base para as funcionalidades expostas
+                aos usuários. Em seguida, o arquiteto pode
+                se utilizar de uma visão de concorrência
+                para projetar como as funções serão executadas
+                ao longo do tempo: de forma sequencial
+                ou em paralelo, de forma síncrona ou assíncrona.
+                E, por fim, focando-se numa visão informacional,
+                ele pode definir como os dados estão organizados.</para>
+            <para id="id177871">Por outro lado, durante
+                o processo de documentação, o arquiteto
+                pode documentar as visões com diferentes
+                níveis de detalhes e utilizar diferentes
+                linguagens, uma vez que diferentes visões
+                interessam a diferentes stakeholders.</para>
+            <para id="id177878">As visões são concretizações
+                do que chamamos pontos de vista arquiteturais<footnote id="uid55">
+                    <emphasis effect="italics">Viewpoints</emphasis>,
+                    de acordo com o padrão ISO/IEEE 1471-2000,
+                    ou 
+                    <emphasis effect="italics">viewtypes</emphasis>
+                    (tipos de visão), de acordo com Clements
+                    <emphasis effect="italics">et al</emphasis>
+                    em 
+                    <emphasis effect="italics">Documenting
+                        Software Architectures: Views and
+                        Beyond</emphasis>.
+                </footnote>. Um ponto de vista arquitetural
+                é a especificação dos elementos conceituais
+                que devem ser usados para se construir
+                uma visão. Um ponto de vista apresenta
+                também qual o seu propósito e quem são
+                os stakeholders interessados nas visões
+                criadas a partir dele. Em outras palavras,
+                um ponto de vista arquitetural é definido
+                como:
+            </para>
+            <para id="id177921">
+                <definition id="eip-id1164098166080">
+                    <label>Definição</label>
+                    <term>ponto de vista arquitetural</term>
+                    <meaning id="eip-id1164096517696">
+                        É um arcabouço conceitual que define
+                        elementos, conexões e técnicas
+                        que compõem uma visão arquitetural,
+                        além especificar seu propósito
+                        de acordo com seus interessados.
+                        </meaning>
+                </definition>
+            </para>
+            <para id="id177935">Para documentarmos a arquitetura,
+                devemos definir um conjunto pontos de vista
+                que servirão de base para as visões da
+                arquitetura e que estarão presentes no
+                documento. Cada visão terá uma ou mais
+                decisões arquiteturais, que serão descritas
+                a partir dos elementos, conexões e técnicas
+                definidos pelo ponto de vista a que pertence.</para>
+            <para id="id177944">Como já existem diversos
+                conjuntos de pontos de vista prontos para
+                uso na literatura, não há motivo para criarmos
+                o nosso próprio conjunto. Portanto, a seguir,
+                apresentamos alguns conjuntos os quais
+                achamos essencial o conhecimento. São eles:</para>
+            <list id="id177951" display="block" list-type="bulleted">
+                <item id="uid57">4+1 de Kruchten; </item>
+                <item id="uid58">Pontos de vista de Rozanski
+                    e Woods. </item>
+                <item id="uid59">Pontos de vista do 
+                    <emphasis effect="italics">Software
+                        Engineering Institute</emphasis>;
+                    
+                </item>
+            </list>
+            <section id="uid60">
+                <title>4+1 de Kruchten</title>
+                <para id="id178006">O conjunto de pontos
+                    de vista 4+1 de Kruchten foi descrito
+                    inicialmente no artigo 
+                    <emphasis effect="italics">The 4+1
+                        View Model of Architecture</emphasis>
+                    <link target-id="bid5"/> e é um dos
+                    primeiros a serem descritos na literatura.
+                    Inicialmente, os pontos de vista são
+                    chamados pelo autor de visões. No entanto,
+                    se analisarmos a definição e o uso
+                    das visões empregados pelo autor, percebemos
+                    ela são compatíveis com nossas definições
+                    e usos dos pontos de vista.
+                </para>
+                <para id="id178026">O conjunto é composto
+                    por quatro pontos de vista, sendo cada
+                    um especializado em um aspecto da arquitetura,
+                    e um ponto de vista redundante, que
+                    contém cenários de uso. Os pontos de
+                    vista mais relevantes desse conjunto
+                    são: 
+                    <emphasis effect="italics">Lógico</emphasis>,
+                    <emphasis effect="italics">de Processos</emphasis>,
+                    <emphasis effect="italics">de Desenvolvimento</emphasis>
+                    e 
+                    <emphasis effect="italics">Físico</emphasis>.
+                    Como o conjunto de Rozanski e Woods
+                    é uma evolução do 4+1, ao descrevê-lo
+                    na seção a seguir, apresentaremos melhor
+                    os pontos de vista de Kruchten.
+                </para>
+            </section>
+            <section id="uid61">
+                <title>
+                    <emphasis effect="italics">Viewpoints</emphasis>
+                    de Rozanski e Woods
+                </title>
+                <para id="id178076">Outro conjunto importante
+                    de pontos de vista é o descrito por
+                    Rozanski e Woods no livro 
+                    <emphasis effect="italics">Software
+                        Systems Architecture: Working With
+                        Stakeholders Using Viewpoints and
+                        Perspectives</emphasis>
+                    <link target-id="bid6"/>. Ele é uma
+                    evolução do conjunto 4+1, pois adiciona
+                    dois novos pontos de vista ao conjunto
+                    de Kruchten, e provê mais informações
+                    que ajudam no design do que na documentação.
+                </para>
+                <para id="id178095">Os pontos de vista
+                    presentes neste conjunto são:</para>
+                <list id="id178099" display="block" list-type="bulleted">
+                    <item id="uid62">
+                        <emphasis effect="italics">Funcional</emphasis>:
+                        representa o aspecto funcional
+                        do software descrito. Visões derivadas
+                        deste ponto de vista contêm decisões
+                        sobre as funções presentes no software
+                        e os módulos e submódulos que implementam
+                        essas funções. Este ponto de vista
+                        é especializado em mostrar a estrutura
+                        estática do software, mostrando
+                        suas partes, suas relações e suas
+                        interfaces. Seu equivalente no
+                        conjunto de Kruchten é o ponto
+                        de vista Lógico. 
+                    </item>
+                    <item id="uid63">
+                        <emphasis effect="italics">de Concorrência</emphasis>:
+                        representa os aspectos dinâmicos
+                        e comportamentais do software.
+                        Visões derivadas deste ponto de
+                        vista contêm decisões sobre concorrência,
+                        sincronia ou assincronia de chamadas
+                        e aspectos temporais em geral do
+                        software e de suas funções. Seu
+                        equivalente no conjunto de Kruchten
+                        é o ponto de vista de Processo.
+                        
+                    </item>
+                    <item id="uid64">
+                        <emphasis effect="italics">de Desenvolvimento</emphasis>:
+                        representa os aspectos e relações
+                        entre os stakeholders e o processo
+                        de desenvolvimento do software.
+                        Visões derivadas deste ponto de
+                        vista contêm decisões de divisões
+                        de módulos, subsistemas, pacotes
+                        e classes e decisões sobre a atribuição
+                        de tarefas de construção, teste
+                        e reuso de partes do sistema aos
+                        participantes da equipe de desenvolvimento.
+                        Seu equivalente no conjunto de
+                        Kruchten é homônimo. 
+                    </item>
+                    <item id="uid65">
+                        <emphasis effect="italics">de Implantação</emphasis>:
+                        representa os aspectos de implantação
+                        do software e suas relações com
+                        o ambiente físico. Visões derivadas
+                        deste ponto de vista contêm decisões
+                        de quantos servidores serão necessários
+                        para execução de um serviço ou
+                        como os diferentes serviços são
+                        implantados ou atualizados durante
+                        o ciclo de vida do software. Seu
+                        equivalente no conjunto 4+1 é o
+                        ponto de vista Físico. 
+                    </item>
+                    <item id="uid66">
+                        <emphasis effect="italics">Informacional</emphasis>:
+                        representa os aspectos relacionados
+                        aos dados presentes no software.
+                        Visões derivadas deste ponto de
+                        vista contêm decisões sobre o modelo
+                        de dados e sobre o armazenamento,
+                        manipulação, gerenciamento e distribuição
+                        das informações ao longo da vida
+                        do sistema em produção. 
+                    </item>
+                    <item id="uid67">
+                        <emphasis effect="italics">Operacional</emphasis>:
+                        representa os aspectos operacionais
+                        do software. Ou seja, visões derivadas
+                        deste ponto de vista contêm decisões
+                        com estratégias de execução, administração
+                        e suporte do software em produção.
+                        
+                    </item>
+                </list>
+            </section>
+            <section id="uid68">
+                <title>
+                    <emphasis effect="italics">Viewtypes</emphasis>
+                    do 
+                    <emphasis effect="italics">Software
+                        Engineering Institute</emphasis>
+                    (SEI)
+                </title>
+                <para id="id178253">O último conjunto de
+                    pontos de vista que apresentamos é
+                    o descrito por Clements 
+                    <emphasis effect="italics">et al</emphasis>
+                    no livro 
+                    <emphasis effect="italics">Documenting
+                        Software Architectures: Views and
+                        Beyond</emphasis>
+                    <link target-id="bid7"/>. Este conjunto
+                    foi criado com o objetivo de facilitar
+                    a documentação, ao contrário da maioria
+                    descrita na literatura, que têm seu
+                    foco no auxílio do projeto da arquitetura.
+                </para>
+                <para id="id178277">O conjunto do SEI possui
+                    apenas três pontos de vista, que devem
+                    ser especializados por meio dos chamados
+                    estilos arquiteturais. Os pontos de
+                    vista deste conjunto são:</para>
+                <list id="id178283" display="block" list-type="bulleted">
+                    <item id="uid69">
+                        <emphasis effect="italics">de Componentes
+                            e Conectores</emphasis>: este
+                        ponto de vista se preocupa em descrever
+                        os aspectos dinâmicos e de comportamento
+                        e interações entre os elementos
+                        da arquitetura. É nele em que encontramos
+                        os estilos arquiteturais: 
+                        <emphasis effect="italics">Pipes-and-filters</emphasis>,
+                        <emphasis effect="italics">Publish-Subscribe</emphasis>,
+                        Cliente-Servidor, 
+                        <emphasis effect="italics">Peer-to-Peer</emphasis>
+                        e outros. 
+                    </item>
+                    <item id="uid70">
+                        <emphasis effect="italics">de Módulos</emphasis>:
+                        este ponto de vista se preocupa
+                        em descrever a estrutura estática
+                        da arquitetura e em como ela se
+                        divide em unidades de código. O
+                        estilo arquitetural Camadas é uma
+                        especialização desse ponto de vista.
+                        
+                    </item>
+                    <item id="uid71">
+                        <emphasis effect="italics">de Alocação</emphasis>:
+                        este ponto de vista se preocupa
+                        em descrever as relações entre
+                        o software e o seu ambiente. O
+                        ponto de vista de Alocação se especializa
+                        em três aspectos diferentes: aspectos
+                        de implantação, que descreve as
+                        relações entre as partes do software
+                        e os recursos físicos utilizados
+                        (como servidores ou roteadores);
+                        aspectos de implementação, que
+                        descreve o mapeamento das partes
+                        do software e as partes do código
+                        (como pacotes, classes ou estrutura
+                        de diretórios); e aspectos de atribuição
+                        de trabalho, relacionados à distribuição
+                        de responsabilidades do projeto
+                        entre os membros do time de desenvolvimento.
+                        
+                    </item>
+                </list>
+            </section>
+        </section>
+        <section id="cid4">
+            <title>Documentando a Arquitetura</title>
+            <para id="id178376">A partir dos conceitos
+                de decisões, visões e pontos de vista arquiteturais,
+                estamos aptos a registrar o design da arquitetura
+                em um documento. O primeiro passo para
+                sermos capazes de escrever um bom documento
+                arquitetural é conhecer os interessados
+                na arquitetura. Esse conhecimento é um
+                parâmetro fundamental para o processo de
+                escolha dos pontos de vista a serem usados.
+                Depois de definir os pontos de vista relevantes
+                aos stakeholders da arquitetura, devemos
+                então registrar as decisões arquiteturais
+                que descrevem o design em visões derivadas
+                a partir dos pontos de vista escolhidos.</para>
+            <para id="id178385">Devemos observar que os
+                processos de definição dos stakeholders,
+                de escolha dos pontos de vista arquiteturais
+                e de descrição das decisões em visões são
+                dependentes do processo de desenvolvimento
+                seguido pelo time de desenvolvimento. Além
+                disso, apesar de descrevermos separadamente
+                o processo de documentação do processo
+                de design, é possível (e bastante comum)
+                que ocorram em paralelo, uma vez que a
+                documentação e o design se ajudam mutuamente
+                para alcançar seus objetivos.</para>
+            <para id="id178394">Praticamos os conceitos
+                apresentados neste capítulo no Apêndice
+                onde ilustramos o documento de arquitetura
+                do SASF.</para>
+            <section id="uid72">
+                <title>Dificuldades da Documentação</title>
+                <para id="id178411">Apesar dos benefícios
+                    proporcionados pela documentação da
+                    arquitetura, documentá-la não é fácil.
+                    A dificuldade de documentar a arquitetura
+                    reside, principalmente, em três características
+                    que descrevemos a seguir:</para>
+                <list id="id178418" display="block" list-type="bulleted">
+                    <item id="uid73">o documento reflete
+                        o tamanho da solução; </item>
+                    <item id="uid74">o documento reflete
+                        a complexidade do design da solução;
+                        </item>
+                    <item id="uid75">é custoso manter o
+                        documento consistente com o design
+                        atual ao longo do ciclo de vida
+                        do software. </item>
+                </list>
+                <section id="uid76">
+                    <title>O tamanho do documento</title>
+                    <para id="id178470">Projetos de grandes
+                        sistemas de software são os que
+                        mais se beneficiam com o design
+                        e com a documentação da arquitetura.
+                        Isto ocorre porque o design e a
+                        documentação proporcionam orientação
+                        na implementação dos requisitos
+                        de qualidade, ajuda no controle
+                        intelectual sobre a complexidade
+                        da solução e servem de ferramenta
+                        que promove a integridade conceitual
+                        entre os stakeholders.</para>
+                    <para id="id178479">No entanto, um
+                        grande sistema de software implica
+                        numa grande solução de design,
+                        que deve conter muitas decisões
+                        arquiteturais e que devem ser apresentadas
+                        a muitos stakeholders, que demandam
+                        visões diferentes. A consequência
+                        disso é que a arquitetura de um
+                        grande sistema deverá ser apresentada
+                        em um documento extenso.</para>
+                    <para id="id178487">Documentos muito
+                        extensos podem ser fonte de alguns
+                        problemas durante o processo de
+                        desenvolvimento. Entre estes problemas,
+                        podemos citar que eles levam muito
+                        tempo para serem construídos e
+                        que, em geral, geram uma certa
+                        resistência para serem lidos ou
+                        atualizados durante o desenvolvimento.
+                        Se o documento não é lido ou não
+                        é atualizado durante o desenvolvimento
+                        (e isso pode ocorrer porque a arquitetura
+                        pode evoluir ao longo do tempo,
+                        seja a evolução planejada ou não),
+                        ele corre o risco de ficar inconsistente
+                        com a realidade do software, tornando-se
+                        uma fonte de informação inútil
+                        e, portanto, deixando de proporcionar
+                        as vantagens de se projetar e documentar
+                        a arquitetura.</para>
+                </section>
+                <section id="uid77">
+                    <title>A complexidade do documento</title>
+                    <para id="id178509">Tanto o tamanho
+                        do documento quanto a complexidade
+                        do design influenciam na complexidade
+                        do documento da arquitetura. Um
+                        documento muito complexo, que usa
+                        muitas visões e diferentes linguagens
+                        para descrever diferentes aspectos
+                        do software, é difícil de se construir
+                        e de se manter consistente em caso
+                        de mudanças durante a evolução
+                        da arquitetura.</para>
+                    <para id="id178518">Como já mencionamos
+                        anteriormente, existem técnicas
+                        de verificação de conformidade
+                        entre o documento de arquitetura
+                        e o software implementado a partir
+                        dele, que podem ajudar na manutenção
+                        da consistência do documento com
+                        a realidade. No entanto, devemos
+                        nos lembrar que há também o esforço
+                        de se manter as diferentes visões
+                        arquiteturais consistentes entre
+                        si. Isso pode até ser facilitado
+                        se usarmos algumas linguagens específicas
+                        e ferramentas para descrever as
+                        decisões arquiteturais, como a
+                        ferramenta SAVE<footnote id="uid78">Software Architecture
+                            Visualization and Evaluation
+                            (SAVE): <link url="http://fc-md.umd.edu/save/default.asp">http://fc-md.umd.edu/save/default.asp</link></footnote>.
+                        Por outro lado, estas linguagens
+                        não são capazes de descrever todos
+                        os tipos necessários de decisões
+                        arquiteturais e isso limita o processo
+                        de automação na manutenção de consistência
+                        entre visões, tornando-o custoso.
+                    </para>
+                </section>
+                <section id="uid79">
+                    <title>Consistência entre o design
+                        atual e o documento</title>
+                    <para id="id178552">A consistência
+                        entre a implementação e o documento
+                        é condição fundamental para que
+                        o processo de desenvolvimento se
+                        beneficie da arquitetura. Por isso,
+                        deve existir um esforço para a
+                        manutenção desta consistência,
+                        tanto durante a evolução da arquitetura,
+                        quanto durante a implementação
+                        do software. Se a manutenção da
+                        consistência não é realizada, temos
+                        o chamado “deslize arquitetural”
+                        (
+                        <emphasis effect="italics">architectural
+                            drift</emphasis>).
+                    </para>
+                    <para id="id178566">O deslize arquitetural
+                        é a inconsistência entre implementação
+                        do software e o design planejado.
+                        Esta inconsistência tem dois efeitos.
+                        O primeiro é que se a implementação
+                        não está seguindo o que foi planejado,
+                        ela pode também não estar alcançando
+                        os objetivos propostos. Já o segundo,
+                        como foi mencionado anteriormente,
+                        é que a inconsistência do documento
+                        com a realidade do software, inutiliza
+                        o documento, pois o transforma
+                        numa fonte de informação inútil.
+                        Assim, considerando que é custoso
+                        o processo de criação do documento
+                        de arquitetura, todo o trabalho
+                        realizado para tanto pode ter sido
+                        em vão.</para>
+                    <para id="id178574">Para a evitar o
+                        deslize arquitetural, recomenda-se
+                        que sejam periodicamente utilizadas
+                        durante todo o processo de desenvolvimento
+                        técnicas de verificação de conformidade.
+                        Essas técnicas, quando aplicadas,
+                        indicam se a implementação está
+                        de acordo com o design. Há basicamente
+                        dois tipos de técnicas de verificação
+                        de conformidade: as técnicas manuais,
+                        que são baseadas em inspeções do
+                        código; e as técnicas automáticas,
+                        que só podem ser realizadas se
+                        a descrição da arquitetura utilizar
+                        linguagens que permitam esse tipo
+                        de verificação. Assim como os tipos
+                        de análise arquitetural, as técnicas
+                        de verificação manuais são mais
+                        custosas, mas têm um maior alcance,
+                        podendo verificar aspectos do software
+                        que não são formalizados. Já as
+                        técnicas de verificação automáticas,
+                        se beneficiam do baixo custo, mas
+                        são limitadas aos aspectos que
+                        podem ser descritos pelas linguagens
+                        formais que utilizam.</para>
+                </section>
+            </section>
+        </section>
+        <section id="id178596">
+            <title>Resumo</title>
+            <para id="id178603">O objetivo deste livro
+                não é só fazer com que o leitor saiba projetar
+                arquiteturas, mas também que tenha noções
+                de como documentar o projeto. Dessa maneira,
+                o objetivo deste capítulo foi fazer com
+                que o leitor conheça a importância e a
+                técnica primordial da documentação da arquitetura,
+                que é representá-la por meio de múltiplas
+                visões. Assim, esperamos que a partir de
+                agora o leitor, além de conhecer alguns
+                conjuntos de pontos de vista arquiteturais
+                de referência, seja capaz de entender que:</para>
+            <list id="id178612" display="block" list-type="bulleted">
+                <item id="uid80">O documento de arquitetura
+                    auxilia no processo de design, é uma
+                    ferramenta de comunicação entre stakeholders
+                    e pode servir de modelo de análise
+                    do software; </item>
+                <item id="uid81">Toda informação presente
+                    numa arquitetura é uma decisão arquitetural;
+                    </item>
+                <item id="uid82">Decisões arquiteturais
+                    podem ser existenciais, descritivas
+                    ou executivas; </item>
+                <item id="uid83">Decisões arquiteturais
+                    se relacionam, podendo restringir,
+                    impedir, facilitar, compor, conflitar,
+                    ignorar, depender ou ser alternativa
+                    a outras decisões arquiteturais; e
+                    </item>
+                <item id="uid84">Um único diagrama não
+                    é suficiente para conter a quantidade
+                    de informação que deve ser mostrada
+                    por um arquiteto. Por isso, a necessidade
+                    de múltiplas visões arquiteturais;
+                    </item>
+            </list>
+        </section>
+        <section id="id178688">
+            <title>Referências</title>
+            <section id="id178695">
+                <title>Benefícios da documentação</title>
+                <para id="id178702">Muitos autores afirmam
+                    que a documentação do design arquitetural
+                    é benéfica para o processo de desenvolvimento
+                    do software. Além dos trabalhos já
+                    referenciados ao longo do texto, citamos:
+                    o livro 
+                    <emphasis effect="italics">The Art
+                        of Systems Architecting</emphasis>
+                    <link target-id="bid8"/> de Maier e
+                    Rechtin, que descreve os benefícios
+                    proporcionados quando o documento de
+                    arquitetura é consistente entre suas
+                    múltiplas visões; o artigo de Wirfs-Brock,
+                    <emphasis effect="italics">Connecting
+                        Design with Code</emphasis>
+                    <link target-id="bid9"/>, que cita
+                    a importância de documentar as decisões
+                    de design em diversos níveis de detalhe,
+                    inclusive o arquitetural; o livro 
+                    <emphasis effect="italics">Software
+                        Architecture: Foundations, Theory,
+                        and Practice</emphasis>
+                    <link target-id="bid0"/>, de Taylor
+                    <emphasis effect="italics">et al</emphasis>,
+                    que mostra este assunto de forma bem
+                    abrangente; e o livro 
+                    <emphasis effect="italics">Code Complete</emphasis>
+                    <link target-id="bid10"/>, de McConnell,
+                    que afirma a arquitetura é uma ferramenta
+                    para o controle da complexidade do
+                    software.
+                </para>
+            </section>
+            <section id="id178767">
+                <title>Arquitetura como conjunto de decisões</title>
+                <para id="id178774">O documento de arquitetura
+                    descrito como um conjunto de decisões
+                    arquiteturais é o tema de diversos
+                    artigos. Entre eles, podemos citar:
+                    <emphasis effect="italics">Building
+                        Up and Reasoning About Architectural
+                        Knowledge</emphasis>
+                    <link target-id="bid11"/>, 
+                    <emphasis effect="italics">An Ontology
+                        of Architectural Design Decisions
+                        in Software Intensive Systems</emphasis>
+                    <link target-id="bid12"/> e 
+                    <emphasis effect="italics">The Decision
+                        View's Role in Software Architecture
+                        Practice</emphasis>
+                    <link target-id="bid13"/>, de Kruchten
+                    <emphasis effect="italics">et al</emphasis>
+                    e que são focados em descrever a arquitetura
+                    como decisões arquiteturais e em montar
+                    um arcabouço conceitual de como descrever
+                    decisões arquiteturais, propondo inclusive
+                    um ponto de vista neste sentido; 
+                    <emphasis effect="italics">Architecture
+                        Knowledge Management: Challenges,
+                        Approaches, and Tools</emphasis>
+                    <link target-id="bid14"/>, de Babar
+                    e Gorton, que mostram ferramentas para
+                    organizar e documentar as decisões
+                    arquiteturais; e 
+                    <emphasis effect="italics">The Decision
+                        View of Software Architecture</emphasis>
+                    <link target-id="bid15"/>, de Dueñas
+                    e Capilla, e 
+                    <emphasis effect="italics">Software
+                        Architecture as a Set of Architectural
+                        Design Decisions</emphasis>
+                    <link target-id="bid16"/>, de Jansen
+                    e Bosch, que mostram a importância
+                    das decisões na arquitetura.
+                </para>
+            </section>
+            <section id="id178862">
+                <title>Visões e pontos de vista</title>
+                <para id="id178869">Além dos trabalhos
+                    que apresentam conjuntos de pontos
+                    de vista e que já foram referenciados
+                    na Seção 
+                    <link target-id="cid3">"Visões arquiteturais"</link>,
+                    podemos citar o livro 
+                    <emphasis effect="italics">Software
+                        Design</emphasis>
+                    <link target-id="bid17"/>, de Budgen,
+                    que afirma que diferentes representações
+                    lidam com diferentes qualidades e interesses,
+                    além de mostrar alguns benefícios de
+                    se documentar a arquitetura por meio
+                    de visões. Já o artigo 
+                    <emphasis effect="italics">Four Metaphors
+                        of Architecture in Software Organizations:
+                        Finding Out the Meaning of Architecture
+                        in Practice</emphasis>
+                    <link target-id="bid18"/>, de Smolander,
+                    descreve como alguns stakeholders percebem
+                    a arquitetura na prática e assim justifica
+                    o uso de visões arquiteturais. Por
+                    fim, citamos o livro 
+                    <emphasis effect="italics">Applied
+                        Software Architecture</emphasis>
+                    <link target-id="bid19"/>, de Hofmeister
+                    <emphasis effect="italics">et al</emphasis>,
+                    que apresenta mais um conjunto de pontos
+                    de vista.
+                </para>
+            </section>
+            <section id="id178926">
+                <title>Ferramentas para análise</title>
+                <para id="id178933">Em relação a análises
+                    baseadas em inspeções, citamos o livro
+                    da série do SEI, 
+                    <emphasis effect="italics">Evaluating
+                        Software Architectures</emphasis>
+                    <link target-id="bid1"/>, de Clements
+                    <emphasis effect="italics">et al</emphasis>,
+                    que descreve os métodos SAAM, ATAM
+                    e ARID, inclusive com estudos de casos.
+                </para>
+                <para id="id178956">Já sobre ADLs, citamos
+                    dois 
+                    <emphasis effect="italics">surveys</emphasis>
+                    sobre o assunto: um conduzido por Clements,
+                    <emphasis effect="italics">A Survey
+                        of Architecture Description Languages</emphasis>
+                    <link target-id="bid20"/>, e outro
+                    por Taylor e Medvidovic, 
+                    <emphasis effect="italics">A Classification
+                        and Comparison Framework for Software
+                        Architecture Description Languages</emphasis>
+                    <link target-id="bid21"/>.
+                </para>
+                <para id="id178990">E, finalmente, apresentamos
+                    alguns trabalhos sobre verificação
+                    de conformidade: 
+                    <emphasis effect="italics">Software
+                        Reflexion Models: Bridging The
+                        Gap Between Design and Implementation</emphasis>
+                    <link target-id="bid22"/> e 
+                    <emphasis effect="italics">Software
+                        Reflexion Models: Bridging The
+                        Gap Between Source and High-Level
+                        Models</emphasis>
+                    <link target-id="bid23"/>, por Murphy
+                    <emphasis effect="italics">et al</emphasis>;
+                    <emphasis effect="italics">Bridging
+                        the Software Architecture Gap</emphasis>
+                    <link target-id="bid24"/>, de Lindvall
+                    e Muthig; e 
+                    <emphasis effect="italics">Design tests:
+                        An approach to programmatically
+                        check your code against design
+                        rules</emphasis>
+                    <link target-id="bid4"/>, de Brunet
+                    <emphasis effect="italics">et al</emphasis>.
+                </para>
+            </section>
+        </section>
+    </content>
+    <bib:file>
+        <bib:entry id="bid2">
+            <bib:article>
+                <!--required fields-->
+                <bib:author>Allen, Robert and Garlan, David</bib:author>
+                <bib:title>A formal basis for architectural
+                    connection</bib:title>
+                <bib:journal>ACM Trans. Softw. Eng. Methodol.</bib:journal>
+                <bib:year>1997</bib:year>
+                <!--optional fields-->
+                <bib:volume>6</bib:volume>
+                <bib:number>3</bib:number>
+                <bib:pages>213–249</bib:pages>
+                <bib:month>July</bib:month>
+                <bib:note/>
+            </bib:article>
+        </bib:entry>
+        <bib:entry id="bid14">
+            <bib:inproceedings>
+                <!--required fields-->
+                <bib:author>Babar, Muhammad A. and Gorton,
+                    Ian</bib:author>
+                <bib:title>Architecture Knowledge Management:
+                    Challenges, Approaches, and Tools</bib:title>
+                <bib:booktitle>Software Engineering - Companion,
+                    2007. ICSE 2007 Companion. 29th International
+                    Conference on</bib:booktitle>
+                <bib:year>2007</bib:year>
+                <!--optional fields-->
+                <bib:editor/>
+                <bib:number/>
+                <bib:series/>
+                <bib:pages>170–171</bib:pages>
+                <bib:address/>
+                <bib:month/>
+                <bib:organization/>
+                <bib:publisher/>
+                <bib:note/>
+            </bib:inproceedings>
+        </bib:entry>
+        <bib:entry id="bid4">
+            <bib:inproceedings>
+                <!--required fields-->
+                <bib:author>Brunet, J. and Guerrero, D.
+                    and Figueiredo, J.</bib:author>
+                <bib:title>Design tests: An approach to
+                    programmatically check your code against
+                    design rules</bib:title>
+                <bib:booktitle>Software Engineering - Companion
+                    Volume, 2009. ICSE-Companion 2009.
+                    31st International Conference on</bib:booktitle>
+                <bib:year>2009</bib:year>
+                <!--optional fields-->
+                <bib:editor/>
+                <bib:number/>
+                <bib:series/>
+                <bib:pages>255–258</bib:pages>
+                <bib:address/>
+                <bib:month/>
+                <bib:organization/>
+                <bib:publisher/>
+                <bib:note/>
+            </bib:inproceedings>
+        </bib:entry>
+        <bib:entry id="bid17">
+            <bib:book>
+                <!--required fields-->
+                <bib:author>Budgen, David</bib:author>
+                <bib:title>Software Design</bib:title>
+                <bib:publisher>Addison Wesley</bib:publisher>
+                <bib:year>2003</bib:year>
+                <!--optional fields-->
+                <bib:volume/>
+                <bib:series/>
+                <bib:address/>
+                <bib:edition>2</bib:edition>
+                <bib:month>May</bib:month>
+                <bib:note/>
+            </bib:book>
+        </bib:entry>
+        <bib:entry id="bid7">
+            <bib:book>
+                <!--required fields-->
+                <bib:author>Clements, Paul and Bachmann,
+                    Felix and Bass, Len and Garlan, David
+                    and Ivers, James and Little, Reed and
+                    Nord, Robert and Stafford, Judith</bib:author>
+                <bib:title>Documenting Software Architectures:
+                    Views and Beyond</bib:title>
+                <bib:publisher>Addison-Wesley Professional</bib:publisher>
+                <bib:year>2002</bib:year>
+                <!--optional fields-->
+                <bib:volume/>
+                <bib:series/>
+                <bib:address/>
+                <bib:edition/>
+                <bib:month>September</bib:month>
+                <bib:note/>
+            </bib:book>
+        </bib:entry>
+        <bib:entry id="bid1">
+            <bib:book>
+                <!--required fields-->
+                <bib:author>Clements, Paul and Kazman,
+                    Rick and Klein, Mark</bib:author>
+                <bib:title>Evaluating Software Architectures:
+                    Methods and Case Studies</bib:title>
+                <bib:publisher>Addison-Wesley Professional</bib:publisher>
+                <bib:year>2002</bib:year>
+                <!--optional fields-->
+                <bib:volume/>
+                <bib:series/>
+                <bib:address/>
+                <bib:edition/>
+                <bib:month>January</bib:month>
+                <bib:note/>
+            </bib:book>
+        </bib:entry>
+        <bib:entry id="bid20">
+            <bib:inproceedings>
+                <!--required fields-->
+                <bib:author>Clements, P. C.</bib:author>
+                <bib:title>A Survey of Architecture Description
+                    Languages</bib:title>
+                <bib:booktitle>Software Specification and
+                    Design, 1996., Proceedings of the 8th
+                    International Workshop on</bib:booktitle>
+                <bib:year>1996</bib:year>
+                <!--optional fields-->
+                <bib:editor/>
+                <bib:number/>
+                <bib:series/>
+                <bib:pages>16–25</bib:pages>
+                <bib:address/>
+                <bib:month/>
+                <bib:organization/>
+                <bib:publisher/>
+                <bib:note/>
+            </bib:inproceedings>
+        </bib:entry>
+        <bib:entry id="bid15">
+            <bib:incollection>
+                <!--required fields-->
+                <bib:author>Dueñas, Juan C. and Capilla,
+                    Rafael</bib:author>
+                <bib:title>The Decision View of Software
+                    Architecture</bib:title>
+                <bib:booktitle/>
+                <bib:publisher/>
+                <bib:year>2005</bib:year>
+                <!--optional fields-->
+                <bib:editor/>
+                <bib:number/>
+                <bib:series/>
+                <bib:type/>
+                <bib:chapter/>
+                <bib:pages>222–230</bib:pages>
+                <bib:address/>
+                <bib:edition/>
+                <bib:month/>
+                <bib:note/>
+            </bib:incollection>
+        </bib:entry>
+        <bib:entry id="bid3">
+            <bib:incollection>
+                <!--required fields-->
+                <bib:author>Edwards, George and Malek,
+                    Sam and Medvidovic, Nenad</bib:author>
+                <bib:title>Scenario-Driven Dynamic Analysis
+                    of Distributed Architectures</bib:title>
+                <bib:booktitle/>
+                <bib:publisher/>
+                <bib:year>2007</bib:year>
+                <!--optional fields-->
+                <bib:editor/>
+                <bib:number/>
+                <bib:series/>
+                <bib:type/>
+                <bib:chapter/>
+                <bib:pages>125–139</bib:pages>
+                <bib:address/>
+                <bib:edition/>
+                <bib:month/>
+                <bib:note/>
+            </bib:incollection>
+        </bib:entry>
+        <bib:entry id="bid19">
+            <bib:book>
+                <!--required fields-->
+                <bib:author>Hofmeister, Christine and Nord,
+                    Robert and Soni, Dilip</bib:author>
+                <bib:title>Applied Software Architecture</bib:title>
+                <bib:publisher>Addison-Wesley Professional</bib:publisher>
+                <bib:year>1999</bib:year>
+                <!--optional fields-->
+                <bib:volume/>
+                <bib:series/>
+                <bib:address/>
+                <bib:edition/>
+                <bib:month>November</bib:month>
+                <bib:note/>
+            </bib:book>
+        </bib:entry>
+        <bib:entry id="bid16">
+            <bib:inproceedings>
+                <!--required fields-->
+                <bib:author>Jansen, A. and Bosch, J.</bib:author>
+                <bib:title>Software Architecture as a Set
+                    of Architectural Design Decisions</bib:title>
+                <bib:booktitle>Software Architecture, 2005.
+                    WICSA 2005. 5th Working IEEE/IFIP Conference
+                    on</bib:booktitle>
+                <bib:year>2005</bib:year>
+                <!--optional fields-->
+                <bib:editor/>
+                <bib:number/>
+                <bib:series/>
+                <bib:pages>109–120</bib:pages>
+                <bib:address>Washington, DC, USA</bib:address>
+                <bib:month/>
+                <bib:organization/>
+                <bib:publisher>IEEE Computer Society</bib:publisher>
+                <bib:note/>
+            </bib:inproceedings>
+        </bib:entry>
+        <bib:entry id="bid13">
+            <bib:article>
+                <!--required fields-->
+                <bib:author>Kruchten, Philippe and Capilla,
+                    Rafael and Duex00f1;as, Juan C.</bib:author>
+                <bib:title>The Decision View's Role in
+                    Software Architecture Practice</bib:title>
+                <bib:journal>IEEE Software</bib:journal>
+                <bib:year>2009</bib:year>
+                <!--optional fields-->
+                <bib:volume>26</bib:volume>
+                <bib:number>2</bib:number>
+                <bib:pages>36–42</bib:pages>
+                <bib:month/>
+                <bib:note/>
+            </bib:article>
+        </bib:entry>
+        <bib:entry id="bid11">
+            <bib:inproceedings>
+                <!--required fields-->
+                <bib:author>Kruchten, Philippe and Lago,
+                    Patricia and van Vliet, Hans and Wolf,
+                    Timo</bib:author>
+                <bib:title>Building up and Exploiting Architectural
+                    Knowledge</bib:title>
+                <bib:booktitle>WICSA '05: Proceedings of
+                    the 5th Working IEEE/IFIP Conference
+                    on Software Architecture (WICSA'05)</bib:booktitle>
+                <bib:year>2005</bib:year>
+                <!--optional fields-->
+                <bib:editor/>
+                <bib:number/>
+                <bib:series/>
+                <bib:pages>291–292</bib:pages>
+                <bib:address>Washington, DC, USA</bib:address>
+                <bib:month/>
+                <bib:organization/>
+                <bib:publisher>IEEE Computer Society</bib:publisher>
+                <bib:note/>
+            </bib:inproceedings>
+        </bib:entry>
+        <bib:entry id="bid12">
+            <bib:inproceedings>
+                <!--required fields-->
+                <bib:author>Krutchen, Philippe</bib:author>
+                <bib:title>An Ontology of Architectural
+                    Design Decisions in Software Intensive
+                    Systems</bib:title>
+                <bib:booktitle>2nd Groningen Workshop Software
+                    Variability</bib:booktitle>
+                <bib:year>2004</bib:year>
+                <!--optional fields-->
+                <bib:editor/>
+                <bib:number/>
+                <bib:series/>
+                <bib:pages>54–61</bib:pages>
+                <bib:address/>
+                <bib:month>October</bib:month>
+                <bib:organization/>
+                <bib:publisher/>
+                <bib:note/>
+            </bib:inproceedings>
+        </bib:entry>
+        <bib:entry id="bid5">
+            <bib:article>
+                <!--required fields-->
+                <bib:author>Kruchten, P. B.</bib:author>
+                <bib:title>The 4+1 View Model of Architecture</bib:title>
+                <bib:journal>Software, IEEE</bib:journal>
+                <bib:year>1995</bib:year>
+                <!--optional fields-->
+                <bib:volume>12</bib:volume>
+                <bib:number>6</bib:number>
+                <bib:pages>42–50</bib:pages>
+                <bib:month/>
+                <bib:note/>
+            </bib:article>
+        </bib:entry>
+        <bib:entry id="bid24">
+            <bib:article>
+                <!--required fields-->
+                <bib:author>Lindvall, M. and Muthig, D.</bib:author>
+                <bib:title>Bridging the Software Architecture
+                    Gap</bib:title>
+                <bib:journal>Computer</bib:journal>
+                <bib:year>2008</bib:year>
+                <!--optional fields-->
+                <bib:volume>41</bib:volume>
+                <bib:number>6</bib:number>
+                <bib:pages>98–101</bib:pages>
+                <bib:month>June</bib:month>
+                <bib:note/>
+            </bib:article>
+        </bib:entry>
+        <bib:entry id="bid10">
+            <bib:book>
+                <!--required fields-->
+                <bib:author>McConnell, Steve , </bib:author>
+                <bib:title>Code Complete</bib:title>
+                <bib:publisher>Microsoft Press</bib:publisher>
+                <bib:year>2004</bib:year>
+                <!--optional fields-->
+                <bib:volume/>
+                <bib:series/>
+                <bib:address/>
+                <bib:edition>2</bib:edition>
+                <bib:month>June</bib:month>
+                <bib:note/>
+            </bib:book>
+        </bib:entry>
+        <bib:entry id="bid22">
+            <bib:article>
+                <!--required fields-->
+                <bib:author>Murphy, G. C. and Notkin, D.
+                    and Sullivan, K. J.</bib:author>
+                <bib:title>Software Reflexion Models: Bridging
+                    The Gap Between Design and Implementation</bib:title>
+                <bib:journal>Software Engineering, IEEE
+                    Transactions on</bib:journal>
+                <bib:year>2001</bib:year>
+                <!--optional fields-->
+                <bib:volume>27</bib:volume>
+                <bib:number>4</bib:number>
+                <bib:pages>364–380</bib:pages>
+                <bib:month>April</bib:month>
+                <bib:note/>
+            </bib:article>
+        </bib:entry>
+        <bib:entry id="bid23">
+            <bib:inproceedings>
+                <!--required fields-->
+                <bib:author>Murphy, Gail C. and Notkin,
+                    David and Sullivan, Kevin</bib:author>
+                <bib:title>Software Reflexion Models: Bridging
+                    The Gap Between Source and High-Level
+                    Models</bib:title>
+                <bib:booktitle>SIGSOFT '95: Proceedings
+                    of the 3rd ACM SIGSOFT symposium on
+                    Foundations of software engineering</bib:booktitle>
+                <bib:year>1995</bib:year>
+                <!--optional fields-->
+                <bib:editor/>
+                <bib:number/>
+                <bib:series/>
+                <bib:pages>18–28</bib:pages>
+                <bib:address>New York, NY, USA</bib:address>
+                <bib:month/>
+                <bib:organization/>
+                <bib:publisher>ACM</bib:publisher>
+                <bib:note/>
+            </bib:inproceedings>
+        </bib:entry>
+        <bib:entry id="bid8">
+            <bib:book>
+                <!--required fields-->
+                <bib:author>Maier, Mark W. and Rechtin,
+                    Eberhardt</bib:author>
+                <bib:title>The Art of Systems Architecting</bib:title>
+                <bib:publisher>CRC</bib:publisher>
+                <bib:year>2000</bib:year>
+                <!--optional fields-->
+                <bib:volume/>
+                <bib:series/>
+                <bib:address/>
+                <bib:edition>2</bib:edition>
+                <bib:month>June</bib:month>
+                <bib:note/>
+            </bib:book>
+        </bib:entry>
+        <bib:entry id="bid21">
+            <bib:article>
+                <!--required fields-->
+                <bib:author>Medvidovic, N. and Taylor,
+                    R. N.</bib:author>
+                <bib:title>A Classification and Comparison
+                    Framework for Software Architecture
+                    Description Languages</bib:title>
+                <bib:journal>Software Engineering, IEEE
+                    Transactions on</bib:journal>
+                <bib:year>2000</bib:year>
+                <!--optional fields-->
+                <bib:volume>26</bib:volume>
+                <bib:number>1</bib:number>
+                <bib:pages>70–93</bib:pages>
+                <bib:month/>
+                <bib:note/>
+            </bib:article>
+        </bib:entry>
+        <bib:entry id="bid6">
+            <bib:book>
+                <!--required fields-->
+                <bib:author>Rozanski, Nick and Woods, Eóin</bib:author>
+                <bib:title>Software Systems Architecture:
+                    Working With Stakeholders Using Viewpoints
+                    and Perspectives</bib:title>
+                <bib:publisher>Addison-Wesley Professional</bib:publisher>
+                <bib:year>2005</bib:year>
+                <!--optional fields-->
+                <bib:volume/>
+                <bib:series/>
+                <bib:address/>
+                <bib:edition/>
+                <bib:month>April</bib:month>
+                <bib:note/>
+            </bib:book>
+        </bib:entry>
+        <bib:entry id="bid18">
+            <bib:inproceedings>
+                <!--required fields-->
+                <bib:author>Smolander, Kari</bib:author>
+                <bib:title>Four Metaphors of Architecture
+                    in Software Organizations: Finding
+                    Out the Meaning of Architecture in
+                    Practice</bib:title>
+                <bib:booktitle>ISESE '02: Proceedings of
+                    the 2002 International Symposium on
+                    Empirical Software Engineering</bib:booktitle>
+                <bib:year>2002</bib:year>
+                <!--optional fields-->
+                <bib:editor/>
+                <bib:number/>
+                <bib:series/>
+                <bib:pages/>
+                <bib:address>Washington, DC, USA</bib:address>
+                <bib:month/>
+                <bib:organization/>
+                <bib:publisher>IEEE Computer Society</bib:publisher>
+                <bib:note/>
+            </bib:inproceedings>
+        </bib:entry>
+        <bib:entry id="bid0">
+            <bib:book>
+                <!--required fields-->
+                <bib:author>Taylor, R. N. and Medvidovi,
+                    Nenad and Dashofy, Irvine E.</bib:author>
+                <bib:title>Software Architecture: Foundations,
+                    Theory, and Practice</bib:title>
+                <bib:publisher>John Wiley &amp; Sons</bib:publisher>
+                <bib:year>2009</bib:year>
+                <!--optional fields-->
+                <bib:volume/>
+                <bib:series/>
+                <bib:address/>
+                <bib:edition/>
+                <bib:month>January</bib:month>
+                <bib:note/>
+            </bib:book>
+        </bib:entry>
+        <bib:entry id="bid9">
+            <bib:article>
+                <!--required fields-->
+                <bib:author>Wirfs-Brock, Rebecca J.</bib:author>
+                <bib:title>Connecting Design with Code</bib:title>
+                <bib:journal>Software, IEEE</bib:journal>
+                <bib:year>2008</bib:year>
+                <!--optional fields-->
+                <bib:volume>25</bib:volume>
+                <bib:number>2</bib:number>
+                <bib:pages>20–21</bib:pages>
+                <bib:month/>
+                <bib:note/>
+            </bib:article>
+        </bib:entry>
+    </bib:file>
+</document>
